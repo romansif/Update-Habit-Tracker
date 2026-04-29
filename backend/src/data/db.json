@@ -1,0 +1,33 @@
+{
+  "users": [
+    {
+      "name": "akmal",
+      "email": "akmalmavlonov25@gmail.com",
+      "password": "$2b$10$uInW2OoFColdtJ0LslWOuuZzDlZDESz0fL0hhIvzlEkUpX0epcHBO",
+      "id": "pUExTkuhzwE"
+    }
+  ],
+  "habits": [
+    {
+      "userId": "pUExTkuhzwE",
+      "category": "wqeq",
+      "time": "123мин",
+      "habit": "wqe2",
+      "status": "Выполнено",
+      "frequency": "Eжедневно",
+      "dateCreatedHabit": "2026-04-29T11:03:53.223Z",
+      "id": "dPmTXDGO07Y"
+    }
+  ],
+  "records-user": [
+    {
+      "allHabitsCounter": 1,
+      "completedHabitsCounter": 0,
+      "inProgressHabitsCounter": 0,
+      "incompletedHabitsCounter": 0,
+      "id": "4ONX5SObQWs"
+    }
+  ],
+  "records-user-calendar": [],
+  "$schema": "./node_modules/json-server/schema.json"
+}
