@@ -1,21 +1,14 @@
-import bcrypt from 'bcryptjs';
 import { ref } from 'vue';
-import { handler } from '../../api/http.js';
 import { useRouter } from "vue-router";
+import { handler } from '../../../shared/api/http.js';
+import { useForms } from "../../../shared/composables/useForms.js";
+import { useValidation } from "../../../shared/composables/useValidation.js";
+
+import bcrypt from 'bcryptjs';
 
 const users = ref([]);
 const user = ref(null);
 
-const registerForm = ref({
-    name: '',
-    email: '',
-    password: '',
-})
-
-const loginForm = ref({
-        email: '',
-        password: '',
-})
 
 const updateForm = ref({
         name: ''
@@ -28,18 +21,6 @@ const recordsCounters = ref({
         incompletedHabitsCounter: 0,
 })
 
-const userErrors = ref({
-    nameError: false,
-    emailError: false,
-    passwordError: false,
-    newNameError: false,
-
-    nameMessage: '',
-    emailMessage: '',
-    passwordMessage: '',
-    newNameMessage: '',
-})
-
 const delUserMessage = ref('')
 const logoutUserMessage = ref('')
 
@@ -47,24 +28,15 @@ const deleteUserModalVisible = ref(false);
 const logoutUserModalVisible = ref(false);
 
 export const useUser = () => {
+    const { validateRegisterForm, validateLoginForm } = useValidation();
+    const { registerForm, loginForm, userErrors } = useForms();
+
     const router = useRouter();
 
-    const isValidEmail = (email) => {
-        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
-    }
-
     const registerUser = async () => {
-        userErrors.value.nameError = !registerForm.value.name
-        userErrors.value.emailError = !isValidEmail(registerForm.value.email)
-        userErrors.value.passwordError = !registerForm.value.password
+        const isValid = validateRegisterForm()
 
-        userErrors.value.nameMessage = userErrors.value.nameError ? 'Поле имени пользоватея обязательно должно быть заполненно' : ''
-        userErrors.value.emailMessage = userErrors.value.emailError ? 'Поле почты обязательно должно быть заполненно' : ''
-        userErrors.value.passwordMessage = userErrors.value.passwordError ? 'Поле пароля обязательно должно быть заполненно' : ''
-
-        if(!registerForm.value.name || !registerForm.value.email || !registerForm.value.password) {
-            return;
-        }
+        if(!isValid) return
 
         try{
             const hashedPassword = await bcrypt.hash(registerForm.value.password, 10)
@@ -101,15 +73,9 @@ export const useUser = () => {
     };
 
     const loginUser = async () => {
-        userErrors.value.emailError = !isValidEmail(loginForm.value.email)
-        userErrors.value.passwordError = !loginForm.value.password
+        const isValid = validateLoginForm()
 
-        userErrors.value.emailMessage = userErrors.value.emailError ? 'Поле почты обязательно должно быть заполненно' : ''
-        userErrors.value.passwordMessage = userErrors.value.passwordError ? 'Поле пароля обязательно должно быть заполненно' : ''
-
-        if(!loginForm.value.email || !loginForm.value.password){
-            return;
-        }
+        if(!isValid) return
 
         try{
             const users = await handler(`/users?email=${loginForm.value.email}`, {
@@ -125,7 +91,7 @@ export const useUser = () => {
             const passwordMatch = await bcrypt.compare(loginForm.value.password, foundUser.password);
             if(!passwordMatch){
                userErrors.value.passwordMessage = 'Не правильный пароль';
-                return;
+               return;
             }
 
             localStorage.setItem('currentUser', JSON.stringify(foundUser));
@@ -199,11 +165,13 @@ export const useUser = () => {
 
     const closeLogoutUserModal = () => {
         logoutUserMessage.value = '';
+
         logoutUserModalVisible.value = false;
     }
 
     const openDeleteUserModal = (message) => {
         delUserMessage.value = message;
+
         deleteUserModalVisible.value = true;
     }
 
@@ -224,18 +192,15 @@ export const useUser = () => {
                 })
             )
 
-
             await handler(`/records-user/${userRecordsId}`, {
                 method: 'DELETE'
             });
-
             localStorage.removeItem('userRecordsId');
 
 
             const allRecords = await handler(`/records-user-calendar?userRecordsId=${userRecordsId}`, {
                 method: 'GET'
             })
-
             await Promise.all(
                 allRecords.map(record =>
                     handler(`/records-user-calendar/${record.id}`, {
@@ -244,12 +209,9 @@ export const useUser = () => {
                 )
             )
 
-
             await handler(`/users/${userId}`, {
                 method: 'DELETE'
             });
-
-
             localStorage.removeItem('userId');
 
             closeDeleteUserModal();
@@ -262,6 +224,7 @@ export const useUser = () => {
 
     const closeDeleteUserModal = () => {
         delUserMessage.value = '';
+
         deleteUserModalVisible.value = false;
     }
 
@@ -283,11 +246,7 @@ export const useUser = () => {
         userErrors.value.passwordError = false;
     }
 
-    return {
-        registerForm,
-        loginForm,
-        userErrors,
-
+    return{
         user,
         updateForm,
 
@@ -298,6 +257,9 @@ export const useUser = () => {
 
         registerUser,
         loginUser,
+
+        clearRegisterForm,
+        clearLoginForm,
 
         openLogoutUserModal,
         logoutUser,

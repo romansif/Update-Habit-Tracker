@@ -1,12 +1,14 @@
 <script setup>
 import { ref, watch } from "vue";
-import { useUser } from "../../shared/composables/user-composables/userComposable.js";
+import { useUser } from "./composables/userComposable.js";
+import { useForms } from "../../shared/composables/useForms.js";
 
 import opened from '../../app/assets/icons/opened.png'
 import closed from '../../app/assets/icons/closed.png'
 import BaseButton from "../../shared/ui/BaseButton.vue";
 
-const { registerForm, userErrors, registerUser } = useUser()
+const { registerUser, clearRegisterForm } = useUser()
+const { registerForm, userErrors } = useForms()
 
 const showPassword = ref(false)
 
@@ -18,21 +20,18 @@ const toLower = () => {
   registerForm.value.name = registerForm.value.name.toLowerCase()
 }
 
-watch(() => registerForm.value.name, (newValue) => {
-  if(newValue) {
-    userErrors.value.nameError = false
-  }
-})
-watch(() => registerForm.value.email, (newValue) => {
-  if(newValue) {
-    userErrors.value.emailError = false
-  }
-})
-watch(() => registerForm.value.password, (newValue) => {
-  if(newValue) {
-    userErrors.value.passwordError = false
-  }
-})
+watch(() => [registerForm.value.name, registerForm.value.email, registerForm.value.password],([name, email, password]) => {
+      if(name){
+        userErrors.value.nameError = false
+      }
+      if(email) {
+        userErrors.value.emailError = false
+      }
+      if(password){
+        userErrors.value.passwordError = false
+      }
+    }
+)
 </script>
 
 <template>
@@ -66,7 +65,7 @@ watch(() => registerForm.value.password, (newValue) => {
         </div>
         <div class="flex justify-center gap-3">
           <span>Уже есть аккаунт</span>
-          <router-link :to="{ name: 'login' }" class="text-violet-600 hover:text-violet-700 focus:outline-none">
+          <router-link :to="{ name: 'login' }" @click="clearRegisterForm " class="text-violet-600 hover:text-violet-700 focus:outline-none">
             "Войти"
           </router-link>
         </div>

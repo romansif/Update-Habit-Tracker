@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted } from "vue";
-import { useRecords } from "../../../shared/composables/user-composables/recordsComposable.js";
+import { useRecords } from "../../calendar/composables/recordsComposable.js";
 
 const { getRecordsCurrent, userRecordsCurrent } = useRecords();
 

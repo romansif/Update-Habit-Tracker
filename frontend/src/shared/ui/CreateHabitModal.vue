@@ -1,31 +1,30 @@
 <script setup>
 import { watch } from 'vue';
-import { useHabits } from "../composables/user-composables/habitsComposable.js";
+import { useHabits } from "../../features/habits/composables/habitsComposable.js";
 
 import BaseButton from '../ui/BaseButton.vue';
 
 const { habitForm, habitErrors, createHabit, closeCreateModal } = useHabits()
 
-watch(() => habitForm.value.habit, (newValue) => {
-  if(newValue) {
+watch(() => [
+      habitForm.value.habit, habitForm.value.time,
+      habitForm.value.category, habitForm.value.frequency
+    ],
+    ([habit, time, category, frequency]) => {
+  if(habit) {
     habitErrors.value.habitError = false
   }
-})
-watch(() => habitForm.value.time, (newValue) => {
-  if(newValue) {
+  if(time) {
     habitErrors.value.timeError = false
   }
-})
-watch(() => habitForm.value.category, (newValue) => {
-  if(newValue) {
+  if(category) {
     habitErrors.value.categoryError = false
   }
-})
-watch(() => habitForm.value.frequency, (newValue) => {
-  if(newValue) {
+  if(frequency) {
     habitErrors.value.frequencyError = false
   }
 })
+
 </script>
 
 <template>

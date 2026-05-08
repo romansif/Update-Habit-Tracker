@@ -1,5 +1,5 @@
 <script setup>
-import { useUser } from '../composables/user-composables/userComposable.js'
+import { useUser } from '../../features/auth/composables/userComposable.js'
 
 import BaseButton from '../ui/BaseButton.vue';
 

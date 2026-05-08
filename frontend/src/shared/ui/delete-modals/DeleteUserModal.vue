@@ -1,7 +1,7 @@
 <script setup>
 import BaseButton from '../BaseButton.vue';
 
-import { useUser } from "../../composables/user-composables/userComposable.js";
+import { useUser } from "../../../features/auth/composables/userComposable.js";
 
 const { delUserMessage, deleteUser, closeDeleteUserModal } = useUser();
 </script>

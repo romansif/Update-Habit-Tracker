@@ -1,7 +1,7 @@
 <script setup>
 import BaseButton from '../BaseButton.vue';
 
-import { useHabits } from "../../composables/user-composables/habitsComposable.js";
+import { useHabits } from "../../../features/habits/composables/habitsComposable.js";
 
 const { deleteHabitMessage, deleteHabit, closeDeleteHabitModal } = useHabits();
 </script>

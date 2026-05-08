@@ -1,11 +1,11 @@
 <script setup>
 import { onMounted } from "vue";
 
-import { useHabits } from '../../shared/composables/user-composables/habitsComposable.js'
-import { useGetHabits } from "../../shared/composables/user-composables/habitsComposable.js";
+import { useHabits } from './composables/habitsComposable.js'
+import { useGetHabits } from "./composables/habitsComposable.js";
 
 
-import HabitCard from "./habit-items/HabitCard.vue";
+import HabitCard from "./habits-items/HabitCard.vue";
 import DeleteHabitModal from "../../shared/ui/delete-modals/DeleteHabitModal.vue";
 
 const { habits, deleteHabitModalVisible } = useHabits()

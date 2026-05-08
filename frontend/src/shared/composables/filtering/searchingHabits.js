@@ -1,7 +1,7 @@
 import { ref } from 'vue';
 import { useRoute } from 'vue-router';
-import { handler } from '../api/http.js';
-import { useUserStore } from "./user-composables/useUserStore.js";
+import { handler } from '../../api/http.js';
+import { useUserStore } from "../store/useUserStore.js";
 import { useDebounceFn } from "@vueuse/core";
 
 
@@ -34,8 +34,11 @@ export const useSearchingHabits = () => {
         });
 
         habits.value = filteredHabits(
-            res.filter(habit => habit.category === searchForm.value.search || habit.habit === searchForm.value.search)
-                .sort((a, b) => new Date(b.dateCreatedHabit) - new Date(a.dateCreatedHabit))
+            res.filter(habit => habit.category === searchForm.value.search ||
+                habit.habit === searchForm.value.search ||
+                habit.dateCreatedHabit === searchForm.value.search ||
+                habit.timeCreatedHabit === searchForm.value.search
+            ).sort((a, b) => new Date(b.timeCreatedHabit) - new Date(a.timeCreatedHabit))
         );
     }
 

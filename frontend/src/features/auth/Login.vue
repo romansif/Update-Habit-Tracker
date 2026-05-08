@@ -1,12 +1,14 @@
 <script setup>
 import { ref, watch } from "vue";
-import { useUser } from "../../shared/composables/user-composables/userComposable.js"
+import { useUser } from "./composables/userComposable.js"
+import { useForms } from "../../shared/composables/useForms.js"
 
 import opened from '../../app/assets/icons/opened.png'
 import closed from '../../app/assets/icons/closed.png'
 import BaseButton from "../../shared/ui/BaseButton.vue";
 
-const { loginForm, userErrors, loginUser } = useUser();
+const { loginUser, clearLoginForm } = useUser();
+const { loginForm, userErrors } = useForms();
 
 const showPassword = ref(false)
 
@@ -14,16 +16,15 @@ const togglePassword = () => {
   showPassword.value = !showPassword.value
 }
 
-watch(() => loginForm.value.email, (newValue) => {
-  if(newValue) {
-    userErrors.value.emailError = false
-  }
-})
-watch(() => loginForm.value.password, (newValue) => {
-  if(newValue) {
-    userErrors.value.passwordError = false
-  }
-})
+watch(() => [loginForm.value.email, loginForm.value.password],([email, password]) => {
+      if(email){
+        userErrors.value.emailError = false
+      }
+      if(password){
+        userErrors.value.passwordError = false
+      }
+    }
+)
 </script>
 
 <template>
@@ -49,13 +50,10 @@ watch(() => loginForm.value.password, (newValue) => {
       <div class="flex flex-col gap-5">
         <div class="flex justify-center">
           <BaseButton button-type="Войти" variant="login" @click=loginUser />
-<!--          <router-link :to="{ name: 'habits' }">-->
-<!--            Войти-->
-<!--          </router-link>-->
         </div>
         <div class="flex justify-center gap-3">
-          <span>Нету аккаунта</span>
-          <router-link :to="{ name: 'register' }" class="text-violet-600 hover:text-violet-700 focus:outline-none">
+          <span>Нет аккаунта, создай</span>
+          <router-link :to="{ name: 'register' }" @click="clearLoginForm" class="text-violet-600 hover:text-violet-700 focus:outline-none">
             "Зарегистрироваться"
           </router-link>
         </div>

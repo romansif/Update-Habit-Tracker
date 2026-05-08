@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted } from 'vue';
-import { useCalendar } from '../../../shared/composables/calendarComposable.js';
-import { useRecords } from "../../../shared/composables/user-composables/recordsComposable.js";
+import { useCalendar } from '../composables/calendarComposable.js';
+import { useRecords } from "../composables/recordsComposable.js";
 import arrow from '../../../app/assets/icons/arrow.png'
 
 const {
@@ -9,8 +9,7 @@ const {
   isToday, isPastDay, isWeekend, isTodayWeekend, hasStatus
 } = useCalendar();
 
-const { openRecordsModal, getRecords } = useRecords();
-
+const { openRecordsModal ,getRecords } = useRecords();
 
 onMounted(async() => {
   await getRecords();
@@ -18,18 +17,18 @@ onMounted(async() => {
 </script>
 
 <template>
-  <div class="flex justify-center items-center pt-12">
+  <div class="flex justify-center items-center pt-22">
     <div class="w-[600px] bg-white rounded-3xl shadow-xl p-8">
-      <div class="flex justify-between items-center mb-8">
-        <button @click="lastMonth" class="p-2 hover:bg-slate-100 rounded-xl transition">
+      <div class="flex justify-between items-center mb-12">
+        <button @click="lastMonth" class="hover:bg-slate-100 rounded-xl transition">
           <img :src="arrow" class="w-[20px] rotate-180">
         </button>
         <h2 class="text-2xl font-bold text-slate-800">{{ currentMonthName }} {{ currentYear }}</h2>
-        <button @click="nextMonth" class="p-2 hover:bg-slate-100 rounded-xl transition">
+        <button @click="nextMonth" class="hover:bg-slate-100 rounded-xl transition">
           <img :src="arrow" class="w-[20px]">
         </button>
       </div>
-      <div class="grid grid-cols-7 text-center text-xs font-semibold text-black uppercase tracking-widest mb-4">
+      <div class="grid grid-cols-7 text-center text-xs font-semibold text-black uppercase tracking-widest">
         <div>Пн</div>
         <div>Вт</div>
         <div>Ср</div>
@@ -38,9 +37,9 @@ onMounted(async() => {
         <div>Сб</div>
         <div>Вс</div>
       </div>
-      <div class="grid grid-cols-7 gap-2">
+      <div class="grid grid-cols-7 mt-4">
         <div v-for="(day, index) in calendarDays" :key="index" @click="day && openRecordsModal(day)"
-             :class="[ 'h-20 flex flex-col items-center justify-between p-3 rounded-2xl transition-all duration-300',
+             :class="[ 'h-20 flex flex-col items-center justify-between py-4 rounded-2xl transition-all duration-300',
                day ? 'cursor-pointer' : 'border-transparent',
                isPastDay(day) ? 'opacity-50' : '',
                isWeekend(day) ? 'text-red-500' : 'text-slate-800',

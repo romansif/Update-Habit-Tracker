@@ -2,10 +2,10 @@ const BASE_URL = 'http://localhost:3000';
 
 export const handler = async (endpoints, options) => {
     const res = await fetch(`${BASE_URL}${endpoints}`, {
-        ...options,
         headers: {
-            "Content-Type": "application/json"
-        }
+            "Content-Type": "application/json",
+        },
+        ...options
     })
 
     if(!res.ok){

@@ -2,8 +2,8 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { ChevronDownIcon } from '@heroicons/vue/20/solid'
 
-import { useUser } from "../../../shared/composables/user-composables/userComposable.js";
-import { useHabits } from "../../../shared/composables/user-composables/habitsComposable.js";
+import { useUser } from "../../auth/composables/userComposable.js";
+import { useHabits } from "../../habits/composables/habitsComposable.js";
 
 const { openLogoutUserModal, openDeleteUserModal } = useUser()
 const { openCreateModal } = useHabits()

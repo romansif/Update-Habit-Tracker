@@ -1,5 +1,5 @@
 import { ref, computed } from 'vue';
-import {useUserStore} from "./user-composables/useUserStore.js";
+import {useUserStore} from "../../../shared/composables/store/useUserStore.js";
 
 const { userRecords } = useUserStore()
 
@@ -100,7 +100,7 @@ export const useCalendar = () => {
 
     const hasStatus = (day, status) => {
         return userRecords.value?.some(record => {
-            const date = new Date(record.dateCreatedRecord);
+            const date = new Date(record.date);
 
             return(
                 date.getDate() === day &&

@@ -1,5 +1,5 @@
 <script setup>
-import HabitsList from "../../features/habit/HabitsList.vue";
+import HabitsList from "../../features/habits/HabitsList.vue";
 import NavBar from "../../features/navigation/NavBar.vue";
 </script>
 

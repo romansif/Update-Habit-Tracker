@@ -14,12 +14,7 @@ const props = defineProps({
     <div class="flex justify-between">
       <h1 class="text-lg italic">{{ habit?.category }}</h1>
       <p class="text-gray-500">
-        {{ new Date(habit?.dateCreatedHabit).toLocaleDateString
-          ("ru-RU", {
-            hour: "2-digit",
-            minute: "2-digit"
-          })
-        }}
+        {{ habit?.dateCreatedHabit }}, {{ habit?.timeCreatedHabit }}
       </p>
     </div>
     <div class="flex justify-between items-center py-2">

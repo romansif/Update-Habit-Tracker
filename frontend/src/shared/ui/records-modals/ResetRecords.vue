@@ -1,5 +1,5 @@
 <script setup>
-import { useRecords } from "../../composables/user-composables/recordsComposable.js";
+import { useRecords } from "../../../features/calendar/composables/recordsComposable.js";
 import BaseButton from '../BaseButton.vue';
 
 const { resetMessage, closeResetRecordsModal, resetRecords } = useRecords();
@@ -10,7 +10,7 @@ const { resetMessage, closeResetRecordsModal, resetRecords } = useRecords();
                                 flex items-center justify-center">
     <div class="bg-white rounded-2xl w-[400px] h-[200px] shadow-xl">
       <div class="flex flex-col justify-center items-center gap-y-8 pt-8">
-        <h2 class="text-2xl text-center">{{ resetMessage }}</h2>
+        <h2 class="text-2xl text-center">Хотите отчистить {{ resetMessage }}</h2>
         <div class="flex justify-center gap-6">
           <BaseButton button-type="Нет" variant="cancelResRecords" @click=closeResetRecordsModal />
           <BaseButton button-type="Да" variant="confirmResRecords" @click=resetRecords />

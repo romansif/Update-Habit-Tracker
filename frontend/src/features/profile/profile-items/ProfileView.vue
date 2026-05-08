@@ -1,7 +1,8 @@
 <script setup>
 import { onMounted, watch } from "vue";
-import { useUser } from "../../../shared/composables/user-composables/userComposable.js";
-import { useHabits } from "../../../shared/composables/user-composables/habitsComposable.js";
+import { useUser } from "../../auth/composables/userComposable.js";
+import { useHabits } from "../../habits/composables/habitsComposable.js";
+import { useForms } from "../../../shared/composables/useForms.js";
 
 import BaseButton from "../../../shared/ui/BaseButton.vue";
 import ProfileStatusCards from "./ProfileStatusCards.vue";
@@ -10,8 +11,9 @@ import CreateHabitModal from "../../../shared/ui/CreateHabitModal.vue";
 import DeleteUserModal from "../../../shared/ui/delete-modals/DeleteUserModal.vue";
 import LogoutModal from "../../../shared/ui/LogoutModal.vue";
 
-const { user, updateForm, logoutUserModalVisible, deleteUserModalVisible, userErrors, getUser, updateUser } = useUser();
+const { user, updateForm, logoutUserModalVisible, deleteUserModalVisible, getUser, updateUser } = useUser();
 const { createHabitModalVisible } = useHabits();
+const { userErrors } = useForms();
 
 const toLower = () => {
   updateForm.value.name = updateForm.value.name.toLowerCase()

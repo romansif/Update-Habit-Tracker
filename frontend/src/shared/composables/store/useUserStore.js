@@ -10,6 +10,6 @@ export const useUserStore = () => {
         habits,
         userRecordsCurrent,
         userRecords,
-        userDayRecords,
+        userDayRecords
     }
 }

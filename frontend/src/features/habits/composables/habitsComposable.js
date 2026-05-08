@@ -1,9 +1,9 @@
 import { ref } from 'vue';
 import { useRoute } from 'vue-router';
 
-import { handler } from '../../api/http.js';
-import { useRecords } from "./recordsComposable.js";
-import { useUserStore } from "./useUserStore.js";
+import { handler } from '../../../shared/api/http.js';
+import { useRecords } from "../../calendar/composables/recordsComposable.js";
+import { useUserStore } from "../../../shared/composables/store/useUserStore.js";
 
 const habitId = ref(null);
 
@@ -55,8 +55,7 @@ export const useGetHabits = () => {
         const res = await handler(`/habits?userId=${userId}`, {
             method: 'GET',
         });
-
-        habits.value = filteredHabits(res.sort((a, b) => new Date(b.dateCreatedHabit) - new Date(a.dateCreatedHabit)));
+        habits.value = filteredHabits(res.sort((a, b) => new Date(b.date) - new Date(a.date)));
     }
 
     return{
@@ -91,6 +90,16 @@ export const useHabits = () => {
                 console.log('Заполните таблицу');
                 return;
             }
+
+            const now = new Date();
+
+            const dateCreatedHabit = now.toLocaleDateString()
+
+            const timeCreatedHabit = now.toLocaleTimeString("ru-RU", {
+                hour: "2-digit",
+                minute: "2-digit",
+            })
+
             const newHabit = await handler('/habits', {
                 method: 'POST',
                 body: JSON.stringify({
@@ -100,10 +109,11 @@ export const useHabits = () => {
                     habit: habitForm.value.habit,
                     status: status,
                     frequency: habitForm.value.frequency,
-                    dateCreatedHabit: new Date(),
+                    date: now,
+                    dateCreatedHabit: dateCreatedHabit,
+                    timeCreatedHabit: timeCreatedHabit,
                 })
             })
-
             await createRecords(newHabit.habit, newHabit.status);
 
             habits.value.push(newHabit);
@@ -118,6 +128,7 @@ export const useHabits = () => {
 
     const closeCreateModal = () => {
         createHabitModalVisible.value = false;
+
         clearHabitForm();
     }
 
@@ -126,6 +137,7 @@ export const useHabits = () => {
         habitId.value = id;
 
         deleteHabitMessage.value = message;
+
         deleteHabitModalVisible.value = true;
     }
 
@@ -138,7 +150,6 @@ export const useHabits = () => {
             await handler(`/habits/${habitId.value}`, {
                 method: 'DELETE',
             });
-
             if(userRecordsCurrent.value?.inProgressHabitsCounter > 0){
                 await handler(`/records-user/${userRecordsId}`, {
                     method: 'PATCH',
@@ -147,7 +158,6 @@ export const useHabits = () => {
                     })
                 })
             }
-
             habits.value = habits.value.filter(habit => habit.id !== habitId.value);
 
             closeDeleteHabitModal()
@@ -158,26 +168,26 @@ export const useHabits = () => {
 
     const closeDeleteHabitModal = () => {
         deleteHabitMessage.value = '';
+
         deleteHabitModalVisible.value = false;
     }
 
     const updateStatus = async (id, newStatus) => {
         try{
-             await handler(`/habits/${id}`, {
+            await handler(`/habits/${id}`, {
                 method: 'PATCH',
                 body: JSON.stringify({
                     status: newStatus,
                 })
             })
-            const habit = habits.value.find(habit => habit.id === id);
 
+            const habit = habits.value.find(habit => habit.id === id);
             if(habits.value){
                 if(habit){
                     habit.status = newStatus;
                 }
                 await updateDayRecordStatus(habit.habit, habit.status, newStatus)
             }
-
             await updateStatusCurrent(newStatus)
         }catch(err){
             console.log(err);

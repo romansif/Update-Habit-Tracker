@@ -1,7 +1,7 @@
 <script setup>
 import { watch } from "vue";
-import { useSearchingHabits } from "../../shared/composables/searchingHabits.js";
-import { useGetHabits } from "../../shared/composables/user-composables/habitsComposable.js";
+import { useSearchingHabits } from "../../shared/composables/filtering/searchingHabits.js";
+import { useGetHabits } from "../habits/composables/habitsComposable.js";
 
 import NavMenu from "./NavMenu.vue";
 import NavSort from "./NavSort.vue";

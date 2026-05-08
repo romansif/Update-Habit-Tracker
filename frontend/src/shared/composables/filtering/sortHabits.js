@@ -1,6 +1,6 @@
-import { handler } from "../api/http.js";
+import { handler } from "../../api/http.js";
 import { useRoute } from "vue-router";
-import { useUserStore } from "./user-composables/useUserStore.js";
+import { useUserStore } from "../store/useUserStore.js";
 
 export const useSortingHabits = () => {
     const { habits } = useUserStore();
@@ -32,13 +32,13 @@ export const useSortingHabits = () => {
     const sortingByNew = async () => {
         const data = await getHabits();
 
-        habits.value = data.sort((a, b) => new Date(b.dateCreatedHabit) - new Date(a.dateCreatedHabit))
+        habits.value = data.sort((a, b) => new Date(b.date) - new Date(a.date))
     }
 
     const sortingByOld = async () => {
         const data = await getHabits();
 
-        habits.value = data.sort((a, b) => new Date(a.dateCreatedHabit) - new Date(b.dateCreatedHabit))
+        habits.value = data.sort((a, b) => new Date(a.date) - new Date(b.date))
     }
 
     return{
