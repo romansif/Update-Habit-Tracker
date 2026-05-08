@@ -52,6 +52,10 @@ export const useValidation = () => {
 
         if(!loginForm.value.password){
             userErrors.value.passwordMessage = 'Поле пароля обязательно должно быть заполнено'
+        }else if(! loginForm.value.password.length < 8){
+            userErrors.value.passwordMessage = 'Пароль должен состоять из 8 или более символов'
+        }else{
+            userErrors.value.passwordMessage = ''
         }
         return !(!loginForm.value.email || !loginForm.value.password ||
             !isValidEmail(loginForm.value.email) || loginForm.value.password.length < 8

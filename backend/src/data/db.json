@@ -3,43 +3,33 @@
     {
       "name": "akmal",
       "email": "akmalmavlonov25@gmail.com",
-      "password": "$2b$10$FU0Ho/OkpzfPcBRjiOca9uZ9t9LE9vGXzHDcu8.NKfX4Ii4e8C116",
-      "id": "n3_1FYukKVM"
+      "password": "$2b$10$nLUbqeKDFzVfGxBc7/eBzuPFaauV9hzjenGSfQdxNWWrN8bJDTaL.",
+      "id": "rFvcYC2LyN8"
     }
   ],
-  "habits": [],
+  "habits": [
+    {
+      "userId": "rFvcYC2LyN8",
+      "category": "йцу",
+      "time": "213мин",
+      "habit": "йцу",
+      "status": "Выполнено",
+      "frequency": "1 раз в неделю",
+      "date": "2026-05-08T12:15:08.502Z",
+      "dateCreatedHabit": "08.05.2026",
+      "timeCreatedHabit": "17:15",
+      "id": "ySXgzk252v8"
+    }
+  ],
   "records-user": [
     {
-      "allHabitsCounter": 2,
-      "completedHabitsCounter": 0,
+      "allHabitsCounter": 1,
+      "completedHabitsCounter": 1,
       "inProgressHabitsCounter": 0,
       "incompletedHabitsCounter": 0,
-      "id": "UM2EzeCjrNo"
+      "id": "o2c9COIr2To"
     }
   ],
-  "records-user-calendar": [
-    {
-      "userRecordsId": "UM2EzeCjrNo",
-      "date": "2026-05-06T11:26:07.908Z",
-      "dateCreatedRecord": "06.05.2026",
-      "monthCreatedRecord": "05.2026",
-      "timeCreatedRecord": "16:26",
-      "habit": "qweqw",
-      "firstStatus": "Не выполнено",
-      "id": "b-x8chCMMpk",
-      "secondStatus": "В процессе",
-      "timeUpdatedStatus": "16:26"
-    },
-    {
-      "userRecordsId": "UM2EzeCjrNo",
-      "date": "2026-05-06T11:27:34.858Z",
-      "dateCreatedRecord": "06.05.2026",
-      "monthCreatedRecord": "05.2026",
-      "timeCreatedRecord": "16:27",
-      "habit": "qwe",
-      "firstStatus": "Не выполнено",
-      "id": "j2393AFGCuI"
-    }
-  ],
+  "records-user-calendar": [],
   "$schema": "./node_modules/json-server/schema.json"
 }
