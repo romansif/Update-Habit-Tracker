@@ -1,5 +1,5 @@
 <script setup>
-import { useRecords } from "../../../features/calendar/composables/recordsComposable.js";
+import { useRecords } from "../../../features/calendar/composables/useRecords.js";
 import BaseButton from '../BaseButton.vue';
 
 const { resetMessage, closeResetRecordsModal, resetRecords } = useRecords();

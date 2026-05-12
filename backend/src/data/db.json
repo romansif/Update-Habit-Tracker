@@ -3,22 +3,26 @@
     {
       "name": "akmal",
       "email": "akmalmavlonov25@gmail.com",
-      "password": "$2b$10$nLUbqeKDFzVfGxBc7/eBzuPFaauV9hzjenGSfQdxNWWrN8bJDTaL.",
-      "id": "rFvcYC2LyN8"
+      "password": "$2b$10$2aftvwp4UmziHx2mCsgkpe0ic5abxatt6QkMtAYUPApYOucNQtFjC",
+      "dateCreatedAccount": "12.05.2026",
+      "id": "-M-x8FR3usg"
     }
   ],
   "habits": [
     {
-      "userId": "rFvcYC2LyN8",
-      "category": "йцу",
-      "time": "213мин",
-      "habit": "йцу",
+      "userId": "-M-x8FR3usg",
+      "category": "qwe",
+      "time": "123мин",
+      "habit": "qwe",
       "status": "Выполнено",
-      "frequency": "1 раз в неделю",
-      "date": "2026-05-08T12:15:08.502Z",
-      "dateCreatedHabit": "08.05.2026",
-      "timeCreatedHabit": "17:15",
-      "id": "ySXgzk252v8"
+      "frequency": "Ежедневно",
+      "term": "6 месяцев",
+      "date": "2026-05-12T11:27:02.997Z",
+      "dateCreatedHabit": "12.05.2026",
+      "timeCreatedHabit": "16:27",
+      "endDateHabit": "12.11.2026",
+      "id": "KO6wYsIyvWI",
+      "lastDate": "12.05.2026"
     }
   ],
   "current-records": [
@@ -27,9 +31,48 @@
       "completedHabitsCounter": 1,
       "inProgressHabitsCounter": 0,
       "incompletedHabitsCounter": 0,
-      "id": "o2c9COIr2To"
+      "id": "VjplMwNbqg0"
     }
   ],
-  "calendar-records": [],
+  "calendar-records": [
+    {
+      "userRecordsId": "VjplMwNbqg0",
+      "date": "2026-05-12T11:07:21.624Z",
+      "dateCreatedRecord": "12.05.2026",
+      "monthCreatedRecord": "05.2026",
+      "timeCreatedRecord": "16:07",
+      "habit": "qwe",
+      "firstStatus": "Не выполнено",
+      "id": "zTCxDvzwQy0",
+      "secondStatus": "В процессе",
+      "timeUpdatedStatus": "16:18",
+      "thirdStatus": "Выполнено",
+      "newTimeUpdatedStatus": "16:18"
+    },
+    {
+      "userRecordsId": "VjplMwNbqg0",
+      "date": "2026-05-12T11:26:16.384Z",
+      "dateCreatedRecord": "12.05.2026",
+      "monthCreatedRecord": "05.2026",
+      "timeCreatedRecord": "16:26",
+      "habit": "qweqw",
+      "firstStatus": "Не выполнено",
+      "id": "HJiSNU7mnFw"
+    },
+    {
+      "userRecordsId": "VjplMwNbqg0",
+      "date": "2026-05-12T11:27:03.016Z",
+      "dateCreatedRecord": "12.05.2026",
+      "monthCreatedRecord": "05.2026",
+      "timeCreatedRecord": "16:27",
+      "habit": "qwe",
+      "firstStatus": "Не выполнено",
+      "id": "6uQteQ2Kk78",
+      "secondStatus": "В процессе",
+      "timeUpdatedStatus": "16:30",
+      "thirdStatus": "Выполнено",
+      "newTimeUpdatedStatus": "16:30"
+    }
+  ],
   "$schema": "./node_modules/json-server/schema.json"
 }

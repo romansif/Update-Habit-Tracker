@@ -15,9 +15,9 @@ const variantClasses = {
             shadow-xl shadow-indigo-500/40active:scale-95 transition`,
   register: `px-16 py-6 text-white rounded-lg bg-gradient-to-b from-indigo-400 to-indigo-600
             shadow-xl shadow-indigo-500/40 active:scale-95 transition`,
-  cancelHabitModal: `px-7 py-4 text-white rounded-lg bg-gradient-to-b from-rose-400 to-rose-600
+  cancelHabitModal: `px-12 py-4 text-white rounded-lg bg-gradient-to-b from-rose-400 to-rose-600
             shadow-xl shadow-rose-500/40 active:scale-95 transition`,
-  confirmHabitModal: `p-4 text-white rounded-lg bg-gradient-to-b from-indigo-400 to-indigo-600
+  confirmHabitModal: `px-9 py-4 text-white rounded-lg bg-gradient-to-b from-indigo-400 to-indigo-600
             shadow-xl shadow-indigo-500/40 active:scale-95 transition`,
   cancelExitModal: `px-10 py-3 text-white rounded-lg bg-gradient-to-br from-rose-400 to-rose-600
             shadow-xl shadow-rose-500/40 active:scale-95 transition`,

@@ -1,9 +1,10 @@
-import { ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { ref, computed } from 'vue';
 
 import { handler } from '../../../shared/api/http.js';
-import { useRecords } from "../../calendar/composables/recordsComposable.js";
+import { useRecords } from "../../calendar/composables/useRecords.js";
 import { useUserStore } from "../../../shared/composables/store/useUserStore.js";
+import { useGetHabits } from "./getHabits.js";
+import { useGetRecords } from "../../calendar/composables/getRecords.js";
 
 const habitId = ref(null);
 
@@ -13,6 +14,7 @@ const habitForm = ref({
     category: '',
     status: 'Не выполнено',
     frequency: '',
+    term: '',
 });
 
 const habitErrors = ref({
@@ -20,51 +22,32 @@ const habitErrors = ref({
     timeError: false,
     categoryError: false,
     frequencyError: false,
+    termError: false,
 
     habitMessage: '',
     timeMessage: '',
     categoryMessage: '',
     frequencyMessage: '',
+    termMessage: '',
 })
+
+const termToDays = {
+    '1 месяц': 30,
+    '3 месяца': 90,
+    '6 месяцев': 180,
+    '1 год': 365,
+    '3 года': 1095
+};
 
 const deleteHabitMessage = ref('')
 
 const createHabitModalVisible = ref(false);
 const deleteHabitModalVisible = ref(false);
 
-export const useGetHabits = () => {
-    const { habits } = useUserStore();
-
-    const route = useRoute();
-
-    const filteredHabits = (data) => {
-        if(route.name === 'completed-habits'){
-            return data.filter(habit => habit.status === 'Выполнено')
-        }else if(route.name === 'in-progress-habits'){
-            return data.filter(habit => habit.status === 'В процессе')
-        }else if(route.name === 'incompleted-habits'){
-            return data.filter(habit => habit.status === 'Не выполнено')
-        }
-
-        return data;
-    }
-
-    const getHabits = async () => {
-        const userId = localStorage.getItem('userId');
-
-        const res = await handler(`/habits?userId=${userId}`, {
-            method: 'GET',
-        });
-        habits.value = filteredHabits(res.sort((a, b) => new Date(b.date) - new Date(a.date)));
-    }
-
-    return{
-        getHabits
-    }
-}
-
 export const useHabits = () => {
-    const { userRecordsCurrent, getRecords, createRecords, updateStatusCurrent, updateDayRecordStatus } = useRecords();
+    const { getHabits } = useGetHabits();
+    const { getRecords } = useGetRecords();
+    const { userRecordsCurrent, createRecords, updateStatusCurrent, updateDayRecordStatus } = useRecords();
     const { habits } = useUserStore();
 
     const openCreateModal = () => {
@@ -79,14 +62,18 @@ export const useHabits = () => {
         habitErrors.value.timeError = !habitForm.value.time
         habitErrors.value.categoryError = !habitForm.value.category
         habitErrors.value.frequencyError = !habitForm.value.frequency
+        habitErrors.value.termError = !habitForm.value.term
 
         habitErrors.value.habitMessage = habitErrors.value.habitError ? 'Поле привычки должно быть заполненно' : ''
         habitErrors.value.timeMessage = habitErrors.value.timeError ? 'Поле времени на привычку должно быть заполненно' : ''
         habitErrors.value.categoryMessage = habitErrors.value.categoryError ? 'Поле категории привычки должно быть заполненно' : ''
         habitErrors.value.frequencyMessage = habitErrors.value.frequencyError ? 'Поле частоты выполнения привычки должно быть заполненно' : ''
+        habitErrors.value.termMessage = habitErrors.value.termError ? 'Поле срока выполения привычки должно быть заполненно' : ''
 
         try{
-            if(!habitForm.value.category || !habitForm.value.time || !habitForm.value.habit || !habitForm.value.frequency){
+            if(!habitForm.value.category || !habitForm.value.time ||
+                !habitForm.value.habit || !habitForm.value.frequency || !habitForm.value.term
+            ){
                 console.log('Заполните таблицу');
                 return;
             }
@@ -100,6 +87,26 @@ export const useHabits = () => {
                 minute: "2-digit",
             })
 
+            const endDate = computed(() => {
+                if(!habitForm.value.term) return null
+
+                const date = new Date()
+
+                if(habitForm.value.term === '1 месяц'){
+                    date.setMonth(date.getMonth() + 1)
+                }else if(habitForm.value.term === '3 месяца'){
+                    date.setMonth(date.getMonth() + 3)
+                }else if(habitForm.value.term === '6 месяцев'){
+                    date.setMonth(date.getMonth() + 6)
+                }else if(habitForm.value.term === '1 год'){
+                    date.setFullYear(date.getFullYear() + 6)
+                }else if(habitForm.value.term === '3 года'){
+                    date.setFullYear(date.getFullYear() + 6)
+                }
+                return date.toLocaleDateString()
+            })
+
+
             const newHabit = await handler('/habits', {
                 method: 'POST',
                 body: JSON.stringify({
@@ -109,9 +116,11 @@ export const useHabits = () => {
                     habit: habitForm.value.habit,
                     status: status,
                     frequency: habitForm.value.frequency,
+                    term: habitForm.value.term,
                     date: now,
                     dateCreatedHabit: dateCreatedHabit,
                     timeCreatedHabit: timeCreatedHabit,
+                    endDateHabit: endDate.value,
                 })
             })
             await createRecords(newHabit.habit, newHabit.status);
@@ -174,10 +183,13 @@ export const useHabits = () => {
 
     const updateStatus = async (id, newStatus) => {
         try{
+            const now = new Date().toLocaleDateString()
+
             await handler(`/habits/${id}`, {
                 method: 'PATCH',
                 body: JSON.stringify({
                     status: newStatus,
+                    lastDate: now
                 })
             })
 
@@ -189,24 +201,26 @@ export const useHabits = () => {
                 await updateDayRecordStatus(habit.habit, habit.status, newStatus)
             }
             await updateStatusCurrent(newStatus)
+
+            await getHabits
         }catch(err){
             console.log(err);
         }
     }
 
-
     const clearHabitForm = () => {
         habitForm.value.habit = '';
+        habitForm.value.time = ''
         habitForm.value.category = '';
-        habitForm.value.habit = '';
         habitForm.value.status = '';
         habitForm.value.frequency = '';
-        habitForm.value.time = ''
+        habitForm.value.term = '';
 
         habitErrors.value.habitError = false;
         habitErrors.value.timeError = false;
         habitErrors.value.categoryError = false;
         habitErrors.value.frequencyError = false;
+        habitErrors.value.termError = false;
     }
 
     return{

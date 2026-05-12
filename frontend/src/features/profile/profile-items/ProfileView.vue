@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, watch } from "vue";
 import { useUser } from "../../auth/composables/userComposable.js";
-import { useHabits } from "../../habits/composables/habitsComposable.js";
+import { useHabits } from "../../habits/composables/useHabits.js";
 import { useForms } from "../../../shared/composables/useForms.js";
 
 import BaseButton from "../../../shared/ui/BaseButton.vue";

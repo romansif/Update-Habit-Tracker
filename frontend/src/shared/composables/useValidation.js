@@ -26,10 +26,8 @@ export const useValidation = () => {
 
         if(!registerForm.value.password){
             userErrors.value.passwordMessage = 'Поле пароля обязательно должно быть заполнено'
-        }else if(registerForm.value.password.length <= 8){
+        }else if(registerForm.value.password.length < 8){
             userErrors.value.passwordMessage = 'Пароль должен состоять из 8 или более символов'
-        }else{
-            userErrors.value.passwordMessage = ''
         }
 
         return !(!registerForm.value.name || !registerForm.value.email || !registerForm.value.password ||
@@ -46,16 +44,12 @@ export const useValidation = () => {
             userErrors.value.emailMessage = 'Поле почты обязательно должно быть заполнено'
         }else if(!isValidEmail(loginForm.value.email)){
             userErrors.value.emailMessage = 'Введённая почта не существует или введена неверно'
-        }else{
-            userErrors.value.emailMessage = ''
         }
 
         if(!loginForm.value.password){
             userErrors.value.passwordMessage = 'Поле пароля обязательно должно быть заполнено'
         }else if(! loginForm.value.password.length < 8){
             userErrors.value.passwordMessage = 'Пароль должен состоять из 8 или более символов'
-        }else{
-            userErrors.value.passwordMessage = ''
         }
         return !(!loginForm.value.email || !loginForm.value.password ||
             !isValidEmail(loginForm.value.email) || loginForm.value.password.length < 8

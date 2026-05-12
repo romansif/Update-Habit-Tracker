@@ -39,6 +39,10 @@ export const useUser = () => {
         if(!isValid) return
 
         try{
+            const now = new Date();
+
+            const dateCreatedAccount = now.toLocaleDateString()
+
             const hashedPassword = await bcrypt.hash(registerForm.value.password, 10)
 
             const newUser = await handler('/users', {
@@ -47,10 +51,11 @@ export const useUser = () => {
                     name: registerForm.value.name,
                     email: registerForm.value.email,
                     password: hashedPassword,
+                    dateCreatedAccount: dateCreatedAccount
                 })
             });
 
-            const newRecords = await handler('/records-user', {
+            const newRecords = await handler('/current-records', {
                 method: 'POST',
                 body: JSON.stringify({
                     allHabitsCounter: recordsCounters.value.allHabitsCounter,
@@ -198,12 +203,12 @@ export const useUser = () => {
             localStorage.removeItem('userRecordsId');
 
 
-            const allRecords = await handler(`/records-user-calendar?userRecordsId=${userRecordsId}`, {
+            const allRecords = await handler(`/calendar-records?userRecordsId=${userRecordsId}`, {
                 method: 'GET'
             })
             await Promise.all(
                 allRecords.map(record =>
-                    handler(`/records-user-calendar/${record.id}`, {
+                    handler(`/calendar-records/${record.id}`, {
                         method: 'DELETE',
                     })
                 )

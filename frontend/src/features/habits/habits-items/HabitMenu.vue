@@ -4,7 +4,7 @@ import { ChevronDownIcon } from '@heroicons/vue/20/solid'
 
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { useHabits } from "../composables/habitsComposable.js";
+import { useHabits } from "../composables/useHabits.js";
 
 const { openDeleteHabitModal, updateStatus } = useHabits()
 

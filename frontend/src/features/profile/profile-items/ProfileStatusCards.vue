@@ -1,8 +1,10 @@
 <script setup>
 import { onMounted } from "vue";
-import { useRecords } from "../../calendar/composables/recordsComposable.js";
+import { useGetRecords } from "../../calendar/composables/getRecords.js";
+import { useRecords } from "../../calendar/composables/useRecords.js";
 
-const { getRecordsCurrent, userRecordsCurrent } = useRecords();
+const { getRecordsCurrent } = useGetRecords();
+const { userRecordsCurrent } = useRecords();
 
 
 onMounted(async() => {

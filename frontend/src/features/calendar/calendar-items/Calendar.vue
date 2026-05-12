@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted } from 'vue';
-import { useCalendar } from '../composables/calendarComposable.js';
-import { useRecords } from "../composables/recordsComposable.js";
+import { useCalendar } from '../composables/useCalendar.js';
+import { useGetRecords } from "../composables/getRecords.js";
 import arrow from '../../../app/assets/icons/arrow.png'
 
 const {
@@ -9,7 +9,7 @@ const {
   isToday, isPastDay, isWeekend, isTodayWeekend, hasStatus
 } = useCalendar();
 
-const { openRecordsModal ,getRecords } = useRecords();
+const { openRecordsModal ,getRecords } = useGetRecords();
 
 onMounted(async() => {
   await getRecords();

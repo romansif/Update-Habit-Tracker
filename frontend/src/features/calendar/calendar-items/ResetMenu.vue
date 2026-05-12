@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from 'vue'
-import { useRecords } from "../composables/recordsComposable.js";
-import { useCalendar } from "../composables/calendarComposable.js";
+import { useRecords } from "../composables/useRecords.js";
+import { useCalendar } from "../composables/useCalendar.js";
 
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { ChevronDownIcon } from '@heroicons/vue/20/solid'

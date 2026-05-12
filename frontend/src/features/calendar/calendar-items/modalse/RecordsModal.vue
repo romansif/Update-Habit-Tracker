@@ -1,12 +1,13 @@
 <script setup>
-import { useRecords } from "../composables/recordsComposable.js";
+import { useGetRecords } from "../../composables/getRecords.js";
+import { useRecords } from "../../composables/useRecords.js";
 
-import BaseButton from '../../../shared/ui/BaseButton.vue';
-import RecordsDayList from "./RecordsDayList.vue";
-import options from '../../../app/assets/icons/options.png'
+import BaseButton from '../../../../shared/ui/BaseButton.vue';
+import DayRecords from "../lists/DayRecords.vue";
+import options from '../../../../app/assets/icons/options.png'
 
-const { userDayRecords, resetDate, openResetRecordsModal, closeRecordsModal } = useRecords();
-
+const { resetDate, closeRecordsModal } = useGetRecords();
+const { userDayRecords, openResetRecordsModal } = useRecords();
 </script>
 <template>
   <div class="fixed inset-0 z-50 bg-[rgba(0,0,0,0.5)]
@@ -22,7 +23,7 @@ const { userDayRecords, resetDate, openResetRecordsModal, closeRecordsModal } = 
       </button>
     </div>
     <ul v-if="userDayRecords?.length > 0" class="flex flex-col max-h-[505px] overflow-y-auto no-scrollbar">
-      <RecordsDayList />
+      <DayRecords />
     </ul>
     <span v-else class="italic text-gray-500">Пустой день</span>
     <div class="flex">

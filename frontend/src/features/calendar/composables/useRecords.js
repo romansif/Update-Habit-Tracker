@@ -1,10 +1,7 @@
 import { ref } from 'vue'
 import { handler } from '../../../shared/api/http.js';
 import { useUserStore } from "../../../shared/composables/store/useUserStore.js";
-import { useCalendar } from "./calendarComposable.js";
-
-const selectedDate = ref(null)
-const selectedReset = ref(null)
+import { useGetRecords } from "./getRecords.js"
 
 const RESET_TYPES = ref({
     ONE:'ONE',
@@ -14,86 +11,14 @@ const RESET_TYPES = ref({
 })
 
 const recordId = ref(null)
-const resetDate = ref(null)
 
 const resetMessage = ref('')
 
-const recordsModalVisible = ref(false)
 const resetRecordsModalVisible = ref(false)
 
 export const useRecords = () => {
+    const { selectedReset, resetDate, getRecordsCurrent, getRecords, getDayRecords } = useGetRecords();
     const { userRecordsCurrent, userRecords, userDayRecords } = useUserStore();
-    const { currentMonth, currentYear } = useCalendar();
-
-    const getRecordsCurrent = async () => {
-        const userRecordsId = localStorage.getItem('userRecordsId');
-        if(!userRecordsId){
-            console.log('Id записей не найдены');
-            return;
-        }
-
-        try{
-            const res = await handler(`/records-user/${userRecordsId}`, {
-                method: 'GET'
-            })
-            userRecordsCurrent.value = res;
-        }catch(err){
-            console.log(err)
-        }
-    }
-
-    const getRecords = async() => {
-        const userRecordsId = localStorage.getItem('userRecordsId');
-        if(!userRecordsId){
-            console.log('Id записей не найдены');
-            return;
-        }
-
-        try{
-            const res = await handler(`/records-user-calendar?userRecordsId=${userRecordsId}`, {
-                method: 'GET'
-            })
-            userRecords.value = res
-        }catch(err){
-            console.log(err)
-        }
-    }
-
-    const openRecordsModal = async (day) => {
-        const date = new Date(
-            currentYear.value,
-            currentMonth.value,
-            day
-        );
-
-        selectedDate.value = date;
-        resetDate.value = selectedDate.value.toLocaleDateString();
-
-        recordsModalVisible.value = true;
-
-        await getDayRecords();
-    }
-
-    const getDayRecords = async () => {
-        const userRecordsId = localStorage.getItem('userRecordsId');
-
-        if(!selectedDate.value) return;
-
-        try{
-            const res = await handler(`/records-user-calendar?userRecordsId=${userRecordsId}&dateCreatedRecord=${resetDate.value}`, {
-                method: 'GET'
-            });
-            userDayRecords.value = res
-        }catch(err){
-            console.log(err);
-        }
-    };
-
-    const closeRecordsModal = () => {
-        userDayRecords.value = [];
-        selectedDate.value = null;
-        recordsModalVisible.value = false;
-    }
 
     const createRecords = async (habit, status) => {
         const userRecordsId = localStorage.getItem('userRecordsId');
@@ -106,7 +31,7 @@ export const useRecords = () => {
                 console.log('Не найдено общее количество привычек');
                 return;
             }
-            await handler(`/records-user/${userRecordsId}`, {
+            await handler(`/current-records/${userRecordsId}`, {
                 method: 'PATCH',
                 body: JSON.stringify({
                     allHabitsCounter: newAllHabitsCounter,
@@ -125,7 +50,7 @@ export const useRecords = () => {
                 minute: "2-digit",
             })
 
-            const newRecordDay = await handler(`/records-user-calendar`, {
+            const newRecordDay = await handler(`/calendar-records`, {
                 method: 'POST',
                 body: JSON.stringify({
                     userRecordsId: userRecordsId,
@@ -153,14 +78,14 @@ export const useRecords = () => {
 
         try{
             if(newStatus === 'В процессе'){
-                await handler(`/records-user/${userRecordsId}`, {
+                await handler(`/current-records/${userRecordsId}`, {
                     method: 'PATCH',
                     body: JSON.stringify({
                         inProgressHabitsCounter: currentInProgress + 1
                     })
                 })
             }else if(newStatus === 'Выполнено'){
-                await handler(`/records-user/${userRecordsId}`, {
+                await handler(`/current-records/${userRecordsId}`, {
                     method: 'PATCH',
                     body: JSON.stringify({
                         completedHabitsCounter: currentCompleted + 1,
@@ -168,7 +93,7 @@ export const useRecords = () => {
                     })
                 })
             }else{
-                await handler(`/records-user/${userRecordsId}`, {
+                await handler(`/current-records/${userRecordsId}`, {
                     method: 'PATCH',
                     body: JSON.stringify({
                         completedHabitsCounter: currentCompleted + 1
@@ -193,7 +118,7 @@ export const useRecords = () => {
 
         try{
             if(newStatus === 'В процессе'){
-                await handler(`/records-user-calendar/${userRecordId}`, {
+                await handler(`/calendar-records/${userRecordId}`, {
                     method: 'PATCH',
                     body: JSON.stringify({
                         secondStatus: newStatus,
@@ -201,7 +126,7 @@ export const useRecords = () => {
                     })
                 });
             }else{
-                await handler(`/records-user-calendar/${userRecordId}`, {
+                await handler(`/calendar-records/${userRecordId}`, {
                     method: 'PATCH',
                     body: JSON.stringify({
                         thirdStatus: newStatus,
@@ -234,42 +159,42 @@ export const useRecords = () => {
 
         try{
             if(selectedReset.value === RESET_TYPES.value.ONE){
-                await handler(`/records-user-calendar/${recordId.value}`, {
+                await handler(`/calendar-records/${recordId.value}`, {
                     method: 'DELETE'
                 })
                 userDayRecords.value = userDayRecords.value.filter(record => record.id !== recordId.value);
             }else if(selectedReset.value === RESET_TYPES.value.DAY){
-                const dayRecords = await handler(`/records-user-calendar?dateCreatedRecord=${resetDate.value}`,{
+                const dayRecords = await handler(`/calendar-records?dateCreatedRecord=${resetDate.value}`,{
                     method: 'GET'
                 })
                 await Promise.all(
                     dayRecords.map(record =>
-                        handler(`/records-user-calendar/${record.id}`, {
+                        handler(`/calendar-records/${record.id}`, {
                             method: 'DELETE',
                         })
                     )
                 )
                 localStorage.removeItem('userRecordId')
             }else if(selectedReset.value === RESET_TYPES.value.MONTH){
-                const res = await handler(`/records-user-calendar?userRecordsId=${userRecordsId}`,{
+                const res = await handler(`/calendar-records?userRecordsId=${userRecordsId}`,{
                     method: 'GET'
                 })
                 const monthRecords = res.filter(record => record.monthCreatedRecord === resetDate.value)
 
                 await Promise.all(
                     monthRecords.map(record =>
-                        handler(`/records-user-calendar/${record.id}`, {
+                        handler(`/calendar-records/${record.id}`, {
                             method: 'DELETE',
                         })
                     )
                 )
             }else if(selectedReset.value === RESET_TYPES.value.ALL){
-                const allRecords = await handler(`/records-user-calendar?userRecordsId=${userRecordsId}`, {
+                const allRecords = await handler(`/calendar-records?userRecordsId=${userRecordsId}`, {
                     method: 'GET'
                 })
                 await Promise.all(
                     allRecords.map(record =>
-                        handler(`/records-user-calendar/${record.id}`, {
+                        handler(`/calendar-records/${record.id}`, {
                             method: 'DELETE',
                         })
                     )
@@ -299,19 +224,8 @@ export const useRecords = () => {
         userRecords,
         userDayRecords,
 
-        recordsModalVisible,
         resetMessage,
         resetRecordsModalVisible,
-
-        resetDate,
-
-
-        getRecordsCurrent,
-        getRecords,
-
-        openRecordsModal,
-        getDayRecords,
-        closeRecordsModal,
 
         createRecords,
 
