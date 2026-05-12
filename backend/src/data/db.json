@@ -21,7 +21,7 @@
       "id": "ySXgzk252v8"
     }
   ],
-  "records-user": [
+  "current-records": [
     {
       "allHabitsCounter": 1,
       "completedHabitsCounter": 1,
@@ -30,6 +30,6 @@
       "id": "o2c9COIr2To"
     }
   ],
-  "records-user-calendar": [],
+  "calendar-records": [],
   "$schema": "./node_modules/json-server/schema.json"
 }

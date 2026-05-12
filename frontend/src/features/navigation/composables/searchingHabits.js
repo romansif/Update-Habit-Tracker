@@ -1,7 +1,7 @@
 import { ref } from 'vue';
 import { useRoute } from 'vue-router';
-import { handler } from '../../api/http.js';
-import { useUserStore } from "../store/useUserStore.js";
+import { handler } from '../../../shared/api/http.js';
+import { useUserStore } from "../../../shared/composables/store/useUserStore.js";
 import { useDebounceFn } from "@vueuse/core";
 
 

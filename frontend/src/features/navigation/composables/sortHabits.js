@@ -1,6 +1,6 @@
-import { handler } from "../../api/http.js";
+import { handler } from "../../../shared/api/http.js";
 import { useRoute } from "vue-router";
-import { useUserStore } from "../store/useUserStore.js";
+import { useUserStore } from "../../../shared/composables/store/useUserStore.js";
 
 export const useSortingHabits = () => {
     const { habits } = useUserStore();
