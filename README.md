@@ -1,5 +1,48 @@
-# Vue 3 + Vite
+# Habit Tracker
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+Habit Tracker — приложение для отслеживания привычек с frontend и backend частью.
 
-Learn more about IDE Support for Vue in the [Vue Docs Scaling up Guide](https://vuejs.org/guide/scaling-up/tooling.html#ide-support).
+## Клонирование проекта
+
+Склонируйте репозиторий командой 
+
+```bash
+git clone
+```
+
+## Установка
+
+После клонирования репозитория установите все зависимости командой:
+
+```bash
+Установка зависимостей
+
+npm install
+Команда автоматически установит все необходимые зависимости для frontend и backend.
+
+Запуск проекта
+
+npm run dev
+Для запуска frontend и backend одновременно выполните команду в корневой папке проекта:
+```
+
+## Backend API endpoints
+
+В проекте доступны следующие endpoints:
+
+/users
+/habits
+/current-records
+/calendar-records
+
+## Функционал
+
+Создание аккаунта
+Вход в аккаунт
+Выход из аккаунта
+Удаление аккаунта
+Создание привычек
+Изменение статуса привычек
+Поиск привычек
+Сортировка привычек
+Календарь и просмотр записей по дням
