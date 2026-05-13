@@ -8,12 +8,28 @@
       "id": "-M-x8FR3usg"
     }
   ],
-  "habits": [],
+  "habits": [
+    {
+      "userId": "-M-x8FR3usg",
+      "category": "йцуйцу",
+      "time": "2131мин",
+      "habit": "йцуу",
+      "status": "Выполнено",
+      "frequency": "Ежедневно",
+      "term": "6 месяцев",
+      "date": "2026-05-13T09:26:25.448Z",
+      "dateCreatedHabit": "13.05.2026",
+      "timeCreatedHabit": "14:26",
+      "endDateHabit": "13.11.2026",
+      "id": "fYe38arqZ18",
+      "lastDate": "13.05.2026"
+    }
+  ],
   "current-records": [
     {
-      "allHabitsCounter": 1,
+      "allHabitsCounter": 2,
       "completedHabitsCounter": 1,
-      "inProgressHabitsCounter": 0,
+      "inProgressHabitsCounter": null,
       "incompletedHabitsCounter": 0,
       "id": "VjplMwNbqg0"
     }
@@ -56,6 +72,20 @@
       "timeUpdatedStatus": "16:30",
       "thirdStatus": "Выполнено",
       "newTimeUpdatedStatus": "16:30"
+    },
+    {
+      "userRecordsId": "VjplMwNbqg0",
+      "date": "2026-05-13T09:26:25.480Z",
+      "dateCreatedRecord": "13.05.2026",
+      "monthCreatedRecord": "05.2026",
+      "timeCreatedRecord": "14:26",
+      "habit": "йцуу",
+      "firstStatus": "Не выполнено",
+      "id": "QPo-kUCjBHI",
+      "thirdStatus": "Не выполнено",
+      "newTimeUpdatedStatus": "14:26",
+      "secondStatus": "В процессе",
+      "timeUpdatedStatus": "14:27"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

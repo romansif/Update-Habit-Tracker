@@ -141,7 +141,6 @@ export const useHabits = () => {
         clearHabitForm();
     }
 
-
     const openDeleteHabitModal = (id, message) => {
         habitId.value = id;
 
@@ -184,7 +183,7 @@ export const useHabits = () => {
     const updateStatus = async (id, newStatus) => {
         try{
             const now = new Date().toLocaleDateString()
-
+            
             await handler(`/habits/${id}`, {
                 method: 'PATCH',
                 body: JSON.stringify({
@@ -197,12 +196,14 @@ export const useHabits = () => {
             if(habits.value){
                 if(habit){
                     habit.status = newStatus;
-                }
-                await updateDayRecordStatus(habit.habit, habit.status, newStatus)
-            }
-            await updateStatusCurrent(newStatus)
 
-            await getHabits
+                    await getHabits()
+                }
+
+                await updateDayRecordStatus(habit.habit, habit.status, newStatus)
+                await updateStatusCurrent(newStatus)
+            }
+
         }catch(err){
             console.log(err);
         }

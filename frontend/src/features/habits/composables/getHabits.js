@@ -26,7 +26,9 @@ export const useGetHabits = () => {
             method: 'GET',
         });
 
-        habits.value = filteredHabits(res.sort((a, b) => new Date(b.date) - new Date(a.date)));
+        const data = res.filter(habit => habit.status !== 'Выполнено')
+
+        habits.value = filteredHabits(data.sort((a, b) => new Date(b.date) - new Date(a.date)));
     }
 
     return{
