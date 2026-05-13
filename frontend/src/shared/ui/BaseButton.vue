@@ -36,7 +36,9 @@ const variantClasses = {
   confirmResRecords: `px-11 py-3 text-white rounded-lg bg-gradient-to-br from-indigo-400 to-indigo-600
             shadow-xl shadow-indigo-500/40 active:scale-95 transition`,
   openResRecordsModal: `p-4 text-white text-sm rounded-md bg-gradient-to-br from-indigo-400 to-indigo-600
-            shadow-xl shadow-indigo-500/40 active:scale-95 transition`
+            shadow-xl shadow-indigo-500/40 active:scale-95 transition`,
+  closeHabitInfoModal: `mt-5 bg-gradient-to-b from-rose-400 to-rose-600 shadow-xl text-white
+            shadow-rose-500/40 active:scale-95 transition py-3 px-6 text-sm rounded-[6px]`
 }
 </script>
 

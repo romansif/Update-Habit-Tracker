@@ -6,7 +6,7 @@ import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useHabits } from "../composables/useHabits.js";
 
-const { openDeleteHabitModal, updateStatus } = useHabits()
+const { openInfoModal, openDeleteHabitModal, updateStatus } = useHabits()
 
 const route = useRoute()
 
@@ -38,6 +38,18 @@ const canAddInProgressHabits = computed(() => props.status !== 'В процес�
 
     <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform scale-100" leave-to-class="transform opacity-0 scale-95">
       <MenuItems class="absolute right-0 z-10 mt-2 w-38 origin-top-right divide-y divide-white/40 rounded-md bg-indigo-400 outline-1 -outline-offset-1 outline-white/10">
+        <div>
+          <MenuItem v-slot="{ active }">
+            <button @click="openInfoModal(id, 'Выполнено')" class="w-full text-start">
+              <span :class="[
+                      active ? `bg-white/25 text-white outline-hidden` :
+                      'text-white', 'block px-4 py-2 text-sm'
+                  ]">
+                  Детали
+              </span>
+            </button>
+          </MenuItem>
+        </div>
         <div v-if="isCompletedHabitsPage">
           <MenuItem v-if="canAddInCompletedHabits" v-slot="{ active }">
             <button @click="updateStatus(id, 'Выполнено')" class="w-full text-start">

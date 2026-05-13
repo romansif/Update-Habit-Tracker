@@ -16,12 +16,13 @@ const habitId = ref(null);
 const deleteHabitMessage = ref('')
 
 const createHabitModalVisible = ref(false);
+const habitInfoModalVisible = ref(false);
 const deleteHabitModalVisible = ref(false);
 
 export const useHabits = () => {
     const { habits } = useUserStore();
 
-    const { getHabits } = useGetHabits();
+    const { getHabits, getHabit } = useGetHabits();
     const { getRecords } = useGetRecords();
 
     const { validateHabitForm } = useValidation()
@@ -64,9 +65,9 @@ export const useHabits = () => {
                 }else if(habitForm.value.term === '6 месяцев'){
                     date.setMonth(date.getMonth() + 6)
                 }else if(habitForm.value.term === '1 год'){
-                    date.setFullYear(date.getFullYear() + 6)
+                    date.setFullYear(date.getFullYear() + 1)
                 }else if(habitForm.value.term === '3 года'){
-                    date.setFullYear(date.getFullYear() + 6)
+                    date.setFullYear(date.getFullYear() + 3)
                 }
 
                 return date.toLocaleDateString()
@@ -104,6 +105,54 @@ export const useHabits = () => {
         createHabitModalVisible.value = false;
 
         clearHabitForm();
+    }
+
+
+    const openInfoModal = async (id) => {
+        await getHabit(id)
+
+        habitInfoModalVisible.value = true
+    }
+
+    const closeInfoModal = async () => {
+        habitInfoModalVisible.value = false
+    }
+
+    const updateStatus = async (id, newStatus) => {
+        try{
+            const now = new Date()
+
+            const date = now.toLocaleDateString()
+
+            const time = now.toLocaleTimeString("ru-RU", {
+                hour: "2-digit",
+                minute: "2-digit",
+            })
+
+            await handler(`/habits/${id}`, {
+                method: 'PATCH',
+                body: JSON.stringify({
+                    status: newStatus,
+                    lastDate: date,
+                    lastTime: time
+                })
+            })
+
+            const habit = habits.value.find(habit => habit.id === id);
+            if(habits.value){
+                if(habit){
+                    habit.status = newStatus;
+
+                    await getHabits()
+                }
+
+                await updateDayRecordStatus(habit.habit, habit.status, newStatus)
+                await updateStatusCurrent(newStatus)
+            }
+
+        }catch(err){
+            console.log(err);
+        }
     }
 
 
@@ -147,48 +196,22 @@ export const useHabits = () => {
     }
 
 
-    const updateStatus = async (id, newStatus) => {
-        try{
-            const now = new Date().toLocaleDateString()
-
-            await handler(`/habits/${id}`, {
-                method: 'PATCH',
-                body: JSON.stringify({
-                    status: newStatus,
-                    lastDate: now
-                })
-            })
-
-            const habit = habits.value.find(habit => habit.id === id);
-            if(habits.value){
-                if(habit){
-                    habit.status = newStatus;
-
-                    await getHabits()
-                }
-
-                await updateDayRecordStatus(habit.habit, habit.status, newStatus)
-                await updateStatusCurrent(newStatus)
-            }
-
-        }catch(err){
-            console.log(err);
-        }
-    }
-
     return{
         habits,
         habitForm,
         habitErrors,
 
         createHabitModalVisible,
+        habitInfoModalVisible,
         deleteHabitModalVisible,
         deleteHabitMessage,
-
 
         openCreateModal,
         createHabit,
         closeCreateModal,
+
+        openInfoModal,
+        closeInfoModal,
 
         openDeleteHabitModal,
         deleteHabit,

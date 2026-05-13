@@ -3,9 +3,10 @@ import { useRoute } from "vue-router";
 import { handler } from "../../../shared/api/http.js";
 
 export const useGetHabits = () => {
-    const { habits } = useUserStore();
+    const { habits, habit } = useUserStore();
 
     const route = useRoute();
+
 
     const today = new Date();
 
@@ -64,7 +65,17 @@ export const useGetHabits = () => {
         habits.value = filteredHabits(res.sort((a, b) => new Date(b.date) - new Date(a.date)));
     }
 
+    const getHabit = async (id) => {
+        const res = await handler(`/habits/${id}`, {
+            method: 'GET',
+        });
+
+        habit.value = res
+        console.log(habit.value)
+    }
+
     return{
-        getHabits
+        getHabits,
+        getHabit
     }
 }
