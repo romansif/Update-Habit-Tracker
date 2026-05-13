@@ -43,22 +43,6 @@
     },
     {
       "userId": "-M-x8FR3usg",
-      "category": "Здоровье",
-      "time": "30мин",
-      "habit": "Закаляться",
-      "status": "Выполнено",
-      "frequency": "Ежедневно",
-      "term": "3 года",
-      "date": "2026-05-13T11:52:49.850Z",
-      "dateCreatedHabit": "13.05.2026",
-      "timeCreatedHabit": "16:52",
-      "endDateHabit": "13.05.2029",
-      "id": "FRQZ4-V1wOE",
-      "lastDate": "13.05.2026",
-      "lastTime": "16:53"
-    },
-    {
-      "userId": "-M-x8FR3usg",
       "category": "Спорт",
       "time": "20мин",
       "habit": "Подтягивания",
@@ -76,8 +60,8 @@
   ],
   "current-records": [
     {
-      "allHabitsCounter": 12,
-      "completedHabitsCounter": 3,
+      "allHabitsCounter": 15,
+      "completedHabitsCounter": 4,
       "inProgressHabitsCounter": 1,
       "incompletedHabitsCounter": 0,
       "id": "VjplMwNbqg0"
@@ -141,6 +125,40 @@
       "habit": "213",
       "firstStatus": "Не выполнено",
       "id": "G9f6J2dV7HM"
+    },
+    {
+      "userRecordsId": "VjplMwNbqg0",
+      "date": "2026-05-13T12:43:07.832Z",
+      "dateCreatedRecord": "13.05.2026",
+      "monthCreatedRecord": "05.2026",
+      "timeCreatedRecord": "17:43",
+      "habit": "213",
+      "firstStatus": "Не выполнено",
+      "id": "xU-jJboVNh0",
+      "secondStatus": "В процессе",
+      "timeUpdatedStatus": "17:43",
+      "thirdStatus": "Выполнено",
+      "newTimeUpdatedStatus": "17:43"
+    },
+    {
+      "userRecordsId": "VjplMwNbqg0",
+      "date": "2026-05-13T12:47:35.876Z",
+      "dateCreatedRecord": "13.05.2026",
+      "monthCreatedRecord": "05.2026",
+      "timeCreatedRecord": "17:47",
+      "habit": "смотреть документалки",
+      "firstStatus": "Не выполнено",
+      "id": "Wqxi1QWQyJk"
+    },
+    {
+      "userRecordsId": "VjplMwNbqg0",
+      "date": "2026-05-13T12:48:38.384Z",
+      "dateCreatedRecord": "13.05.2026",
+      "monthCreatedRecord": "05.2026",
+      "timeCreatedRecord": "17:48",
+      "habit": "просмотр документалок",
+      "firstStatus": "Не выполнено",
+      "id": "A7GjiBtFAMo"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

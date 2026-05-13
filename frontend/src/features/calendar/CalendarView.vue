@@ -4,8 +4,8 @@ import { useRecords } from "./composables/useRecords.js";
 
 import Calendar from "./calendar-items/Calendar.vue";
 import NavMenu from "../navigation/NavMenu.vue";
-import RecordsModal from "./calendar-items/modal/RecordsModal.vue";
-import ResetRecords from "../../shared/ui/records-modals/ResetRecords.vue";
+import RecordsModal from "../../shared/ui/info-modals/RecordsModal.vue";
+import ResetRecords from "../../shared/ui/delete-modals/ResetRecords.vue";
 import ResetMenu from "./calendar-items/ResetMenu.vue"
 
 const { recordsModalVisible } = useGetRecords();

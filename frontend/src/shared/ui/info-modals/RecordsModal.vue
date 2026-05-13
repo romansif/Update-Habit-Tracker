@@ -1,10 +1,10 @@
 <script setup>
-import { useGetRecords } from "../../composables/getRecords.js";
-import { useRecords } from "../../composables/useRecords.js";
+import { useGetRecords } from "../../../features/calendar/composables/getRecords.js";
+import { useRecords } from "../../../features/calendar/composables/useRecords.js";
 
-import BaseButton from '../../../../shared/ui/BaseButton.vue';
-import DayRecords from "../list/DayRecords.vue";
-import options from '../../../../app/assets/icons/options.png'
+import BaseButton from '../BaseButton.vue';
+import DayRecords from "../../../features/calendar/calendar-items/DayRecords.vue";
+import options from '../../../app/assets/icons/options.png'
 
 const { resetDate, closeRecordsModal } = useGetRecords();
 const { dayRecords, openResetRecordsModal } = useRecords();

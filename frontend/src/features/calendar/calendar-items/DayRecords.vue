@@ -1,7 +1,7 @@
 <script setup>
-import { useRecords } from "../../composables/useRecords.js";
+import { useRecords } from "../composables/useRecords.js";
 
-import reset_record from "../../../../app/assets/icons/reset-record.png"
+import reset_record from "../../../app/assets/icons/reset-record.png"
 
 const { dayRecords, openResetRecordsModal } = useRecords();
 

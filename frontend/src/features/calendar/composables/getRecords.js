@@ -51,6 +51,7 @@ export const useGetRecords = () => {
         }
     }
 
+
     const openRecordsModal = async (day) => {
         const date = new Date(
             currentYear.value,

@@ -20,7 +20,7 @@ export const useRecords = () => {
     const { selectedReset, resetDate, getRecordsCurrent, getRecords, getDayRecords } = useGetRecords();
     const { habitsCurrent, dayRecords } = useUserStore();
 
-    const createRecords = async (habit, status) => {
+    const createRecord = async (habit, status) => {
         const userRecordsId = localStorage.getItem('userRecordsId');
 
         const currentAllCounter = habitsCurrent.value?.allHabitsCounter || 0;
@@ -70,7 +70,7 @@ export const useRecords = () => {
         }
     }
 
-    const updateStatusCurrent = async (newStatus) => {
+    const updateHabitsCurrent = async (newStatus) => {
         const userRecordsId = localStorage.getItem('userRecordsId');
 
         const currentCompleted = habitsCurrent.value?.completedHabitsCounter || 0;
@@ -106,7 +106,7 @@ export const useRecords = () => {
         }
     };
 
-    const updateDayRecordStatus = async (habit, newStatus) => {
+    const updateRecordStatus = async (habit, newStatus) => {
         const userRecordId = localStorage.getItem('userRecordId');
 
         const now = new Date();
@@ -225,10 +225,10 @@ export const useRecords = () => {
         resetMessage,
         resetRecordsModalVisible,
 
-        createRecords,
+        createRecord,
 
-        updateStatusCurrent,
-        updateDayRecordStatus,
+        updateHabitsCurrent,
+        updateRecordStatus,
 
         openResetRecordsModal,
         resetRecords,

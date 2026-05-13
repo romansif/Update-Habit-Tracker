@@ -29,7 +29,7 @@ export const useHabits = () => {
     const { habitForm, habitErrors } = useForms()
     const { clearHabitForm } = useClearForms();
 
-    const { habitsCurrent, createRecords, updateStatusCurrent, updateDayRecordStatus } = useRecords();
+    const { habitsCurrent, createRecord, updateHabitsCurrent, updateRecordStatus } = useRecords();
 
     const openCreateModal = () => {
         createHabitModalVisible.value = true;
@@ -91,7 +91,7 @@ export const useHabits = () => {
             })
             habits.value.push(newHabit);
 
-            await createRecords(newHabit.habit, newHabit.status);
+            await createRecord(newHabit.habit, newHabit.status);
 
             await getRecords();
 
@@ -146,8 +146,8 @@ export const useHabits = () => {
                     await getHabits()
                 }
 
-                await updateDayRecordStatus(habit.habit, habit.status, newStatus)
-                await updateStatusCurrent(newStatus)
+                await updateRecordStatus(habit.habit, habit.status, newStatus)
+                await updateHabitsCurrent(newStatus)
             }
 
         }catch(err){
@@ -174,7 +174,7 @@ export const useHabits = () => {
                 method: 'DELETE',
             });
             if(habitsCurrent.value?.inProgressHabitsCounter > 0){
-                await handler(`/records-user/${userRecordsId}`, {
+                await handler(`/current-records/${userRecordsId}`, {
                     method: 'PATCH',
                     body: JSON.stringify({
                         inProgressHabitsCounter: currentInProgressCounter - 1

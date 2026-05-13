@@ -1,8 +1,8 @@
 <script setup>
-import { useUserStore } from "../composables/store/useUserStore.js";
-import { useHabits } from "../../features/habits/composables/useHabits.js";
+import { useUserStore } from "../../composables/store/useUserStore.js";
+import { useHabits } from "../../../features/habits/composables/useHabits.js";
 
-import BaseButton from "./BaseButton.vue";
+import BaseButton from "../BaseButton.vue";
 
 const { habit } = useUserStore();
 const { closeInfoModal } = useHabits();

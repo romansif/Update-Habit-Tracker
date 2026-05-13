@@ -169,6 +169,7 @@ export const useUser = () => {
         logoutUserModalVisible.value = false;
     }
 
+
     const openDeleteUserModal = (message) => {
         delUserMessage.value = message;
 
@@ -230,10 +231,10 @@ export const useUser = () => {
 
     return{
         user,
-        updateForm,
 
         delUserMessage,
         logoutUserMessage,
+
         deleteUserModalVisible,
         logoutUserModalVisible,
 
