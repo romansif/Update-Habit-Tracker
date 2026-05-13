@@ -72,15 +72,16 @@ export const useValidation = () => {
     }
 
     const validateUpdateForm = () => {
-        userErrors.value.newNameError = !updateForm.value.name
+        userErrors.value.newNameError = !updateForm.value.name || !updateForm.value.name.length < 5
 
         if(!updateForm.value.name){
-            userErrors.value.newNameMessage = 'Поле для нового имени пользователя обязательно должно быть заполненно'
+            userErrors.value.newNameMessage = 'Поле нового имени пользователя обязательно должно быть заполненно'
         }else if(!updateForm.value.name.length < 5){
-            userErrors.value.newNameMessage = 'Поле для нового имени пользователя должно состоять из 5 или более символов'
+            userErrors.value.newNameMessage = 'Поле нового имени пользователя должно состоять из 5 или более символов'
         }
 
-        return !(!updateForm.value.name || !updateForm.value.name.length < 5)
+        return !(!updateForm.value.name || updateForm.value.name.length < 5)
+
     }
 
     return{

@@ -11,9 +11,9 @@ import CreateHabitModal from "../../../shared/ui/CreateHabitModal.vue";
 import DeleteUserModal from "../../../shared/ui/delete-modals/DeleteUserModal.vue";
 import LogoutModal from "../../../shared/ui/LogoutModal.vue";
 
-const { user, updateForm, logoutUserModalVisible, deleteUserModalVisible, getUser, updateUser } = useUser();
+const { user, logoutUserModalVisible, deleteUserModalVisible, getUser, updateUser } = useUser();
+const { userErrors, updateForm } = useForms();
 const { createHabitModalVisible } = useHabits();
-const { userErrors } = useForms();
 
 const toLower = () => {
   updateForm.value.name = updateForm.value.name.toLowerCase()
@@ -49,7 +49,7 @@ onMounted(async () => {
           <div class="flex flex-col gap-3">
             <input type="text" v-model="updateForm.name" @input="toLower" placeholder="Имя пользователя"
                    class="bg-white shadow-xl w-full placeholder:text-sm outline-none rounded-[4px] p-5 mt-6">
-            <span v-if="userErrors.newNameError" class="text-sm text-red-500">{{ userErrors?.newNameMessage}}</span>
+            <span v-if="userErrors.newNameError" class="text-sm text-red-500">{{ userErrors?.newNameMessage }}</span>
           </div>
         </div>
         <div class="flex justify-end mt-12">

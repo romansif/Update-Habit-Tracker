@@ -17,8 +17,8 @@ const props = defineProps({
         {{ habit?.dateCreatedHabit }}, {{ habit?.timeCreatedHabit }}
       </p>
     </div>
-    <div class="flex justify-between items-center mb-4">
-      <div class="flex flex-col">
+    <div class="flex justify-between items-center mb-3">
+      <div class="flex flex-col gap-1">
         <p class="text-gray-500 text-md px-2">
           {{ habit?.frequency }}
         </p>
