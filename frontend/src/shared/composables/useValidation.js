@@ -1,6 +1,6 @@
 import { useForms } from "./useForms.js";
 
-const { userErrors, registerForm, loginForm } = useForms()
+const { userErrors, registerForm, loginForm, habitErrors, habitForm } = useForms()
 
 export const useValidation = () => {
     const isValidEmail = (email) => {
@@ -56,8 +56,26 @@ export const useValidation = () => {
         )
     }
 
+    const validateHabitForm = () => {
+        habitErrors.value.habitError = !habitForm.value.habit
+        habitErrors.value.timeError = !habitForm.value.time
+        habitErrors.value.categoryError = !habitForm.value.category
+        habitErrors.value.frequencyError = !habitForm.value.frequency
+        habitErrors.value.termError = !habitForm.value.term
+
+        habitErrors.value.habitMessage = habitErrors.value.habitError ? 'Поле привычки должно быть заполненно' : ''
+        habitErrors.value.timeMessage = habitErrors.value.timeError ? 'Поле времени на привычку должно быть заполненно' : ''
+        habitErrors.value.categoryMessage = habitErrors.value.categoryError ? 'Поле категории привычки должно быть заполненно' : ''
+        habitErrors.value.frequencyMessage = habitErrors.value.frequencyError ? 'Поле частоты выполнения привычки должно быть заполненно' : ''
+        habitErrors.value.termMessage = habitErrors.value.termError ? 'Поле срока выполения привычки должно быть заполненно' : ''
+
+        return !(!habitForm.value.habit || !habitForm.value.time || !habitForm.value.category ||
+            !habitForm.value.frequency || !habitForm.value.term)
+    }
+
     return{
         validateRegisterForm,
-        validateLoginForm
+        validateLoginForm,
+        validateHabitForm
     }
 }

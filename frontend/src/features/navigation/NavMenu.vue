@@ -66,7 +66,17 @@ const isCalendarPage = computed(() => route.name !== 'calendar')
                         active ? 'bg-white/25 text-white outline-hidden' :
                         'text-white', 'block px-4 py-2 text-sm'
                     ]">
-                    Выполненые
+                    Выполненые за все время
+                </span>
+            </router-link>
+          </MenuItem>
+          <MenuItem v-slot="{ active }">
+            <router-link :to="{ name: 'completed-habits' }">
+                <span v-if="isCompletedHabitsPage" :class="[
+                        active ? 'bg-white/25 text-white outline-hidden' :
+                        'text-white', 'block px-4 py-2 text-sm'
+                    ]">
+                    Выполненые за сегодня
                 </span>
             </router-link>
           </MenuItem>

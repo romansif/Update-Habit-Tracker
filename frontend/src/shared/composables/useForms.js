@@ -11,6 +11,16 @@ const loginForm = ref({
     password: '',
 })
 
+const habitForm = ref({
+    habit: '',
+    time: '',
+    category: '',
+    status: 'Не выполнено',
+    frequency: '',
+    term: '',
+});
+
+
 const userErrors = ref({
     nameError: false,
     emailError: false,
@@ -23,10 +33,27 @@ const userErrors = ref({
     newNameMessage: '',
 })
 
+const habitErrors = ref({
+    habitError: false,
+    timeError: false,
+    categoryError: false,
+    frequencyError: false,
+    termError: false,
+
+    habitMessage: '',
+    timeMessage: '',
+    categoryMessage: '',
+    frequencyMessage: '',
+    termMessage: '',
+})
+
+
 export const useForms = () => {
     return{
         registerForm,
         loginForm,
-        userErrors
+        userErrors,
+        habitForm,
+        habitErrors,
     }
 }

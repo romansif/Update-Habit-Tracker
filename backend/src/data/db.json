@@ -23,13 +23,43 @@
       "endDateHabit": "13.11.2026",
       "id": "fYe38arqZ18",
       "lastDate": "13.05.2026"
+    },
+    {
+      "userId": "-M-x8FR3usg",
+      "category": "qwe",
+      "time": "213мин",
+      "habit": "qwe",
+      "status": "Выполнено",
+      "frequency": "Ежедневно",
+      "term": "3 месяца",
+      "date": "2026-05-13T09:39:07.629Z",
+      "dateCreatedHabit": "13.05.2026",
+      "timeCreatedHabit": "14:39",
+      "endDateHabit": "13.08.2026",
+      "id": "_VVThoFgeGA",
+      "lastDate": "13.05.2026"
+    },
+    {
+      "userId": "-M-x8FR3usg",
+      "category": "qwe",
+      "time": "12мин",
+      "habit": "qwe",
+      "status": "Выполнено",
+      "frequency": "Ежедневно",
+      "term": "1 месяц",
+      "date": "2026-05-13T09:53:35.168Z",
+      "dateCreatedHabit": "13.05.2026",
+      "timeCreatedHabit": "14:53",
+      "endDateHabit": "13.06.2026",
+      "id": "C74DsTB-iCM",
+      "lastDate": "13.05.2026"
     }
   ],
   "current-records": [
     {
-      "allHabitsCounter": 2,
-      "completedHabitsCounter": 1,
-      "inProgressHabitsCounter": null,
+      "allHabitsCounter": 4,
+      "completedHabitsCounter": 3,
+      "inProgressHabitsCounter": 0,
       "incompletedHabitsCounter": 0,
       "id": "VjplMwNbqg0"
     }
@@ -86,6 +116,34 @@
       "newTimeUpdatedStatus": "14:26",
       "secondStatus": "В процессе",
       "timeUpdatedStatus": "14:27"
+    },
+    {
+      "userRecordsId": "VjplMwNbqg0",
+      "date": "2026-05-13T09:39:07.647Z",
+      "dateCreatedRecord": "13.05.2026",
+      "monthCreatedRecord": "05.2026",
+      "timeCreatedRecord": "14:39",
+      "habit": "qwe",
+      "firstStatus": "Не выполнено",
+      "id": "-d1BaKP2zqI",
+      "secondStatus": "В процессе",
+      "timeUpdatedStatus": "14:39",
+      "thirdStatus": "Выполнено",
+      "newTimeUpdatedStatus": "14:39"
+    },
+    {
+      "userRecordsId": "VjplMwNbqg0",
+      "date": "2026-05-13T09:53:35.183Z",
+      "dateCreatedRecord": "13.05.2026",
+      "monthCreatedRecord": "05.2026",
+      "timeCreatedRecord": "14:53",
+      "habit": "qwe",
+      "firstStatus": "Не выполнено",
+      "id": "6HvyciYnVu4",
+      "secondStatus": "В процессе",
+      "timeUpdatedStatus": "14:53",
+      "thirdStatus": "Выполнено",
+      "newTimeUpdatedStatus": "14:53"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

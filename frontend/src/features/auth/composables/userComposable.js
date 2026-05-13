@@ -1,8 +1,11 @@
 import { ref } from 'vue';
 import { useRouter } from "vue-router";
+
 import { handler } from '../../../shared/api/http.js';
+
 import { useForms } from "../../../shared/composables/useForms.js";
 import { useValidation } from "../../../shared/composables/useValidation.js";
+import { useClearForms } from "../../../shared/composables/clearForms.js";
 
 import bcrypt from 'bcryptjs';
 
@@ -30,6 +33,7 @@ const logoutUserModalVisible = ref(false);
 export const useUser = () => {
     const { validateRegisterForm, validateLoginForm } = useValidation();
     const { registerForm, loginForm, userErrors } = useForms();
+    const { clearRegisterForm, clearLoginForm } = useClearForms();
 
     const router = useRouter();
 
@@ -231,24 +235,6 @@ export const useUser = () => {
         delUserMessage.value = '';
 
         deleteUserModalVisible.value = false;
-    }
-
-    const clearRegisterForm = () => {
-        registerForm.value.name = '';
-        registerForm.value.email = '';
-        registerForm.value.password = '';
-
-        userErrors.value.nameError = false;
-        userErrors.value.emailError = false;
-        userErrors.value.passwordError = false;
-    }
-
-    const clearLoginForm = () => {
-        loginForm.value.email = '';
-        loginForm.value.password = '';
-
-        userErrors.value.emailError = false;
-        userErrors.value.passwordError = false;
     }
 
     return{

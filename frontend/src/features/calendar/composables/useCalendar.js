@@ -99,7 +99,7 @@ export const useCalendar = () => {
     }
 
     const hasStatus = (day, status) => {
-        return userRecords.value?.some(record => {
+        return records.value?.some(record => {
             const date = new Date(record.date);
 
             return(

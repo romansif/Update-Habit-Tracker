@@ -8,7 +8,9 @@ export const useGetHabits = () => {
     const route = useRoute();
 
     const filteredHabits = (data) => {
-        if(route.name === 'completed-habits'){
+        if(route.name === 'habits'){
+            return data.filter(habit => habit.status !== 'Выполнено')
+        }else if(route.name === 'completed-habits'){
             return data.filter(habit => habit.status === 'Выполнено')
         }else if(route.name === 'in-progress-habits'){
             return data.filter(habit => habit.status === 'В процессе')
@@ -26,9 +28,7 @@ export const useGetHabits = () => {
             method: 'GET',
         });
 
-        const data = res.filter(habit => habit.status !== 'Выполнено')
-
-        habits.value = filteredHabits(data.sort((a, b) => new Date(b.date) - new Date(a.date)));
+        habits.value = filteredHabits(res.sort((a, b) => new Date(b.date) - new Date(a.date)));
     }
 
     return{

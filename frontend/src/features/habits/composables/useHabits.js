@@ -1,43 +1,17 @@
 import { ref, computed } from 'vue';
 
 import { handler } from '../../../shared/api/http.js';
-import { useRecords } from "../../calendar/composables/useRecords.js";
 import { useUserStore } from "../../../shared/composables/store/useUserStore.js";
+
 import { useGetHabits } from "./getHabits.js";
 import { useGetRecords } from "../../calendar/composables/getRecords.js";
+import { useRecords } from "../../calendar/composables/useRecords.js";
+
+import { useForms } from "../../../shared/composables/useForms.js";
+import { useValidation } from "../../../shared/composables/useValidation.js";
+import { useClearForms } from "../../../shared/composables/clearForms.js";
 
 const habitId = ref(null);
-
-const habitForm = ref({
-    habit: '',
-    time: '',
-    category: '',
-    status: 'Не выполнено',
-    frequency: '',
-    term: '',
-});
-
-const habitErrors = ref({
-    habitError: false,
-    timeError: false,
-    categoryError: false,
-    frequencyError: false,
-    termError: false,
-
-    habitMessage: '',
-    timeMessage: '',
-    categoryMessage: '',
-    frequencyMessage: '',
-    termMessage: '',
-})
-
-const termToDays = {
-    '1 месяц': 30,
-    '3 месяца': 90,
-    '6 месяцев': 180,
-    '1 год': 365,
-    '3 года': 1095
-};
 
 const deleteHabitMessage = ref('')
 
@@ -45,10 +19,16 @@ const createHabitModalVisible = ref(false);
 const deleteHabitModalVisible = ref(false);
 
 export const useHabits = () => {
+    const { habits } = useUserStore();
+
     const { getHabits } = useGetHabits();
     const { getRecords } = useGetRecords();
+
+    const { validateHabitForm } = useValidation()
+    const { habitForm, habitErrors } = useForms()
+    const { clearHabitForm } = useClearForms();
+
     const { habitsCurrent, createRecords, updateStatusCurrent, updateDayRecordStatus } = useRecords();
-    const { habits } = useUserStore();
 
     const openCreateModal = () => {
         createHabitModalVisible.value = true;
@@ -58,25 +38,10 @@ export const useHabits = () => {
     const createHabit = async (status) => {
         const userId = localStorage.getItem('userId');
 
-        habitErrors.value.habitError = !habitForm.value.habit
-        habitErrors.value.timeError = !habitForm.value.time
-        habitErrors.value.categoryError = !habitForm.value.category
-        habitErrors.value.frequencyError = !habitForm.value.frequency
-        habitErrors.value.termError = !habitForm.value.term
+        const isValid = validateHabitForm()
 
-        habitErrors.value.habitMessage = habitErrors.value.habitError ? 'Поле привычки должно быть заполненно' : ''
-        habitErrors.value.timeMessage = habitErrors.value.timeError ? 'Поле времени на привычку должно быть заполненно' : ''
-        habitErrors.value.categoryMessage = habitErrors.value.categoryError ? 'Поле категории привычки должно быть заполненно' : ''
-        habitErrors.value.frequencyMessage = habitErrors.value.frequencyError ? 'Поле частоты выполнения привычки должно быть заполненно' : ''
-        habitErrors.value.termMessage = habitErrors.value.termError ? 'Поле срока выполения привычки должно быть заполненно' : ''
-
+        if(!isValid) return
         try{
-            if(!habitForm.value.category || !habitForm.value.time ||
-                !habitForm.value.habit || !habitForm.value.frequency || !habitForm.value.term
-            ){
-                console.log('Заполните таблицу');
-                return;
-            }
 
             const now = new Date();
 
@@ -105,7 +70,6 @@ export const useHabits = () => {
                 }
                 return date.toLocaleDateString()
             })
-
 
             const newHabit = await handler('/habits', {
                 method: 'POST',
@@ -140,6 +104,7 @@ export const useHabits = () => {
 
         clearHabitForm();
     }
+
 
     const openDeleteHabitModal = (id, message) => {
         habitId.value = id;
@@ -180,10 +145,11 @@ export const useHabits = () => {
         deleteHabitModalVisible.value = false;
     }
 
+
     const updateStatus = async (id, newStatus) => {
         try{
             const now = new Date().toLocaleDateString()
-            
+
             await handler(`/habits/${id}`, {
                 method: 'PATCH',
                 body: JSON.stringify({
@@ -207,21 +173,6 @@ export const useHabits = () => {
         }catch(err){
             console.log(err);
         }
-    }
-
-    const clearHabitForm = () => {
-        habitForm.value.habit = '';
-        habitForm.value.time = ''
-        habitForm.value.category = '';
-        habitForm.value.status = '';
-        habitForm.value.frequency = '';
-        habitForm.value.term = '';
-
-        habitErrors.value.habitError = false;
-        habitErrors.value.timeError = false;
-        habitErrors.value.categoryError = false;
-        habitErrors.value.frequencyError = false;
-        habitErrors.value.termError = false;
     }
 
     return{
