@@ -1,10 +1,8 @@
 <script setup>
-import { useGetRecords } from "../../composables/getRecords.js";
 import { useRecords } from "../../composables/useRecords.js";
 
 import reset_record from "../../../../app/assets/icons/reset-record.png"
 
-const { openInfoModal } = useGetRecords();
 const { userDayRecords, openResetRecordsModal } = useRecords();
 
 const statusClass = (status) => ({
@@ -27,7 +25,7 @@ const statusClass = (status) => ({
           )">
         <img :src="reset_record" class="w-5 h-5 opacity-70 hover:opacity-100" />
       </button>
-      <span class="text-lg font-medium" @click="openInfoModal(dayRecord.id)">
+      <span class="text-lg font-medium">
         {{ dayRecord.habit }}
       </span>
     </div>

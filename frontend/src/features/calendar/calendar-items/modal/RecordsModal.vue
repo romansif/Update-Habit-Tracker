@@ -3,7 +3,7 @@ import { useGetRecords } from "../../composables/getRecords.js";
 import { useRecords } from "../../composables/useRecords.js";
 
 import BaseButton from '../../../../shared/ui/BaseButton.vue';
-import DayRecords from "../lists/DayRecords.vue";
+import DayRecords from "../list/DayRecords.vue";
 import options from '../../../../app/assets/icons/options.png'
 
 const { resetDate, closeRecordsModal } = useGetRecords();

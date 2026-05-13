@@ -9,7 +9,6 @@ const selectedDate = ref(null)
 const selectedReset = ref(null)
 const resetDate = ref(null)
 
-const recordId = ref(null)
 
 const recordsModalVisible = ref(false)
 const infoModalVisible = ref(false)
@@ -62,9 +61,9 @@ export const useGetRecords = () => {
         selectedDate.value = date;
         resetDate.value = selectedDate.value.toLocaleDateString();
 
-        recordsModalVisible.value = true;
-
         await getDayRecords()
+
+        recordsModalVisible.value = true;
     }
 
     const getDayRecords = async () => {
@@ -85,40 +84,9 @@ export const useGetRecords = () => {
     const closeRecordsModal = () => {
         userDayRecords.value = [];
         selectedDate.value = null;
+
         recordsModalVisible.value = false;
     }
-
-    const openInfoModal = async (id) => {
-        recordId.value = id
-
-        infoModalVisible.value = true
-
-        await getRecordInfo()
-
-        closeRecordsModal();
-    }
-
-    const getRecordInfo = async () => {
-        const userRecordsId = localStorage.getItem('userRecordsId');
-
-        if(!selectedDate.value) return;
-
-        try{
-            const res = await handler(`/calendar-records?userRecordsId=${userRecordsId}&dateCreatedRecord=${resetDate.value}`, {
-                method: 'GET'
-            });
-            recordInfo.value = res
-        }catch(err){
-            console.log(err);
-        }
-    };
-
-    const closeInfoModal = () => {
-        recordInfo.value = {};
-        selectedDate.value = null;
-        infoModalVisible.value = false;
-    }
-
 
     return{
         getRecordsCurrent,
@@ -127,12 +95,6 @@ export const useGetRecords = () => {
         openRecordsModal,
         getDayRecords,
         closeRecordsModal,
-
-        openInfoModal,
-        getRecordInfo,
-        closeInfoModal,
-
-        recordInfo,
 
         selectedCategory,
         selectedDate,
