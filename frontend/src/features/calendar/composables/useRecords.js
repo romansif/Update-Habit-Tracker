@@ -18,12 +18,12 @@ const resetRecordsModalVisible = ref(false)
 
 export const useRecords = () => {
     const { selectedReset, resetDate, getRecordsCurrent, getRecords, getDayRecords } = useGetRecords();
-    const { userRecordsCurrent, userRecords, userDayRecords } = useUserStore();
+    const { habitsCurrent, dayRecords } = useUserStore();
 
     const createRecords = async (habit, status) => {
         const userRecordsId = localStorage.getItem('userRecordsId');
 
-        const currentAllCounter = userRecordsCurrent.value?.allHabitsCounter || 0;
+        const currentAllCounter = habitsCurrent.value?.allHabitsCounter || 0;
         const newAllHabitsCounter = currentAllCounter + 1;
 
         try{
@@ -62,7 +62,7 @@ export const useRecords = () => {
                     firstStatus: status,
                 })
             });
-            userDayRecords.value = newRecordDay;
+            dayRecords.value = newRecordDay;
 
             localStorage.setItem('userRecordId', newRecordDay.id);
         }catch(err){
@@ -73,8 +73,8 @@ export const useRecords = () => {
     const updateStatusCurrent = async (newStatus) => {
         const userRecordsId = localStorage.getItem('userRecordsId');
 
-        const currentCompleted = userRecordsCurrent.value?.completedHabitsCounter || 0;
-        const currentInProgress = userRecordsCurrent.value?.inProgressHabitsCounter;
+        const currentCompleted = habitsCurrent.value?.completedHabitsCounter || 0;
+        const currentInProgress = habitsCurrent.value?.inProgressHabitsCounter;
 
         try{
             if(newStatus === 'В процессе'){
@@ -162,7 +162,7 @@ export const useRecords = () => {
                 await handler(`/calendar-records/${recordId.value}`, {
                     method: 'DELETE'
                 })
-                userDayRecords.value = userDayRecords.value.filter(record => record.id !== recordId.value);
+                dayRecords.value = dayRecords.value.filter(record => record.id !== recordId.value);
             }else if(selectedReset.value === RESET_TYPES.value.DAY){
                 const dayRecords = await handler(`/calendar-records?dateCreatedRecord=${resetDate.value}`,{
                     method: 'GET'
@@ -220,9 +220,8 @@ export const useRecords = () => {
     }
 
     return{
-        userRecordsCurrent,
-        userRecords,
-        userDayRecords,
+        habitsCurrent,
+        dayRecords,
 
         resetMessage,
         resetRecordsModalVisible,

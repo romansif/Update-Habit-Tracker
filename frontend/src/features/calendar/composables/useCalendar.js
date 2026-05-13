@@ -1,7 +1,7 @@
 import { ref, computed } from 'vue';
-import {useUserStore} from "../../../shared/composables/store/useUserStore.js";
+import { useUserStore } from "../../../shared/composables/store/useUserStore.js";
 
-const { userRecords } = useUserStore()
+const { records } = useUserStore()
 
 const currentDate = ref(new Date());
 

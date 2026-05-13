@@ -14,7 +14,7 @@ const recordsModalVisible = ref(false)
 const infoModalVisible = ref(false)
 
 export const useGetRecords = () => {
-    const { userRecordsCurrent, userRecords, userDayRecords, recordInfo } = useUserStore();
+    const { habitsCurrent, records, dayRecords } = useUserStore();
     const { currentMonth, currentYear } = useCalendar();
 
     const getRecordsCurrent = async () => {
@@ -28,7 +28,7 @@ export const useGetRecords = () => {
             const res = await handler(`/current-records/${userRecordsId}`, {
                 method: 'GET'
             })
-            userRecordsCurrent.value = res;
+            habitsCurrent.value = res;
         }catch(err){
             console.log(err)
         }
@@ -45,7 +45,7 @@ export const useGetRecords = () => {
             const res = await handler(`/calendar-records?userRecordsId=${userRecordsId}`, {
                 method: 'GET'
             })
-            userRecords.value = res
+            records.value = res
         }catch(err){
             console.log(err)
         }
@@ -75,14 +75,14 @@ export const useGetRecords = () => {
             const res = await handler(`/calendar-records?userRecordsId=${userRecordsId}&dateCreatedRecord=${resetDate.value}`, {
                 method: 'GET'
             });
-            userDayRecords.value = res
+            dayRecords.value = res
         }catch(err){
             console.log(err);
         }
     };
 
     const closeRecordsModal = () => {
-        userDayRecords.value = [];
+        dayRecords.value = [];
         selectedDate.value = null;
 
         recordsModalVisible.value = false;

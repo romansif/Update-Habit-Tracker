@@ -47,7 +47,7 @@ const deleteHabitModalVisible = ref(false);
 export const useHabits = () => {
     const { getHabits } = useGetHabits();
     const { getRecords } = useGetRecords();
-    const { userRecordsCurrent, createRecords, updateStatusCurrent, updateDayRecordStatus } = useRecords();
+    const { habitsCurrent, createRecords, updateStatusCurrent, updateDayRecordStatus } = useRecords();
     const { habits } = useUserStore();
 
     const openCreateModal = () => {
@@ -153,13 +153,13 @@ export const useHabits = () => {
     const deleteHabit = async () => {
         const userRecordsId = localStorage.getItem('userRecordsId');
 
-        const currentInProgressCounter = userRecordsCurrent.value?.inProgressHabitsCounter || 0;
+        const currentInProgressCounter = habitsCurrent.value?.inProgressHabitsCounter || 0;
 
         try{
             await handler(`/habits/${habitId.value}`, {
                 method: 'DELETE',
             });
-            if(userRecordsCurrent.value?.inProgressHabitsCounter > 0){
+            if(habitsCurrent.value?.inProgressHabitsCounter > 0){
                 await handler(`/records-user/${userRecordsId}`, {
                     method: 'PATCH',
                     body: JSON.stringify({

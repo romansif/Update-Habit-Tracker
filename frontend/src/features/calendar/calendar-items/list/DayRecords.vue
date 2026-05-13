@@ -3,7 +3,7 @@ import { useRecords } from "../../composables/useRecords.js";
 
 import reset_record from "../../../../app/assets/icons/reset-record.png"
 
-const { userDayRecords, openResetRecordsModal } = useRecords();
+const { dayRecords, openResetRecordsModal } = useRecords();
 
 const statusClass = (status) => ({
   'text-green-500': status === 'Выполнено',
@@ -13,7 +13,7 @@ const statusClass = (status) => ({
 </script>
 
 <template>
-  <li v-for="dayRecord in userDayRecords" :key="dayRecord.id"
+  <li v-for="dayRecord in dayRecords" :key="dayRecord.id"
       class="mb-2 pb-4 border-b border-gray-400 flex flex-col gap-2">
     <span class="text-gray-500">
       Привычка создана в {{ dayRecord.timeCreatedRecord }}

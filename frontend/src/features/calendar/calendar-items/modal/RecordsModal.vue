@@ -7,7 +7,7 @@ import DayRecords from "../list/DayRecords.vue";
 import options from '../../../../app/assets/icons/options.png'
 
 const { resetDate, closeRecordsModal } = useGetRecords();
-const { userDayRecords, openResetRecordsModal } = useRecords();
+const { dayRecords, openResetRecordsModal } = useRecords();
 </script>
 <template>
   <div class="fixed inset-0 z-50 bg-[rgba(0,0,0,0.5)]
@@ -22,7 +22,7 @@ const { userDayRecords, openResetRecordsModal } = useRecords();
         <img :src="options" alt="" class="w-[30px] h-[30px]">
       </button>
     </div>
-    <ul v-if="userDayRecords?.length > 0" class="flex flex-col max-h-[505px] overflow-y-auto no-scrollbar">
+    <ul v-if="dayRecords?.length > 0" class="flex flex-col max-h-[505px] overflow-y-auto no-scrollbar">
       <DayRecords />
     </ul>
     <span v-else class="italic text-gray-500">Пустой день</span>

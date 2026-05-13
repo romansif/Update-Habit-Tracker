@@ -8,23 +8,7 @@
       "id": "-M-x8FR3usg"
     }
   ],
-  "habits": [
-    {
-      "userId": "-M-x8FR3usg",
-      "category": "qwe",
-      "time": "123мин",
-      "habit": "qwe",
-      "status": "Выполнено",
-      "frequency": "Ежедневно",
-      "term": "6 месяцев",
-      "date": "2026-05-12T11:27:02.997Z",
-      "dateCreatedHabit": "12.05.2026",
-      "timeCreatedHabit": "16:27",
-      "endDateHabit": "12.11.2026",
-      "id": "KO6wYsIyvWI",
-      "lastDate": "12.05.2026"
-    }
-  ],
+  "habits": [],
   "current-records": [
     {
       "allHabitsCounter": 1,
