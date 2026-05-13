@@ -9,7 +9,8 @@ const route = useRoute()
 
 const isProfilePage = computed(() => route.name !== 'profile')
 const isAllHabitsPage = computed(() => route.name !== 'habits')
-const isCompletedHabitsPage = computed(() => route.name !== 'completed-habits')
+const isDayCompletedHabitsPage = computed(() => route.name !== 'day-completed-habits')
+const isAllCompletedHabitsPage = computed(() => route.name !== 'all-completed-habits')
 const isInProgressHabitsPage = computed(() => route.name !== 'in-progress-habits')
 const isIncompletedHabitsPage = computed(() => route.name !== 'incompleted-habits')
 const isCalendarPage = computed(() => route.name !== 'calendar')
@@ -26,7 +27,7 @@ const isCalendarPage = computed(() => route.name !== 'calendar')
     </MenuButton>
 
     <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform scale-100" leave-to-class="transform opacity-0 scale-95">
-      <MenuItems class="absolute z-10 mt-2 w-46 origin-top-right divide-y divide-white/40 rounded-md bg-indigo-400 outline-1 -outline-offset-1 outline-white/10">
+      <MenuItems class="absolute z-10 mt-2 w-51 origin-top-right divide-y divide-white/40 rounded-md bg-indigo-400 outline-1 -outline-offset-1 outline-white/10">
         <div class="py-1">
           <MenuItem v-slot="{ active }">
             <router-link :to="{ name: 'profile' }">
@@ -61,8 +62,8 @@ const isCalendarPage = computed(() => route.name !== 'calendar')
             </router-link>
           </MenuItem>
           <MenuItem v-slot="{ active }">
-            <router-link :to="{ name: 'completed-habits' }">
-                <span v-if="isCompletedHabitsPage" :class="[
+            <router-link :to="{ name: 'all-completed-habits' }">
+                <span v-if="isAllCompletedHabitsPage" :class="[
                         active ? 'bg-white/25 text-white outline-hidden' :
                         'text-white', 'block px-4 py-2 text-sm'
                     ]">
@@ -71,8 +72,8 @@ const isCalendarPage = computed(() => route.name !== 'calendar')
             </router-link>
           </MenuItem>
           <MenuItem v-slot="{ active }">
-            <router-link :to="{ name: 'completed-habits' }">
-                <span v-if="isCompletedHabitsPage" :class="[
+            <router-link :to="{ name: 'day-completed-habits' }">
+                <span v-if="isDayCompletedHabitsPage" :class="[
                         active ? 'bg-white/25 text-white outline-hidden' :
                         'text-white', 'block px-4 py-2 text-sm'
                     ]">
@@ -80,6 +81,7 @@ const isCalendarPage = computed(() => route.name !== 'calendar')
                 </span>
             </router-link>
           </MenuItem>
+        </div>
           <MenuItem v-slot="{ active }">
             <router-link :to="{ name: 'in-progress-habits' }">
                 <span v-if="isInProgressHabitsPage" :class="[
@@ -100,7 +102,6 @@ const isCalendarPage = computed(() => route.name !== 'calendar')
                 </span>
             </router-link>
           </MenuItem>
-        </div>
       </MenuItems>
     </transition>
   </Menu>

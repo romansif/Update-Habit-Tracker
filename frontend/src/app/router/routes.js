@@ -46,9 +46,15 @@ const routes = [
                 meta: { requireAuth: true },
             },
             {
-                path: 'completed-habits',
-                name: 'completed-habits',
-                component: () => import('../../pages/habits/CompletedHabitsPage.vue'),
+                path: 'day-completed-habits',
+                name: 'day-completed-habits',
+                component: () => import('../../pages/habits/completed/dayCompletedHabits.vue'),
+                meta: { requireAuth: true },
+            },
+            {
+                path: 'all-completed-habits',
+                name: 'all-completed-habits',
+                component: () => import('../../pages/habits/completed/allCompletedHabits.vue'),
                 meta: { requireAuth: true },
             },
             {

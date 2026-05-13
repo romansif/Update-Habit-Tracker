@@ -68,6 +68,7 @@ export const useHabits = () => {
                 }else if(habitForm.value.term === '3 года'){
                     date.setFullYear(date.getFullYear() + 6)
                 }
+
                 return date.toLocaleDateString()
             })
 
@@ -87,9 +88,9 @@ export const useHabits = () => {
                     endDateHabit: endDate.value,
                 })
             })
-            await createRecords(newHabit.habit, newHabit.status);
-
             habits.value.push(newHabit);
+
+            await createRecords(newHabit.habit, newHabit.status);
 
             await getRecords();
 
