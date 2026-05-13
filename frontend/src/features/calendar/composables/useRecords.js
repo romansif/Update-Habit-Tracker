@@ -150,7 +150,6 @@ export const useRecords = () => {
             resetDate.value = month
         }
 
-        console.log(resetDate.value)
         resetRecordsModalVisible.value = true;
     }
 

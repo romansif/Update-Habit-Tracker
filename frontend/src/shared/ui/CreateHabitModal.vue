@@ -40,6 +40,13 @@ watch(() => [
       <div class="flex gap-10">
         <div class="w-1/2 flex flex-col gap-4">
           <div class="flex flex-col gap-2 min-h-[90px]">
+            <input type="text" v-model="habitForm.category" placeholder="Категория (например, здоровье, учеба)"
+                   class="bg-gray-300 outline-none rounded-[4px] p-4 w-full"/>
+            <span v-if="habitErrors.categoryError" class="text-sm text-red-500">
+              {{ habitErrors.categoryMessage }}
+            </span>
+          </div>
+          <div class="flex flex-col gap-2 min-h-[90px]">
             <input type="text" v-model="habitForm.habit" placeholder="Название привычки"
                    class="bg-gray-300 outline-none rounded-[4px] p-4 w-full"/>
             <span v-if="habitErrors.habitError" class="text-sm text-red-500">
@@ -53,6 +60,8 @@ watch(() => [
               {{ habitErrors.timeMessage }}
             </span>
           </div>
+        </div>
+        <div class="w-1/2 flex flex-col gap-4">
           <div class="flex flex-col gap-2 min-h-[90px]">
             <select v-model="habitForm.frequency" class="bg-gray-300 outline-none rounded-[4px] px-3 py-4 text-gray-500 w-full">
               <option disabled value="">
@@ -64,15 +73,6 @@ watch(() => [
             </select>
             <span v-if="habitErrors.frequencyError" class="text-sm text-red-500">
               {{ habitErrors.frequencyMessage }}
-            </span>
-          </div>
-        </div>
-        <div class="w-1/2 flex flex-col gap-4">
-          <div class="flex flex-col gap-2 min-h-[90px]">
-            <input type="text" v-model="habitForm.category" placeholder="Категория (например, здоровье, учеба)"
-                   class="bg-gray-300 outline-none rounded-[4px] p-4 w-full"/>
-            <span v-if="habitErrors.categoryError" class="text-sm text-red-500">
-              {{ habitErrors.categoryMessage }}
             </span>
           </div>
           <div class="flex flex-col gap-2 min-h-[90px]">

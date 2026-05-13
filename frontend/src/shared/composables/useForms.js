@@ -20,6 +20,10 @@ const habitForm = ref({
     term: '',
 });
 
+const updateForm = ref({
+    name: ''
+})
+
 
 const userErrors = ref({
     nameError: false,
@@ -52,8 +56,10 @@ export const useForms = () => {
     return{
         registerForm,
         loginForm,
-        userErrors,
         habitForm,
+        updateForm,
+
+        userErrors,
         habitErrors,
     }
 }

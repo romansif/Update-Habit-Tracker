@@ -76,7 +76,7 @@ const canAddInProgressHabits = computed(() => props.status !== 'В процес�
         </div>
         <div class="py-1">
           <MenuItem v-slot="{ active }">
-            <button @click="openDeleteHabitModal(id, 'Удалить привычку?')" class="w-full text-start">
+            <button @click="openDeleteHabitModal(id, 'Хотите навсегда удалить привычку?')" class="w-full text-start">
                 <span :class="[
                         active ? 'bg-white/25 text-white outline-hidden' :
                         'text-white', 'block px-4 py-2 text-sm'

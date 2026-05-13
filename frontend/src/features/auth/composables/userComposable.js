@@ -12,11 +12,6 @@ import bcrypt from 'bcryptjs';
 const users = ref([]);
 const user = ref(null);
 
-
-const updateForm = ref({
-        name: ''
-})
-
 const recordsCounters = ref({
         allHabitsCounter: 0,
         completedHabitsCounter: 0,
@@ -31,8 +26,8 @@ const deleteUserModalVisible = ref(false);
 const logoutUserModalVisible = ref(false);
 
 export const useUser = () => {
-    const { validateRegisterForm, validateLoginForm } = useValidation();
-    const { registerForm, loginForm, userErrors } = useForms();
+    const { validateRegisterForm, validateLoginForm, validateUpdateForm } = useValidation();
+    const { registerForm, loginForm, updateForm, userErrors } = useForms();
     const { clearRegisterForm, clearLoginForm } = useClearForms();
 
     const router = useRouter();
@@ -131,13 +126,9 @@ export const useUser = () => {
     const updateUser = async () => {
         const userId = localStorage.getItem('userId');
 
-        userErrors.value.newNameError = !updateForm.value.name
+        const isValid = validateUpdateForm()
 
-        userErrors.value.newNameMessage = userErrors.value.newNameError ? 'Поле для нового имени пользователя обязательно должно быть заполненно' : ''
-
-        if(!updateForm.value.name){
-            return;
-        }
+        if(!isValid) return
 
         try{
             const updatedUser = await handler(`/users/${userId}`, {

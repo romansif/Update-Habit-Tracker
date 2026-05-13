@@ -1,6 +1,6 @@
 import { useForms } from "./useForms.js";
 
-const { userErrors, registerForm, loginForm, habitErrors, habitForm } = useForms()
+const { userErrors, registerForm, loginForm, updateForm, habitErrors, habitForm } = useForms()
 
 export const useValidation = () => {
     const isValidEmail = (email) => {
@@ -20,8 +20,6 @@ export const useValidation = () => {
             userErrors.value.emailMessage = 'Поле почты обязательно должно быть заполнено'
         }else if(!isValidEmail(registerForm.value.email)){
             userErrors.value.emailMessage = 'Введённая почта не существует или введена неверно'
-        }else{
-            userErrors.value.emailMessage = ''
         }
 
         if(!registerForm.value.password){
@@ -48,7 +46,7 @@ export const useValidation = () => {
 
         if(!loginForm.value.password){
             userErrors.value.passwordMessage = 'Поле пароля обязательно должно быть заполнено'
-        }else if(! loginForm.value.password.length < 8){
+        }else if(!loginForm.value.password.length < 8){
             userErrors.value.passwordMessage = 'Пароль должен состоять из 8 или более символов'
         }
         return !(!loginForm.value.email || !loginForm.value.password ||
@@ -73,9 +71,22 @@ export const useValidation = () => {
             !habitForm.value.frequency || !habitForm.value.term)
     }
 
+    const validateUpdateForm = () => {
+        userErrors.value.newNameError = !updateForm.value.name
+
+        if(!updateForm.value.name){
+            userErrors.value.newNameMessage = 'Поле для нового имени пользователя обязательно должно быть заполненно'
+        }else if(!updateForm.value.name.length < 5){
+            userErrors.value.newNameMessage = 'Поле для нового имени пользователя должно состоять из 5 или более символов'
+        }
+
+        return !(!updateForm.value.name || !updateForm.value.name.length < 5)
+    }
+
     return{
         validateRegisterForm,
         validateLoginForm,
-        validateHabitForm
+        validateHabitForm,
+        validateUpdateForm
     }
 }

@@ -1,7 +1,7 @@
 {
   "users": [
     {
-      "name": "akmal",
+      "name": "",
       "email": "akmalmavlonov25@gmail.com",
       "password": "$2b$10$2aftvwp4UmziHx2mCsgkpe0ic5abxatt6QkMtAYUPApYOucNQtFjC",
       "dateCreatedAccount": "12.05.2026",
@@ -11,26 +11,74 @@
   "habits": [
     {
       "userId": "-M-x8FR3usg",
-      "category": "qwe",
-      "time": "123мин",
-      "habit": "qwe",
+      "category": "Учеба",
+      "time": "10мин",
+      "habit": "Чтение",
+      "status": "Выполнено",
+      "frequency": "1 раз в неделю",
+      "term": "1 месяц",
+      "date": "2026-05-13T11:49:35.227Z",
+      "dateCreatedHabit": "13.05.2026",
+      "timeCreatedHabit": "16:49",
+      "endDateHabit": "13.06.2026",
+      "id": "a--wlRttdoQ",
+      "lastDate": "13.05.2026",
+      "lastTime": "16:51"
+    },
+    {
+      "userId": "-M-x8FR3usg",
+      "category": "Спорт",
+      "time": "60мин",
+      "habit": "Бег",
       "status": "Выполнено",
       "frequency": "Ежедневно",
-      "term": "3 месяца",
-      "date": "2026-05-13T11:31:31.591Z",
+      "term": "6 месяцев",
+      "date": "2026-05-13T11:49:52.587Z",
       "dateCreatedHabit": "13.05.2026",
-      "timeCreatedHabit": "16:31",
-      "endDateHabit": "13.08.2026",
-      "id": "q5jTnUA5HxU",
+      "timeCreatedHabit": "16:49",
+      "endDateHabit": "13.11.2026",
+      "id": "sr3od8a84zM",
       "lastDate": "13.05.2026",
-      "lastTime": "16:31"
+      "lastTime": "16:51"
+    },
+    {
+      "userId": "-M-x8FR3usg",
+      "category": "Здоровье",
+      "time": "30мин",
+      "habit": "Закаляться",
+      "status": "Выполнено",
+      "frequency": "Ежедневно",
+      "term": "3 года",
+      "date": "2026-05-13T11:52:49.850Z",
+      "dateCreatedHabit": "13.05.2026",
+      "timeCreatedHabit": "16:52",
+      "endDateHabit": "13.05.2029",
+      "id": "FRQZ4-V1wOE",
+      "lastDate": "13.05.2026",
+      "lastTime": "16:53"
+    },
+    {
+      "userId": "-M-x8FR3usg",
+      "category": "Спорт",
+      "time": "20мин",
+      "habit": "Подтягивания",
+      "status": "В процессе",
+      "frequency": "Ежедневно",
+      "term": "1 месяц",
+      "date": "2026-05-13T11:57:08.425Z",
+      "dateCreatedHabit": "13.05.2026",
+      "timeCreatedHabit": "16:57",
+      "endDateHabit": "13.06.2026",
+      "id": "MuUR_DKQjFA",
+      "lastDate": "13.05.2026",
+      "lastTime": "16:57"
     }
   ],
   "current-records": [
     {
-      "allHabitsCounter": 8,
-      "completedHabitsCounter": 6,
-      "inProgressHabitsCounter": 0,
+      "allHabitsCounter": 12,
+      "completedHabitsCounter": 3,
+      "inProgressHabitsCounter": 1,
       "incompletedHabitsCounter": 0,
       "id": "VjplMwNbqg0"
     }
@@ -38,27 +86,61 @@
   "calendar-records": [
     {
       "userRecordsId": "VjplMwNbqg0",
-      "date": "2026-05-13T11:30:51.410Z",
+      "date": "2026-05-13T11:49:35.248Z",
       "dateCreatedRecord": "13.05.2026",
       "monthCreatedRecord": "05.2026",
-      "timeCreatedRecord": "16:30",
-      "habit": "qwe",
+      "timeCreatedRecord": "16:49",
+      "habit": "Чтение",
       "firstStatus": "Не выполнено",
-      "id": "cEkW33VFiFA"
+      "id": "mZg1GvOzP88"
     },
     {
       "userRecordsId": "VjplMwNbqg0",
-      "date": "2026-05-13T11:31:31.608Z",
+      "date": "2026-05-13T11:49:52.607Z",
       "dateCreatedRecord": "13.05.2026",
       "monthCreatedRecord": "05.2026",
-      "timeCreatedRecord": "16:31",
-      "habit": "qwe",
+      "timeCreatedRecord": "16:49",
+      "habit": "Бег",
       "firstStatus": "Не выполнено",
-      "id": "FugCzu30TQU",
-      "secondStatus": "В процессе",
-      "timeUpdatedStatus": "16:31",
+      "id": "l741U5tfiSA",
       "thirdStatus": "Выполнено",
-      "newTimeUpdatedStatus": "16:31"
+      "newTimeUpdatedStatus": "16:51"
+    },
+    {
+      "userRecordsId": "VjplMwNbqg0",
+      "date": "2026-05-13T11:52:49.879Z",
+      "dateCreatedRecord": "13.05.2026",
+      "monthCreatedRecord": "05.2026",
+      "timeCreatedRecord": "16:52",
+      "habit": "Закаляться",
+      "firstStatus": "Не выполнено",
+      "id": "fxXJm3O8vWA",
+      "secondStatus": "В процессе",
+      "timeUpdatedStatus": "16:52",
+      "thirdStatus": "Выполнено",
+      "newTimeUpdatedStatus": "16:53"
+    },
+    {
+      "userRecordsId": "VjplMwNbqg0",
+      "date": "2026-05-13T11:57:08.448Z",
+      "dateCreatedRecord": "13.05.2026",
+      "monthCreatedRecord": "05.2026",
+      "timeCreatedRecord": "16:57",
+      "habit": "Подтягивания",
+      "firstStatus": "Не выполнено",
+      "id": "F5dg8Hf3ADE",
+      "secondStatus": "В процессе",
+      "timeUpdatedStatus": "16:57"
+    },
+    {
+      "userRecordsId": "VjplMwNbqg0",
+      "date": "2026-05-13T12:04:27.479Z",
+      "dateCreatedRecord": "13.05.2026",
+      "monthCreatedRecord": "05.2026",
+      "timeCreatedRecord": "17:04",
+      "habit": "213",
+      "firstStatus": "Не выполнено",
+      "id": "G9f6J2dV7HM"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

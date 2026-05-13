@@ -10,7 +10,7 @@ const { logoutUserMessage, closeLogoutUserModal, logoutUser,  } = useUser()
   <section class="fixed inset-0 z-50 bg-[rgba(0,0,0,0.5)]
                                 flex items-center justify-center">
     <div class="bg-white rounded-2xl w-[400px] h-[200px] shadow-xl">
-      <div class="flex flex-col justify-center items-center gap-y-8 pt-12">
+      <div class="flex flex-col justify-center items-center py-8 px-2 gap-6">
         <h2 class="text-2xl text-center">{{ logoutUserMessage }}</h2>
         <div class="flex justify-center gap-6">
           <BaseButton button-type="Нет" variant="cancelExitModal" @click="closeLogoutUserModal" />

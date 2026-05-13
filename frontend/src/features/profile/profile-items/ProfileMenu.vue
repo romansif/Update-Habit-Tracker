@@ -35,7 +35,7 @@ const { openCreateModal } = useHabits()
         </div>
         <div class="py-1">
           <MenuItem v-slot="{ active }">
-            <button @click="openLogoutUserModal('Выйти из этого аккаунта?')" class="w-full text-start">
+            <button @click="openLogoutUserModal('Вы точно хотите выйти из этого аккаунта?')" class="w-full text-start">
                   <span :class="[
                           active ? 'bg-white/25 text-white outline-hidden' :
                           'text-white', 'block px-4 py-2 text-sm'
@@ -45,7 +45,7 @@ const { openCreateModal } = useHabits()
             </button>
           </MenuItem>
           <MenuItem v-slot="{ active }" class="w-full text-start">
-            <button @click="openDeleteUserModal('Удалить этот аккаунт?')">
+            <button @click="openDeleteUserModal('Вы хотите удалить этот аккаунт навсегда?')">
                 <span :class="[
                         active ? 'bg-white/25 text-white outline-hidden' :
                         'text-white', 'block px-4 py-2 text-sm'

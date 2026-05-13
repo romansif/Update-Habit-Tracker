@@ -71,7 +71,6 @@ export const useGetHabits = () => {
         });
 
         habit.value = res
-        console.log(habit.value)
     }
 
     return{
