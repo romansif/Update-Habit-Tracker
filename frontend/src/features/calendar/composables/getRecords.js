@@ -3,12 +3,14 @@ import { handler } from "../../../shared/api/http.js";
 import { useCalendar } from "./useCalendar.js";
 import { useUserStore } from "../../../shared/composables/store/useUserStore.js";
 
+
+const userRecordsId = localStorage.getItem('userRecordsId');
+
 const selectedCategory = ref(null)
 const selectedDate = ref(null)
 
 const selectedReset = ref(null)
 const resetDate = ref(null)
-
 
 const recordsModalVisible = ref(false)
 const infoModalVisible = ref(false)
@@ -18,12 +20,10 @@ export const useGetRecords = () => {
     const { currentMonth, currentYear } = useCalendar();
 
     const getRecordsCurrent = async () => {
-        const userRecordsId = localStorage.getItem('userRecordsId');
         if(!userRecordsId){
             console.log('Id записей не найдены');
             return;
         }
-
         try{
             const res = await handler(`/current-records/${userRecordsId}`, {
                 method: 'GET'
@@ -35,12 +35,10 @@ export const useGetRecords = () => {
     }
 
     const getRecords = async() => {
-        const userRecordsId = localStorage.getItem('userRecordsId');
         if(!userRecordsId){
             console.log('Id записей не найдены');
             return;
         }
-
         try{
             const res = await handler(`/calendar-records?userRecordsId=${userRecordsId}`, {
                 method: 'GET'
@@ -68,10 +66,7 @@ export const useGetRecords = () => {
     }
 
     const getDayRecords = async () => {
-        const userRecordsId = localStorage.getItem('userRecordsId');
-
         if(!selectedDate.value) return;
-
         try{
             const res = await handler(`/calendar-records?userRecordsId=${userRecordsId}&dateCreatedRecord=${resetDate.value}`, {
                 method: 'GET'

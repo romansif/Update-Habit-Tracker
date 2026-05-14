@@ -3,6 +3,10 @@ import { handler } from '../../../shared/api/http.js';
 import { useUserStore } from "../../../shared/composables/store/useUserStore.js";
 import { useGetRecords } from "./getRecords.js"
 
+
+const userRecordsId = localStorage.getItem('userRecordsId');
+const userRecordId = localStorage.getItem('userRecordId');
+
 const RESET_TYPES = ref({
     ONE:'ONE',
     DAY:'DAY',
@@ -17,12 +21,10 @@ const resetMessage = ref('')
 const resetRecordsModalVisible = ref(false)
 
 export const useRecords = () => {
-    const { selectedReset, resetDate, getRecordsCurrent, getRecords, getDayRecords } = useGetRecords();
+    const { selectedReset, resetDate, getRecords, getDayRecords } = useGetRecords();
     const { habitsCurrent, dayRecords } = useUserStore();
 
     const createRecord = async (habit, status) => {
-        const userRecordsId = localStorage.getItem('userRecordsId');
-
         const currentAllCounter = habitsCurrent.value?.allHabitsCounter || 0;
         const newAllHabitsCounter = currentAllCounter + 1;
 
@@ -71,44 +73,32 @@ export const useRecords = () => {
     }
 
     const updateHabitsCurrent = async (newStatus) => {
-        const userRecordsId = localStorage.getItem('userRecordsId');
-
-        const currentCompleted = habitsCurrent.value?.completedHabitsCounter || 0;
-        const currentInProgress = habitsCurrent.value?.inProgressHabitsCounter;
+        const currentDayCompleted = habitsCurrent.value?.dayCompletedHabits || 0;
+        const currentAllCompleted = habitsCurrent.value?.allCompletedHabits || 0;
 
         try{
-            if(newStatus === 'В процессе'){
-                await handler(`/current-records/${userRecordsId}`, {
+            if(newStatus === 'Выполнено'){
+                const res = await handler(`/current-records/${userRecordsId}`, {
                     method: 'PATCH',
                     body: JSON.stringify({
-                        inProgressHabitsCounter: currentInProgress + 1
+                        dayCompletedHabits: currentDayCompleted + 1,
+                        allCompletedHabits: currentAllCompleted + 1
                     })
                 })
-            }else if(newStatus === 'Выполнено'){
-                await handler(`/current-records/${userRecordsId}`, {
-                    method: 'PATCH',
-                    body: JSON.stringify({
-                        completedHabitsCounter: currentCompleted + 1,
-                        inProgressHabitsCounter: Math.max(0 ,currentInProgress - 1)
-                    })
-                })
-            }else{
-                await handler(`/current-records/${userRecordsId}`, {
-                    method: 'PATCH',
-                    body: JSON.stringify({
-                        completedHabitsCounter: currentCompleted + 1
-                    })
-                })
+
+                habitsCurrent.value = res
             }
-            await getRecordsCurrent();
         }catch(err){
             console.error(err);
         }
     };
 
-    const updateRecordStatus = async (habit, newStatus) => {
-        const userRecordId = localStorage.getItem('userRecordId');
+    const resetHabitsCurrent = async () => {
 
+
+    }
+
+    const updateRecordStatus = async (habit, newStatus) => {
         const now = new Date();
 
         const time = now.toLocaleTimeString("ru-RU", {
@@ -154,8 +144,6 @@ export const useRecords = () => {
     }
 
     const resetRecords = async () => {
-        const userRecordsId = localStorage.getItem('userRecordsId');
-
         try{
             if(selectedReset.value === RESET_TYPES.value.ONE){
                 await handler(`/calendar-records/${recordId.value}`, {
@@ -228,6 +216,7 @@ export const useRecords = () => {
         createRecord,
 
         updateHabitsCurrent,
+        resetHabitsCurrent,
         updateRecordStatus,
 
         openResetRecordsModal,

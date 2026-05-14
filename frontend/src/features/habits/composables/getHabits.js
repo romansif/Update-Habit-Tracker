@@ -10,6 +10,8 @@ export const useGetHabits = () => {
     const today = new Date();
 
     const formatDate = (date) => {
+        if(!date) return null;
+
         return new Date(date.split('.').reverse().join('-'));
     };
 
@@ -40,7 +42,11 @@ export const useGetHabits = () => {
     }
 
     const isExpired = (endDate) => {
-        return formatDate(endDate) < today
+        const parsed = formatDate(endDate)
+
+        if(!parsed) return false;
+
+        return parsed < today
     }
 
     const filteredHabits = (data) => {
@@ -50,8 +56,13 @@ export const useGetHabits = () => {
                     ...habit,
                     status: 'Не выполнено'
                 };
+            }else if(habit.status !== 'Выполнено' && shouldResetHabit(habit)){
+                return {
+                    ...habit,
+                    series: 0,
+                    status: habit.status,
+                }
             }
-
             return habit
         })
 
@@ -68,7 +79,6 @@ export const useGetHabits = () => {
         }else if(route.name === 'incompleted-habits'){
             return activeHabits.filter(habit => habit.status === 'Не выполнено' )
         }
-
         return activeHabits
     }
 
@@ -78,7 +88,6 @@ export const useGetHabits = () => {
         const res = await handler(`/habits?userId=${userId}`, {
             method: 'GET',
         });
-
         habits.value = filteredHabits(res.sort((a, b) => new Date(b.date) - new Date(a.date)));
     }
 

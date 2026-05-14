@@ -12,19 +12,25 @@ const props = defineProps({
 <template>
   <li class="flex flex-col bg-white w-[340px] h-fit rounded-lg p-4">
     <div class="flex justify-between">
-      <h1 class="text-xl w-36 break-all">{{ habit?.habit }}</h1>
-      <p class="text-lg text-gray-700">
-        {{ habit?.dateCreatedHabit }}, {{ habit?.timeCreatedHabit }}
-      </p>
-    </div>
-    <div class="flex flex-col mt-4 text-gray-500 px-2">
-      <p>
-          {{ habit?.frequency }}
-      </p>
-      <p>{{ habit?.time }}</p>
+      <div class="flex flex-col">
+        <h1 class="text-xl w-38 break-all">{{ habit?.habit }}</h1>
+        <span class="px-2 text-gray-500 mt-2">{{ habit?.frequency }}</span>
+        <span class="px-2 text-gray-500">{{ habit?.time }}</span>
+      </div>
+      <div class="flex flex-col">
+        <span class="text-lg text-gray-700">
+          {{ habit?.dateCreatedHabit }}
+        </span>
+        <span class="text-lg text-gray-700 text-end">
+          {{ habit?.timeCreatedHabit }}
+        </span>
+      </div>
     </div>
     <div class="flex justify-between mt-4">
-      <HabitStatus :status="habit?.status" />
+      <div class="flex gap-2">
+        <span class="mt-2">🔥{{ habit?.series }}</span>
+        <HabitStatus :status="habit?.status" />
+      </div>
       <HabitMenu :id="habit?.id" :status="habit?.status"/>
     </div>
   </li>

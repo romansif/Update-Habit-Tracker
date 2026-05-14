@@ -40,22 +40,17 @@ onMounted(async () => {
       </router-link>
       <ProfileMenu />
     </div>
-    <ProfileStatusCards />
     <section class="flex justify-center py-13">
       <div class="w-[850px]">
-        <div class="flex flex-col gap-6">
-          <span class="text-2xl">Текущее имя пользователя:</span>
-          <span class="text-xl px-2">{{ user?.name }}</span>
-          <div class="flex flex-col gap-3">
+          <ProfileStatusCards />
+        <div class="flex flex-col mt-30">
+            <span class="text-xl">Текущее имя пользователя: {{ user?.name }}</span>
             <input type="text" v-model="updateForm.name" @input="toLower" placeholder="Имя пользователя"
-                   class="bg-white shadow-xl w-full placeholder:text-sm outline-none rounded-[4px] p-5 mt-6">
-            <span v-if="userErrors.newNameError" class="text-sm text-red-500">{{ userErrors?.newNameMessage }}</span>
-          </div>
+                   class="bg-white shadow-xl w-[530px] placeholder:text-sm outline-none rounded-[4px] p-5 mt-6">
+            <span v-if="userErrors.newNameError" class="text-sm text-red-500 mt-6">{{ userErrors?.newNameMessage }}</span>
         </div>
-        <div class="flex justify-end mt-12">
-          <div class="flex flex-col">
+        <div class="flex mt-8">
             <BaseButton button-type="Применить" variant="confirmEditProfile" @click="updateUser" />
-          </div>
         </div>
       </div>
       <CreateHabitModal v-show="createHabitModalVisible" />

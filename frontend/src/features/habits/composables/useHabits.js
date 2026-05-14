@@ -13,6 +13,7 @@ import { useClearForms } from "../../../shared/composables/clearForms.js";
 
 const habitId = ref(null);
 
+
 const deleteHabitMessage = ref('')
 
 const createHabitModalVisible = ref(false);
@@ -20,7 +21,7 @@ const habitInfoModalVisible = ref(false);
 const deleteHabitModalVisible = ref(false);
 
 export const useHabits = () => {
-    const { habits } = useUserStore();
+    const { habits, seriesCount } = useUserStore();
 
     const { getHabits, getHabit } = useGetHabits();
     const { getRecords } = useGetRecords();
@@ -43,7 +44,6 @@ export const useHabits = () => {
 
         if(!isValid) return
         try{
-
             const now = new Date();
 
             const dateCreatedHabit = now.toLocaleDateString()
@@ -78,10 +78,11 @@ export const useHabits = () => {
                 body: JSON.stringify({
                     userId: userId,
                     category: habitForm.value.category,
-                    time: habitForm.value.time + 'мин',
                     habit: habitForm.value.habit,
-                    status: status,
                     frequency: habitForm.value.frequency,
+                    time: habitForm.value.time + 'мин',
+                    series: seriesCount.value,
+                    status: status,
                     term: habitForm.value.term,
                     date: now,
                     dateCreatedHabit: dateCreatedHabit,
@@ -129,27 +130,42 @@ export const useHabits = () => {
                 minute: "2-digit",
             })
 
-            await handler(`/habits/${id}`, {
-                method: 'PATCH',
-                body: JSON.stringify({
-                    status: newStatus,
-                    lastDate: date,
-                    lastTime: time
-                })
-            })
-
             const habit = habits.value.find(habit => habit.id === id);
+
+            seriesCount.value = habit.value?.series || 0
+
+            console.log(seriesCount.value)
+
+            if(newStatus === 'Выполнено'){
+                await handler(`/habits/${id}`, {
+                    method: 'PATCH',
+                    body: JSON.stringify({
+                        series: seriesCount.value + 1,
+                        status: newStatus,
+                        lastDate: date,
+                        lastTime: time
+                    })
+                })
+            }else(
+                await handler(`/habits/${id}`, {
+                    method: 'PATCH',
+                    body: JSON.stringify({
+                        status: newStatus,
+                        lastDate: date,
+                        lastTime: time
+                    })
+                })
+            )
+
             if(habits.value){
                 if(habit){
                     habit.status = newStatus;
-
                     await getHabits()
                 }
 
                 await updateRecordStatus(habit.habit, habit.status, newStatus)
                 await updateHabitsCurrent(newStatus)
             }
-
         }catch(err){
             console.log(err);
         }
@@ -167,7 +183,7 @@ export const useHabits = () => {
     const deleteHabit = async () => {
         const userRecordsId = localStorage.getItem('userRecordsId');
 
-        const currentInProgressCounter = habitsCurrent.value?.inProgressHabitsCounter || 0;
+        const currentDayCompletedCounter = habitsCurrent.value?.dayCompletedHabits || 0;
 
         try{
             await handler(`/habits/${habitId.value}`, {
@@ -177,7 +193,7 @@ export const useHabits = () => {
                 await handler(`/current-records/${userRecordsId}`, {
                     method: 'PATCH',
                     body: JSON.stringify({
-                        inProgressHabitsCounter: currentInProgressCounter - 1
+                        inProgressHabitsCounter: currentDayCompletedCounter - 1
                     })
                 })
             }

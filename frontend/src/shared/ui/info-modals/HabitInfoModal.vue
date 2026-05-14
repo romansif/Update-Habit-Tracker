@@ -41,6 +41,9 @@ const statusClass = (status) => ({
           </span>
         <span v-if="habit?.lastTime" class="text-gray-700">Последнее время обновления — {{ habit?.lastTime }}</span>
       </div>
+      <div class="flex border-b gap-2 mb-4 pb-4">
+        <span>Серия выполнения привычки — {{ habit?.series }} дней подряд</span>
+      </div>
       <div>
         <span class="text-gray-700">Конечная дата выполнения привычки — {{ habit?.endDateHabit }}</span>
       </div>

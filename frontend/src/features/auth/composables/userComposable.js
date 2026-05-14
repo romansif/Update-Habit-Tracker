@@ -8,15 +8,16 @@ import { useValidation } from "../../../shared/composables/useValidation.js";
 import { useClearForms } from "../../../shared/composables/clearForms.js";
 
 import bcrypt from 'bcryptjs';
+import dayRecords from "../../calendar/calendar-items/DayRecords.vue";
 
 const users = ref([]);
 const user = ref(null);
 
 const recordsCounters = ref({
-        allHabitsCounter: 0,
-        completedHabitsCounter: 0,
-        inProgressHabitsCounter: 0,
-        incompletedHabitsCounter: 0,
+        allHabits: 0,
+        dayCompletedHabits: 0,
+        allCompletedHabits: 0,
+        incompletedHabits: 0,
 })
 
 const delUserMessage = ref('')
@@ -57,10 +58,9 @@ export const useUser = () => {
             const newRecords = await handler('/current-records', {
                 method: 'POST',
                 body: JSON.stringify({
-                    allHabitsCounter: recordsCounters.value.allHabitsCounter,
-                    completedHabitsCounter: recordsCounters.value.completedHabitsCounter,
-                    inProgressHabitsCounter: recordsCounters.value.inProgressHabitsCounter,
-                    incompletedHabitsCounter: recordsCounters.value.incompletedHabitsCounter,
+                    allHabitsCounter: recordsCounters.value.allHabits,
+                    dayCompletedHabits: recordsCounters.value.dayCompletedHabits,
+                    allCompletedHabits: recordsCounters.value.allCompletedHabits,
                 })
             })
 
@@ -193,7 +193,7 @@ export const useUser = () => {
                 })
             )
 
-            await handler(`/records-user/${userRecordsId}`, {
+            await handler(`/current-records/${userRecordsId}`, {
                 method: 'DELETE'
             });
             localStorage.removeItem('userRecordsId');

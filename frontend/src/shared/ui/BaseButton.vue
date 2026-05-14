@@ -27,7 +27,7 @@ const variantClasses = {
             shadow-xl shadow-rose-500/40 active:scale-95 transition`,
   confirmDelHabit: `px-11 py-3 text-white rounded-lg bg-gradient-to-br from-indigo-400 to-indigo-600
             shadow-xl shadow-indigo-500/40 active:scale-95 transition`,
-  confirmEditProfile: `px-10 py-5 text-white rounded-lg bg-gradient-to-b from-indigo-400 to-indigo-600
+  confirmEditProfile: `px-12 py-5 text-white rounded-lg bg-gradient-to-b from-indigo-400 to-indigo-600
             shadow-xl shadow-indigo-500/40 active:scale-95 transition`,
   closeHabitsInDay: `mt-5 bg-gradient-to-b from-rose-400 to-rose-600 shadow-xl text-white
             shadow-rose-500/40 active:scale-95 transition py-3 px-6 text-sm rounded-[6px]`,

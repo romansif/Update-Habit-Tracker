@@ -1,4 +1,4 @@
-<script setup>
+<script setup xmlns="http://www.w3.org/1999/html">
 import { onMounted } from "vue";
 import { useGetRecords } from "../../calendar/composables/getRecords.js";
 import { useRecords } from "../../calendar/composables/useRecords.js";
@@ -13,20 +13,20 @@ onMounted(async() => {
 </script>
 
 <template>
-  <section class="flex justify-center gap-32 py-18">
-    <div class="flex flex-col gap-4 py-8 px-10 bg-white rounded-[10px] text-center shadow-xl">
-      <span>Всего привычек</span>
-      <span>{{ habitsCurrent?.allHabitsCounter }}</span>
+  <div class="flex justify-between">
+    <div class="flex flex-col gap-4 py-8 px-11.5 bg-white rounded-[10px] text-center shadow-xl">
+        <span>Всего привычек</span>
+        <span>{{ habitsCurrent?.allHabitsCounter }}</span>
     </div>
-    <div class="flex flex-col gap-4 py-8 px-7 bg-white rounded-[10px] text-center shadow-xl">
-      <span>Текущее в процессе</span>
-      <span>{{ habitsCurrent?.inProgressHabitsCounter }}</span>
+    <div class="flex flex-col gap-4 py-8 px-8.5 bg-white rounded-[10px] text-center shadow-xl">
+        <span>Выполнено за день</span>
+        <span>{{ habitsCurrent?.dayCompletedHabits }}</span>
     </div>
-    <div class="flex flex-col gap-4 py-8 px-8 bg-white rounded-[10px] text-center shadow-xl">
-      <span>Всего выполненно</span>
-      <span>{{ habitsCurrent?.completedHabitsCounter }}</span>
+    <div class="flex flex-col gap-4 py-8 px-9 bg-white rounded-[10px] text-center shadow-xl">
+        <span>Всего выполненно</span>
+        <span>{{ habitsCurrent?.allCompletedHabits }}</span>
     </div>
-  </section>
+  </div>
 </template>
 
 <style scoped>
