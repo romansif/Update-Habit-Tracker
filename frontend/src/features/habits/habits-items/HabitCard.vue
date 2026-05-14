@@ -10,22 +10,20 @@ const props = defineProps({
 </script>
 
 <template>
-  <li class="h-[180px] w-[320px] bg-white p-4 rounded-xl shadow-xl flex flex-col gap-y-4">
-    <div class="flex justify-between items-center text-lg">
-      <h1 class="font-semibold">{{ habit?.habit }}</h1>
-      <p class="text-gray-500">
+  <li class="flex flex-col bg-white w-[340px] h-fit rounded-lg p-4">
+    <div class="flex justify-between">
+      <h1 class="text-xl w-36 break-all">{{ habit?.habit }}</h1>
+      <p class="text-lg text-gray-700">
         {{ habit?.dateCreatedHabit }}, {{ habit?.timeCreatedHabit }}
       </p>
     </div>
-    <div class="flex justify-between items-center">
-      <div class="flex flex-col gap-1">
-        <p class="text-gray-500 text-md px-2">
+    <div class="flex flex-col mt-4 text-gray-500 px-2">
+      <p>
           {{ habit?.frequency }}
-        </p>
-        <p class="text-gray-500 text-md px-2">{{ habit?.time }}</p>
-      </div>
+      </p>
+      <p>{{ habit?.time }}</p>
     </div>
-    <div class="flex justify-between items-center">
+    <div class="flex justify-between mt-4">
       <HabitStatus :status="habit?.status" />
       <HabitMenu :id="habit?.id" :status="habit?.status"/>
     </div>

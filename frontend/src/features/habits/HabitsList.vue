@@ -21,8 +21,8 @@ onMounted(async () => {
     <div class="flex justify-center items-center">
       <span v-if="habits && habits.length === 0" class="text-2xl text-gray-200 italic pt-15">Нет привычек для отображения</span>
     </div>
-    <div class="flex justify-center px-15">
-      <ul class="grid grid-cols-4 gap-15 overflow-y-auto h-[580px] no-scrollbar pt-15">
+    <div v-if="habits && habits.length > 0" class="flex justify-center py-25">
+      <ul class="grid grid-cols-4 gap-10 overflow-y-auto h-[505px] no-scrollbar">
         <HabitCard v-for="habit in habits" :key="habit.id" :habit="habit" />
       </ul>
       <HabitInfoModal v-show="habitInfoModalVisible" />

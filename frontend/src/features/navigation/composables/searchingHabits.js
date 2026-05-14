@@ -16,12 +16,28 @@ export const useSearchingHabits = () => {
 
     const today = new Date();
 
-    const formateDate = (date) => {
+    const formatDate = (date) => {
         return new Date(date.split('.').reverse().join('-'));
     };
 
+    const shouldResetHabit = (habit) => {
+        const lastDate = formatDate(habit.lastDate);
+
+        const nextDate = new Date(lastDate);
+
+        if(habit.frequency === 'Ежедневно'){
+            nextDate.setDate(nextDate.getDate() + 1);
+        }
+        if(habit.frequency === '1 раз в неделю'){
+            nextDate.setDate(nextDate.getDate() + 7);
+        }
+        if(habit.frequency === '3 раз в неделю'){
+            nextDate.setDate(nextDate.getDate() + 2);
+        }
+    }
+
     const isToday = (dateStr) => {
-        const date = formateDate(dateStr);
+        const date = formatDate(dateStr);
 
         return(
             date.getDate() === today.getDate() &&
@@ -31,12 +47,12 @@ export const useSearchingHabits = () => {
     }
 
     const isExpired = (endDate) => {
-        return formateDate(endDate) < today
+        return formatDate(endDate) < today
     }
 
     const filteredHabits = (data) => {
         const rollBack = data.map(habit => {
-            if(habit.status === 'Выполнено' && !isToday(habit.lastDate)) {
+            if(habit.status === 'Выполнено' && shouldResetHabit(habit)){
                 return {
                     ...habit,
                     status: 'Не выполнено'
@@ -59,6 +75,8 @@ export const useSearchingHabits = () => {
         }else if(route.name === 'incompleted-habits'){
             return activeHabits.filter(habit => habit.status === 'Не выполнено' )
         }
+
+        return activeHabits
     }
 
     const getSearchedHabits = async () => {
