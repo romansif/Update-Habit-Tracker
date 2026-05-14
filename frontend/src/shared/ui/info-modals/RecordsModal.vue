@@ -14,7 +14,7 @@ const { dayRecords, openResetRecordsModal } = useRecords();
                       flex items-center justify-center">
     <div class="bg-white rounded-lg p-6 w-[600px]">
       <div class="flex justify-between items-center mb-4">
-        <h3 class="text-xl italic mt-1">Привычки за {{ resetDate }}</h3>
+        <h3 class="text-xl italic mt-1">Прогресс привычек за {{ resetDate }}</h3>
         <button @click="openResetRecordsModal
                         (
                         'Day','историю выполнения привычек за день?','DAY'

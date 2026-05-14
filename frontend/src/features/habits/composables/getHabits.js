@@ -49,6 +49,22 @@ export const useGetHabits = () => {
         return parsed < today
     }
 
+    const isFullyCompleted = (habit) => {
+        const endDate = formatDate(habit.endDateHabit);
+
+        return endDate && today >= endDate
+    }
+
+    const getHabitStatus = (habit) => {
+        if(isFullyCompleted(habit)){
+            return 'Завершено'
+        }else if(habit.status === 'Выполнено'){
+            return 'Выполнено сегодня'
+        }
+
+        return 'В процессе'
+    }
+
     const filteredHabits = (data) => {
         const rollBack = data.map(habit => {
             if(habit.status === 'Выполнено' && shouldResetHabit(habit)){
@@ -73,7 +89,7 @@ export const useGetHabits = () => {
         }else if(route.name === 'day-completed-habits'){
             return activeHabits.filter(habit => habit.status === 'Выполнено' && isToday(habit.dateCreatedHabit))
         }else if(route.name === 'all-completed-habits'){
-            return activeHabits.filter(habit => habit.status === 'Выполнено')
+            return activeHabits.filter(habit => getHabitStatus(habit) === 'Завершено' )
         }else if(route.name === 'in-progress-habits'){
             return activeHabits.filter(habit => habit.status === 'В процессе')
         }else if(route.name === 'incompleted-habits'){
