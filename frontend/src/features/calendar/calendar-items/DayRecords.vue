@@ -25,6 +25,7 @@ const statusClass = (status) => ({
           )">
         <img :src="reset_record" class="w-5 h-5 opacity-70 hover:opacity-100" />
       </button>
+      <span>🔥{{ dayRecord.series }}</span>
       <span class="text-lg font-medium">
         {{ dayRecord.habit }}
       </span>

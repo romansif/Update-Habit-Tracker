@@ -13,7 +13,7 @@ const props = defineProps({
   <li class="flex flex-col bg-white w-[340px] h-fit rounded-lg p-4">
     <div class="flex justify-between">
       <div class="flex flex-col">
-        <h1 class="text-xl w-38 break-all">{{ habit?.habit }}</h1>
+        <h1 class="text-xl w-42 break-all">{{ habit?.habit }}</h1>
         <span class="px-2 text-gray-500 mt-2">{{ habit?.frequency }}</span>
         <span class="px-2 text-gray-500">{{ habit?.time }}</span>
       </div>

@@ -89,7 +89,7 @@ export const useGetHabits = () => {
         }else if(route.name === 'day-completed-habits'){
             return activeHabits.filter(habit => habit.status === 'Выполнено' && isToday(habit.dateCreatedHabit))
         }else if(route.name === 'all-completed-habits'){
-            return activeHabits.filter(habit => getHabitStatus(habit) === 'Завершено' )
+            return activeHabits.filter(habit => getHabitStatus(habit) === 'Завершено')
         }else if(route.name === 'in-progress-habits'){
             return activeHabits.filter(habit => habit.status === 'В процессе')
         }else if(route.name === 'incompleted-habits'){

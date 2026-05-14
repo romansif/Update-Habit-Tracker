@@ -3,10 +3,6 @@ import { handler } from '../../../shared/api/http.js';
 import { useUserStore } from "../../../shared/composables/store/useUserStore.js";
 import { useGetRecords } from "./getRecords.js"
 
-
-const userRecordsId = localStorage.getItem('userRecordsId');
-const userRecordId = localStorage.getItem('userRecordId');
-
 const RESET_TYPES = ref({
     ONE:'ONE',
     DAY:'DAY',
@@ -24,7 +20,10 @@ export const useRecords = () => {
     const { selectedReset, resetDate, getRecords, getDayRecords } = useGetRecords();
     const { habitsCurrent, dayRecords } = useUserStore();
 
-    const createRecord = async (habit, status) => {
+    const userRecordsId = localStorage.getItem('userRecordsId');
+    const userRecordId = localStorage.getItem('userRecordId');
+
+    const createRecord = async (habit, series, status) => {
         const currentAllCounter = habitsCurrent.value?.allHabitsCounter || 0;
         const newAllHabitsCounter = currentAllCounter + 1;
 
@@ -61,6 +60,7 @@ export const useRecords = () => {
                     monthCreatedRecord: month,
                     timeCreatedRecord: time,
                     habit: habit,
+                    series: series,
                     firstStatus: status,
                 })
             });
@@ -98,7 +98,7 @@ export const useRecords = () => {
 
     }
 
-    const updateRecordStatus = async (habit, newStatus) => {
+    const updateRecordStatus = async (habit, series, newStatus) => {
         const now = new Date();
 
         const time = now.toLocaleTimeString("ru-RU", {
@@ -119,6 +119,7 @@ export const useRecords = () => {
                 await handler(`/calendar-records/${userRecordId}`, {
                     method: 'PATCH',
                     body: JSON.stringify({
+                        series: series,
                         thirdStatus: newStatus,
                         newTimeUpdatedStatus: time
                     })

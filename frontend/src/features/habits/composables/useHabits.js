@@ -92,7 +92,7 @@ export const useHabits = () => {
             })
             habits.value.push(newHabit);
 
-            await createRecord(newHabit.habit, newHabit.status);
+            await createRecord(newHabit.habit, newHabit.series, newHabit.status);
 
             await getRecords();
 
@@ -163,7 +163,7 @@ export const useHabits = () => {
                     await getHabits()
                 }
 
-                await updateRecordStatus(habit.habit, habit.status, newStatus)
+                await updateRecordStatus(habit.habit, habit.series, habit.status, newStatus)
                 await updateHabitsCurrent(newStatus)
             }
         }catch(err){
@@ -189,15 +189,15 @@ export const useHabits = () => {
             await handler(`/habits/${habitId.value}`, {
                 method: 'DELETE',
             });
-            if(habitsCurrent.value?.inProgressHabitsCounter > 0){
-                await handler(`/current-records/${userRecordsId}`, {
-                    method: 'PATCH',
-                    body: JSON.stringify({
-                        inProgressHabitsCounter: currentDayCompletedCounter - 1
-                    })
-                })
-            }
             habits.value = habits.value.filter(habit => habit.id !== habitId.value);
+
+            const res = await handler(`/current-records/${userRecordsId}`, {
+                method: 'PATCH',
+                body: JSON.stringify({
+                    dayCompletedHabits: Math.max(0, currentDayCompletedCounter - 1)
+                })
+            })
+            habitsCurrent.value = res
 
             closeDeleteHabitModal()
         }catch(err){
