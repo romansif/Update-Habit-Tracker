@@ -28,7 +28,10 @@ const props = defineProps({
     </div>
     <div class="flex justify-between mt-4">
       <div class="flex gap-2">
-        <span class="mt-2">🔥{{ habit?.series }}</span>
+        <div class="flex items-center gap-1 bg-orange-100 text-orange-600 px-2 py-1 rounded-lg">
+          <span class="text-sm">🔥</span>
+          <span class="font-semibold">{{ habit?.series }}</span>
+        </div>
         <HabitStatus :status="habit?.status" />
       </div>
       <HabitMenu :id="habit?.id" :status="habit?.status"/>

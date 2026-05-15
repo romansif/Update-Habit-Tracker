@@ -3,14 +3,15 @@ import { useUserStore } from "../../composables/store/useUserStore.js";
 import { useHabits } from "../../../features/habits/composables/useHabits.js";
 
 import BaseButton from "../BaseButton.vue";
+import reset_record from "../../../app/assets/icons/reset-record.png";
 
 const { habit } = useUserStore();
-const { closeInfoModal } = useHabits();
+const { openDeleteHabitModal, closeInfoModal } = useHabits();
 
 const statusClass = (status) => ({
-  'text-green-500': status === 'Выполнено',
-  'text-purple-500': status === 'В процессе',
-  'text-rose-500': status === 'Не выполнено'
+  'bg-green-500 italic text-white px-2 py-1 rounded': status === 'Выполнено',
+  'bg-purple-500 italic text-white px-2 py-1 rounded': status === 'В процессе',
+  'bg-rose-500 italic text-white px-2 py-1 rounded': status === 'Не выполнено'
 });
 </script>
 
@@ -19,9 +20,14 @@ const statusClass = (status) => ({
                       flex items-center justify-center">
     <div class="bg-white rounded-lg p-6 w-[600px]">
       <div class="flex flex-col gap-4 mb-4">
+        <div class="flex justify-between items-center">
           <span class="text-gray-700">
             Дата и время создания привычки — {{ habit?.dateCreatedHabit }}, {{ habit?.timeCreatedHabit }}
           </span>
+          <button @click="openDeleteHabitModal(habit?.id, 'Хотите навсегда удалить привычку?')">
+            <img :src="reset_record" class="w-5 h-5 opacity-70 hover:opacity-100" />
+          </button>
+        </div>
           <h1 class="text-xl italic">Категория — {{ habit?.category }}</h1>
       </div>
       <div>
@@ -41,8 +47,12 @@ const statusClass = (status) => ({
           </span>
         <span v-if="habit?.lastTime" class="text-gray-700">Последнее время обновления — {{ habit?.lastTime }}</span>
       </div>
-      <div class="flex border-b gap-2 mb-4 pb-4">
-        <span>Серия выполнения привычки — 🔥{{ habit?.series }} дней подряд </span>
+      <div class="flex items-center border-b gap-2 mb-4 pb-4">
+        <span>Серия выполнения привычки — </span>
+        <div class="flex items-center gap-1 bg-orange-100 text-orange-600 px-2 py-1 rounded-lg">
+          <span class="text-sm">🔥</span>
+          <span class="font-semibold">{{ habit?.series }} дней подряд</span>
+        </div>
       </div>
       <div>
         <span class="text-gray-700">Конечная дата выполнения привычки — {{ habit?.endDateHabit }}</span>

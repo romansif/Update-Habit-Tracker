@@ -17,11 +17,23 @@ const { resetRecordsModalVisible } = useRecords();
     <NavMenu />
     <ResetMenu />
   </div>
-  <Calendar />
-  <RecordsModal v-show="recordsModalVisible" />
-  <ResetRecords v-show="resetRecordsModalVisible" />
+   <Calendar />
+  <transition name="modal" >
+    <RecordsModal v-show="recordsModalVisible" />
+  </transition>
+  <transition name="modal" >
+    <ResetRecords v-show="resetRecordsModalVisible" />
+  </transition>
 </template>
 
 <style scoped>
+.modal-enter-active,
+.modal-leave-active {
+  transition: opacity 0.5s ease;
+}
 
+.modal-enter-from,
+.modal-leave-to {
+  opacity: 0;
+}
 </style>

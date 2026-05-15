@@ -7,9 +7,9 @@ import { useGetHabits } from "./getHabits.js";
 import { useGetRecords } from "../../calendar/composables/getRecords.js";
 import { useRecords } from "../../calendar/composables/useRecords.js";
 
-import { useForms } from "../../../shared/composables/useForms.js";
-import { useValidation } from "../../../shared/composables/useValidation.js";
-import { useClearForms } from "../../../shared/composables/clearForms.js";
+import { useForms } from "../../../shared/composables/forms/useForms.js";
+import { useValidation } from "../../../shared/composables/forms/useValidation.js";
+import { useClearForms } from "../../../shared/composables/forms/clearForms.js";
 
 const habitId = ref(null);
 
@@ -34,7 +34,6 @@ export const useHabits = () => {
 
     const openCreateModal = () => {
         createHabitModalVisible.value = true;
-        console.log('Открыть модалку привычек');
     }
 
     const createHabit = async (status) => {
@@ -132,7 +131,7 @@ export const useHabits = () => {
 
             const habit = habits.value.find(habit => habit.id === id);
 
-            seriesCount.value = habit.value?.series || 0
+            seriesCount.value = habit?.series || 0
 
             console.log(seriesCount.value)
 
@@ -206,8 +205,6 @@ export const useHabits = () => {
     }
 
     const closeDeleteHabitModal = () => {
-        deleteHabitMessage.value = '';
-
         deleteHabitModalVisible.value = false;
     }
 

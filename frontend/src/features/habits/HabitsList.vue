@@ -1,35 +1,72 @@
 <script setup>
-import { onMounted } from "vue";
+import { useQuery } from "@tanstack/vue-query";
 
 import { useHabits } from './composables/useHabits.js'
 import { useGetHabits } from "./composables/getHabits.js";
+import { usePagination } from "../footer/composable/usePagination.js"
 
 import HabitCard from "./habits-items/HabitCard.vue";
 import DeleteHabitModal from "../../shared/ui/delete-modals/DeleteHabitModal.vue";
 import HabitInfoModal from "../../shared/ui/info-modals/HabitInfoModal.vue";
+import Pagination from "../footer/Pagination.vue";
 
 const { habits, habitInfoModalVisible, deleteHabitModalVisible } = useHabits()
 const { getHabits } = useGetHabits()
+const { paginatedItems } = usePagination()
 
-onMounted(async () => {
-  await getHabits();
+const { isPending, isError, error } = useQuery({
+  queryKey: ['habits'],
+  queryFn: getHabits
 })
-
 </script>
 
 <template>
-    <div class="flex justify-center items-center">
-      <span v-if="habits && habits.length === 0" class="text-2xl text-gray-200 italic pt-15">Нет привычек для отображения</span>
-    </div>
-    <div v-if="habits && habits.length > 0" class="flex justify-center py-25">
-      <ul class="grid grid-cols-4 gap-9 overflow-y-auto h-[505px] no-scrollbar">
-        <HabitCard v-for="habit in habits" :key="habit.id" :habit="habit" />
-      </ul>
-      <HabitInfoModal v-show="habitInfoModalVisible" />
-      <DeleteHabitModal v-show="deleteHabitModalVisible" />
-    </div>
+  <div v-if="isPending" class="flex justify-center items-center h-[700px]">
+    <img src="../../app/assets/icons/loading.svg" alt="">
+  </div>
+  <div v-else-if="isError">
+    <span class="text-2xl text-gray-200 italic">Error {{ error.message }}</span>
+  </div>
+  <div v-else-if="habits && habits.length === 0" class="flex justify-center items-center">
+      <span class="text-2xl text-gray-200 italic pt-15">Нет привычек для отображения</span>
+  </div>
+  <div v-else class="flex justify-center pt-10">
+    <transition-group name="list" tag="ul" class="grid grid-cols-4 gap-9 overflow-y-auto min-h-[300px] max-h-[580px] no-scrollbar">
+        <HabitCard v-for="habit in paginatedItems" :key="habit.id" :habit="habit" />
+    </transition-group>
+  </div>
+  <Pagination />
+  <transition name="modal" >
+    <HabitInfoModal v-show="habitInfoModalVisible" />
+  </transition>
+  <transition name="modal">
+    <DeleteHabitModal v-show="deleteHabitModalVisible" />
+  </transition>
 </template>
 
 <style scoped>
+.modal-enter-active,
+.modal-leave-active {
+  transition: opacity 0.5s ease;
+}
 
+.modal-enter-from,
+.modal-leave-to {
+  opacity: 0;
+}
+
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+.list-move {
+  transition: transform 0.5s ease;
+}
 </style>

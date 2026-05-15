@@ -37,7 +37,7 @@ const canAddInProgressHabits = computed(() => props.status !== 'В процес�
     </MenuButton>
 
     <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform scale-100" leave-to-class="transform opacity-0 scale-95">
-      <MenuItems class="absolute right-0 z-10 mt-2 w-38 origin-top-right divide-y divide-white/40 rounded-md bg-indigo-400 outline-1 -outline-offset-1 outline-white/10">
+      <MenuItems class="absolute right-0 z-10 mt-2 w-38 origin-top-left divide-y divide-white/40 rounded-md bg-indigo-400 outline-1 -outline-offset-1 outline-white/10">
         <div class="py-1">
           <MenuItem v-slot="{ active }">
             <button @click="openInfoModal(id, 'Выполнено')" class="w-full text-start">

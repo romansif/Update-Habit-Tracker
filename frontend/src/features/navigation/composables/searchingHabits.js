@@ -1,83 +1,19 @@
 import { ref } from 'vue';
 import { useRoute } from 'vue-router';
+import { useDebounceFn } from "@vueuse/core";
 import { handler } from '../../../shared/api/http.js';
 import { useUserStore } from "../../../shared/composables/store/useUserStore.js";
-import { useDebounceFn } from "@vueuse/core";
-
+import { useHabitsFilter } from "../../../shared/composables/filter/useHabitsFilter.js";
 
 export const useSearchingHabits = () => {
     const { habits } = useUserStore();
+    const { filteredHabits } = useHabitsFilter();
 
     const route = useRoute();
 
     const searchForm = ref({
         search: ''
     })
-
-    const today = new Date();
-
-    const formatDate = (date) => {
-        return new Date(date.split('.').reverse().join('-'));
-    };
-
-    const shouldResetHabit = (habit) => {
-        const lastDate = formatDate(habit.lastDate);
-
-        const nextDate = new Date(lastDate);
-
-        if(habit.frequency === 'Ежедневно'){
-            nextDate.setDate(nextDate.getDate() + 1);
-        }
-        if(habit.frequency === '1 раз в неделю'){
-            nextDate.setDate(nextDate.getDate() + 7);
-        }
-        if(habit.frequency === '3 раз в неделю'){
-            nextDate.setDate(nextDate.getDate() + 2);
-        }
-    }
-
-    const isToday = (dateStr) => {
-        const date = formatDate(dateStr);
-
-        return(
-            date.getDate() === today.getDate() &&
-            date.getMonth() === today.getMonth() &&
-            date.getFullYear() === today.getFullYear()
-        )
-    }
-
-    const isExpired = (endDate) => {
-        return formatDate(endDate) < today
-    }
-
-    const filteredHabits = (data) => {
-        const rollBack = data.map(habit => {
-            if(habit.status === 'Выполнено' && shouldResetHabit(habit)){
-                return {
-                    ...habit,
-                    status: 'Не выполнено'
-                };
-            }
-
-            return habit
-        })
-
-        const activeHabits = rollBack.filter(habit => !isExpired(habit.endDateHabit))
-
-        if(route.name === 'habits'){
-            return activeHabits.filter(habit => habit.status !== 'Выполнено')
-        }else if(route.name === 'day-completed-habits'){
-            return activeHabits.filter(habit => habit.status === 'Выполнено' && isToday(habit.dateCreatedHabit))
-        }else if(route.name === 'all-completed-habits'){
-            return activeHabits.filter(habit => habit.status === 'Выполнено')
-        }else if(route.name === 'in-progress-habits'){
-            return activeHabits.filter(habit => habit.status === 'В процессе')
-        }else if(route.name === 'incompleted-habits'){
-            return activeHabits.filter(habit => habit.status === 'Не выполнено' )
-        }
-
-        return activeHabits
-    }
 
     const getSearchedHabits = async () => {
         const userId = localStorage.getItem('userId');
@@ -87,16 +23,22 @@ export const useSearchingHabits = () => {
         });
 
         habits.value = filteredHabits(
-            res.filter(habit => habit.category === searchForm.value.search ||
-                habit.habit === searchForm.value.search ||
-                habit.dateCreatedHabit === searchForm.value.search ||
-                habit.timeCreatedHabit === searchForm.value.search
-            ).sort((a, b) => new Date(b.timeCreatedHabit) - new Date(a.timeCreatedHabit))
+            res.filter(habit =>
+                habit.category?.toLowerCase().includes(searchForm.value.search.toLowerCase()) ||
+                habit.habit?.toLowerCase().includes(searchForm.value.search.toLowerCase()) ||
+                habit.dateCreatedHabit?.toLowerCase().includes(searchForm.value.search.toLowerCase()) ||
+                habit.timeCreatedHabit?.toLowerCase().includes(searchForm.value.search.toLowerCase())
+            ).sort((a, b) => new Date(b.date) - new Date(a.date)),
+            route.name
         );
+
+        return habits.value
     }
 
     const debouncedSearch = useDebounceFn(async () => {
-        await getSearchedHabits()
+        await getSearchedHabits(habits)
+
+        return habits
     }, 500)
 
     const resetSearchForm = () => {

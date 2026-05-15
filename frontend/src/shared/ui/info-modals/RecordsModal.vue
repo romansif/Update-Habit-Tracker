@@ -22,13 +22,32 @@ const { dayRecords, openResetRecordsModal } = useRecords();
           <img :src="options" alt="" class="w-[30px] h-[30px]">
         </button>
       </div>
-      <ul v-if="dayRecords?.length > 0" class="flex flex-col max-h-[505px] overflow-y-auto no-scrollbar">
-        <DayRecords />
-      </ul>
-      <span v-else class="italic text-gray-500">Пустой день</span>
+      <transition-group name="list" class="list">
+        <ul v-if="dayRecords?.length > 0" class="flex flex-col max-h-[505px] overflow-y-auto no-scrollbar">
+          <DayRecords />
+        </ul>
+        <span v-else class="italic text-gray-500">Пустой день</span>
+      </transition-group>
       <div class="flex">
         <BaseButton button-type="Закрыть" variant="closeHabitsInDay" @click=closeRecordsModal />
       </div>
     </div>
   </div>
 </template>
+
+<style scoped>
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.5s ease;
+}
+
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+.list-move {
+  transition: transform 0.5s ease;
+}
+</style>

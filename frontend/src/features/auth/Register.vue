@@ -1,7 +1,7 @@
 <script setup>
 import { ref, watch } from "vue";
 import { useUser } from "./composables/userComposable.js";
-import { useForms } from "../../shared/composables/useForms.js";
+import { useForms } from "../../shared/composables/forms/useForms.js";
 
 import opened from '../../app/assets/icons/opened.png'
 import closed from '../../app/assets/icons/closed.png'

@@ -199,8 +199,6 @@ export const useRecords = () => {
     }
 
     const closeResetRecordsModal = () => {
-        resetMessage.value = '';
-
         recordId.value = null;
         selectedReset.value = null;
 

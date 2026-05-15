@@ -2,7 +2,7 @@
 import { onMounted, watch } from "vue";
 import { useUser } from "../../auth/composables/userComposable.js";
 import { useHabits } from "../../habits/composables/useHabits.js";
-import { useForms } from "../../../shared/composables/useForms.js";
+import { useForms } from "../../../shared/composables/forms/useForms.js";
 
 import BaseButton from "../../../shared/ui/BaseButton.vue";
 import ProfileStatusCards from "./ProfileStatusCards.vue";
@@ -43,23 +43,39 @@ onMounted(async () => {
     <section class="flex justify-center py-13">
       <div class="w-[850px]">
           <ProfileStatusCards />
-        <div class="flex flex-col mt-30">
-            <span class="text-xl">Текущее имя пользователя: {{ user?.name }}</span>
+        <div class="flex flex-col justify-center items-center mt-30">
+          <div>
+            <h1 class="text-xl">Текущее имя пользователя: {{ user?.name }}</h1>
             <input type="text" v-model="updateForm.name" @input="toLower" placeholder="Имя пользователя"
-                   class="bg-white shadow-xl w-[530px] placeholder:text-sm outline-none rounded-[4px] p-5 mt-6">
-            <span v-if="userErrors.newNameError" class="text-sm text-red-500 mt-6">{{ userErrors?.newNameMessage }}</span>
+                   class="bg-white shadow-xl w-[600px] placeholder:text-sm outline-none rounded-[4px] p-5 mt-6">
+          </div>
+          <span v-if="userErrors.newNameError" class="text-sm text-red-500 mt-3">{{ userErrors?.newNameMessage }}</span>
         </div>
-        <div class="flex mt-8">
+        <div class="flex justify-center mt-5">
             <BaseButton button-type="Применить" variant="confirmEditProfile" @click="updateUser" />
         </div>
       </div>
-      <CreateHabitModal v-show="createHabitModalVisible" />
-      <DeleteUserModal v-show="deleteUserModalVisible" />
-      <LogoutModal v-show="logoutUserModalVisible" />
+      <transition name="modal" >
+        <CreateHabitModal v-show="createHabitModalVisible" />
+      </transition>
+      <transition name="modal" >
+        <DeleteUserModal v-show="deleteUserModalVisible" />
+      </transition>
+      <transition name="modal" >
+        <LogoutModal v-show="logoutUserModalVisible" />
+      </transition>
     </section>
   </div>
 </template>
 
 <style scoped>
+.modal-enter-active,
+.modal-leave-active {
+  transition: opacity 0.5s ease;
+}
 
+.modal-enter-from,
+.modal-leave-to {
+  opacity: 0;
+}
 </style>

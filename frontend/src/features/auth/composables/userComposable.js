@@ -3,12 +3,11 @@ import { useRouter } from "vue-router";
 
 import { handler } from '../../../shared/api/http.js';
 
-import { useForms } from "../../../shared/composables/useForms.js";
-import { useValidation } from "../../../shared/composables/useValidation.js";
-import { useClearForms } from "../../../shared/composables/clearForms.js";
+import { useForms } from "../../../shared/composables/forms/useForms.js";
+import { useValidation } from "../../../shared/composables/forms/useValidation.js";
+import { useClearForms } from "../../../shared/composables/forms/clearForms.js";
 
 import bcrypt from 'bcryptjs';
-import dayRecords from "../../calendar/calendar-items/DayRecords.vue";
 
 const users = ref([]);
 const user = ref(null);
@@ -164,8 +163,6 @@ export const useUser = () => {
     }
 
     const closeLogoutUserModal = () => {
-        logoutUserMessage.value = '';
-
         logoutUserModalVisible.value = false;
     }
 
@@ -224,8 +221,6 @@ export const useUser = () => {
     }
 
     const closeDeleteUserModal = () => {
-        delUserMessage.value = '';
-
         deleteUserModalVisible.value = false;
     }
 
