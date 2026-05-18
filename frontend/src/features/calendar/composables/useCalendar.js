@@ -1,8 +1,6 @@
 import { ref, computed } from 'vue';
 import { useUserStore } from "../../../shared/composables/store/useUserStore.js";
 
-const { records } = useUserStore()
-
 const currentDate = ref(new Date());
 
 const monthNames = [
@@ -11,6 +9,8 @@ const monthNames = [
 ];
 
 export const useCalendar = () => {
+    const { records } = useUserStore()
+
     const currentMonth = computed(() => currentDate.value.getMonth());
     const currentYear = computed(() => currentDate.value.getFullYear());
 
@@ -122,10 +122,8 @@ export const useCalendar = () => {
         calendarDays,
 
         isSameDay,
-
         lastMonth,
         nextMonth,
-
         isPastDay,
         isToday,
         isTodayWeekend,

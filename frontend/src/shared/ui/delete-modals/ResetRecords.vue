@@ -1,8 +1,13 @@
 <script setup>
+import { useUserStore } from "../../composables/store/useUserStore.js";
+import { useModals } from "../../composables/modal/useModals.js";
 import { useRecords } from "../../../features/calendar/composables/useRecords.js";
+
 import BaseButton from '../BaseButton.vue';
 
-const { resetMessage, closeResetRecordsModal, resetRecords } = useRecords();
+const { resetRecords } = useRecords()
+const { resetMessage } = useUserStore();
+const { closeResetRecordsModal } = useModals();
 </script>
 
 <template>

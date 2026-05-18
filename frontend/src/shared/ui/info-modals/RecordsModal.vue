@@ -1,13 +1,13 @@
 <script setup>
-import { useGetRecords } from "../../../features/calendar/composables/getRecords.js";
-import { useRecords } from "../../../features/calendar/composables/useRecords.js";
+import { useUserStore } from "../../composables/store/useUserStore.js";
+import { useModals } from "../../composables/modal/useModals.js";
 
 import BaseButton from '../BaseButton.vue';
 import DayRecords from "../../../features/calendar/calendar-items/DayRecords.vue";
 import options from '../../../app/assets/icons/options.png'
 
-const { resetDate, closeRecordsModal } = useGetRecords();
-const { dayRecords, openResetRecordsModal } = useRecords();
+const { dayRecords, resetDate } = useUserStore();
+const { closeRecordsModal, openResetRecordsModal } = useModals();
 </script>
 <template>
   <div class="fixed inset-0 z-50 bg-[rgba(0,0,0,0.5)]
@@ -22,8 +22,8 @@ const { dayRecords, openResetRecordsModal } = useRecords();
           <img :src="options" alt="" class="w-[30px] h-[30px]">
         </button>
       </div>
-      <transition-group name="list" class="list">
-        <ul v-if="dayRecords?.length > 0" class="flex flex-col max-h-[505px] overflow-y-auto no-scrollbar">
+      <transition-group name="list" tag="ul" class="flex flex-col max-h-[505px] overflow-y-auto no-scrollbar">
+        <ul v-if="dayRecords?.length > 0" >
           <DayRecords />
         </ul>
         <span v-else class="italic text-gray-500">Пустой день</span>

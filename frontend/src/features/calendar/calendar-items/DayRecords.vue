@@ -1,9 +1,11 @@
 <script setup>
-import { useRecords } from "../composables/useRecords.js";
+import { useModals } from "../../../shared/composables/modal/useModals.js";
+import { useUserStore } from "../../../shared/composables/store/useUserStore.js";
 
 import reset_record from "../../../app/assets/icons/reset-record.png"
 
-const { dayRecords, openResetRecordsModal } = useRecords();
+const { dayRecords } = useUserStore()
+const { openResetRecordsModal } = useModals()
 
 const statusClass = (status) => ({
   'bg-green-500 italic text-white px-2 py-1 rounded': status === 'Выполнено',

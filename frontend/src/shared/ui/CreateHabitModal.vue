@@ -1,10 +1,14 @@
 <script setup>
 import { watch } from 'vue';
 import { useHabits } from "../../features/habits/composables/useHabits.js";
+import { useForms } from "../composables/forms/useForms.js";
+import { useModals } from "../composables/modal/useModals.js";
 
 import BaseButton from '../ui/BaseButton.vue';
 
-const { habitForm, habitErrors, createHabit, closeCreateModal } = useHabits()
+const { createHabit } = useHabits();
+const { habitForm, habitErrors } = useForms();
+const { closeCreateHabitModal } = useModals();
 
 watch(() => [
       habitForm.value.habit, habitForm.value.time,
@@ -91,7 +95,7 @@ watch(() => [
             </span>
           </div>
           <div class="flex justify-between items-center">
-            <BaseButton button-type="Отмена" variant="cancelHabitModal" @click="closeCreateModal"/>
+            <BaseButton button-type="Отмена" variant="cancelHabitModal" @click="closeCreateHabitModal"/>
             <BaseButton button-type="Сохранить" variant="confirmHabitModal" @click="createHabit('Не выполнено')"/>
           </div>
         </div>

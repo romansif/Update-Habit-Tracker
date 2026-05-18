@@ -1,11 +1,10 @@
 <script setup xmlns="http://www.w3.org/1999/html">
 import { onMounted } from "vue";
+import { useUserStore } from "../../../shared/composables/store/useUserStore.js";
 import { useGetRecords } from "../../calendar/composables/getRecords.js";
-import { useRecords } from "../../calendar/composables/useRecords.js";
 
+const { habitsCurrent } = useUserStore();
 const { getRecordsCurrent } = useGetRecords();
-const { habitsCurrent } = useRecords();
-
 
 onMounted(async() => {
   await getRecordsCurrent();

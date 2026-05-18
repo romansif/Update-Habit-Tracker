@@ -1,36 +1,21 @@
-import { ref } from 'vue';
 import { useRouter } from "vue-router";
-
 import { handler } from '../../../shared/api/http.js';
-
+import { useUserStore } from "../../../shared/composables/store/useUserStore.js";
 import { useForms } from "../../../shared/composables/forms/useForms.js";
 import { useValidation } from "../../../shared/composables/forms/useValidation.js";
 import { useClearForms } from "../../../shared/composables/forms/clearForms.js";
+import { useModals } from "../../../shared/composables/modal/useModals.js";
 
 import bcrypt from 'bcryptjs';
 
-const users = ref([]);
-const user = ref(null);
-
-const recordsCounters = ref({
-        allHabits: 0,
-        dayCompletedHabits: 0,
-        allCompletedHabits: 0,
-        incompletedHabits: 0,
-})
-
-const delUserMessage = ref('')
-const logoutUserMessage = ref('')
-
-const deleteUserModalVisible = ref(false);
-const logoutUserModalVisible = ref(false);
-
 export const useUser = () => {
-    const { validateRegisterForm, validateLoginForm, validateUpdateForm } = useValidation();
-    const { registerForm, loginForm, updateForm, userErrors } = useForms();
-    const { clearRegisterForm, clearLoginForm } = useClearForms();
-
     const router = useRouter();
+    const modals = useModals();
+
+    const { clearRegisterForm, clearLoginForm } = useClearForms();
+    const { users, user, habits, habitsCurrent, habitsCounter, records } = useUserStore()
+    const { registerForm, loginForm, updateForm, userErrors } = useForms();
+    const { validateRegisterForm, validateLoginForm, validateUpdateForm } = useValidation();
 
     const registerUser = async () => {
         const isValid = validateRegisterForm()
@@ -54,12 +39,12 @@ export const useUser = () => {
                 })
             });
 
-            const newRecords = await handler('/current-records', {
+            const newRecords = await handler('/habits-counter', {
                 method: 'POST',
                 body: JSON.stringify({
-                    allHabitsCounter: recordsCounters.value.allHabits,
-                    dayCompletedHabits: recordsCounters.value.dayCompletedHabits,
-                    allCompletedHabits: recordsCounters.value.allCompletedHabits,
+                    allHabitsCounter: habitsCounter.value.allHabits,
+                    dayCompletedHabits: habitsCounter.value.dayCompletedHabits,
+                    allCompletedHabits: habitsCounter.value.allCompletedHabits,
                 })
             })
 
@@ -144,33 +129,17 @@ export const useUser = () => {
         }
     }
 
-    const openLogoutUserModal = (message) => {
-        logoutUserMessage.value = message;
-        logoutUserModalVisible.value = true;
-    }
-
     const logoutUser = async () => {
         try{
             localStorage.removeItem('userId');
             user.value = null;
 
-            closeLogoutUserModal();
+            modals.closeLogoutUserModal()
 
             router.push({ name: 'login' });
         }catch(err){
             console.log(err);
         }
-    }
-
-    const closeLogoutUserModal = () => {
-        logoutUserModalVisible.value = false;
-    }
-
-
-    const openDeleteUserModal = (message) => {
-        delUserMessage.value = message;
-
-        deleteUserModalVisible.value = true;
     }
 
     const deleteUser = async () => {
@@ -181,7 +150,6 @@ export const useUser = () => {
             const allHabits = await handler(`/habits?userId=${userId}`, {
                 method: 'GET'
             })
-
             await Promise.all(
                 allHabits.map(habit => {
                     handler(`/habits/${habit.id}`, {
@@ -189,10 +157,14 @@ export const useUser = () => {
                     })
                 })
             )
+            habits.value = allHabits;
 
-            await handler(`/current-records/${userRecordsId}`, {
+
+            const count = await handler(`/habits-counter/${userRecordsId}`, {
                 method: 'DELETE'
             });
+            habitsCurrent.value = count
+
             localStorage.removeItem('userRecordsId');
 
 
@@ -206,13 +178,15 @@ export const useUser = () => {
                     })
                 )
             )
+            records.value = allRecords;
+
 
             await handler(`/users/${userId}`, {
                 method: 'DELETE'
             });
             localStorage.removeItem('userId');
 
-            closeDeleteUserModal();
+            modals.closeDeleteUserModal();
 
             router.push({ name: 'login' });
         }catch(err){
@@ -220,34 +194,15 @@ export const useUser = () => {
         }
     }
 
-    const closeDeleteUserModal = () => {
-        deleteUserModalVisible.value = false;
-    }
 
     return{
-        user,
-
-        delUserMessage,
-        logoutUserMessage,
-
-        deleteUserModalVisible,
-        logoutUserModalVisible,
-
         registerUser,
         loginUser,
-
         clearRegisterForm,
         clearLoginForm,
-
-        openLogoutUserModal,
         logoutUser,
-        closeLogoutUserModal,
-
         getUser,
         updateUser,
-
-        openDeleteUserModal,
         deleteUser,
-        closeDeleteUserModal,
     }
 }

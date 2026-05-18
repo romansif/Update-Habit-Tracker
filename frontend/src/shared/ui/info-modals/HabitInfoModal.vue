@@ -1,12 +1,12 @@
 <script setup>
 import { useUserStore } from "../../composables/store/useUserStore.js";
-import { useHabits } from "../../../features/habits/composables/useHabits.js";
+import { useModals } from "../../composables/modal/useModals.js";
 
 import BaseButton from "../BaseButton.vue";
 import reset_record from "../../../app/assets/icons/reset-record.png";
 
 const { habit } = useUserStore();
-const { openDeleteHabitModal, closeInfoModal } = useHabits();
+const { openDeleteHabitModal, closeHabitInfoModal } = useModals();
 
 const statusClass = (status) => ({
   'bg-green-500 italic text-white px-2 py-1 rounded': status === 'Выполнено',
@@ -58,7 +58,7 @@ const statusClass = (status) => ({
         <span class="text-gray-700">Конечная дата выполнения привычки — {{ habit?.endDateHabit }}</span>
       </div>
       <div class="flex">
-        <BaseButton button-type="Закрыть" variant="closeHabitsInDay" @click=closeInfoModal />
+        <BaseButton button-type="Закрыть" variant="closeHabitsInDay" @click=closeHabitInfoModal />
       </div>
     </div>
   </div>

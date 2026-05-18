@@ -1,12 +1,12 @@
 <script setup>
 import { computed } from 'vue'
-import { useRecords } from "../composables/useRecords.js";
+import { useModals } from '../../../shared/composables/modal/useModals.js'
 import { useCalendar } from "../composables/useCalendar.js";
 
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { ChevronDownIcon } from '@heroicons/vue/20/solid'
 
-const { openResetRecordsModal } = useRecords()
+const { openResetRecordsModal } = useModals()
 const { currentMonth, currentYear } = useCalendar()
 
 const month = computed(() => {

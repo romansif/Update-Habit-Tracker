@@ -3,13 +3,15 @@ import { onMounted } from 'vue';
 import { useCalendar } from '../composables/useCalendar.js';
 import { useGetRecords } from "../composables/getRecords.js";
 import arrow from '../../../app/assets/icons/arrow.png'
+import {useModals} from "../../../shared/composables/modal/useModals.js";
 
 const {
   currentMonthName, currentYear, calendarDays, lastMonth, nextMonth,
   isToday, isPastDay, isWeekend, isTodayWeekend, hasStatus
 } = useCalendar();
 
-const { openRecordsModal ,getRecords } = useGetRecords();
+const { openRecordsModal } = useModals();
+const { getRecords } = useGetRecords();
 
 onMounted(async() => {
   await getRecords();

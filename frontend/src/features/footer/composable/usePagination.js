@@ -9,7 +9,7 @@ const itemsPerPage = 12
 export const usePagination = () => {
     const { habits } = useUserStore();
 
-    const totalPages = computed(() => {
+     const totalPages = computed(() => {
         return Math.ceil(habits.value?.length / itemsPerPage)
     })
 
@@ -17,7 +17,7 @@ export const usePagination = () => {
         const start = (currentPage.value - 1) * itemsPerPage;
         const end = start + itemsPerPage;
 
-        return habits.value.slice(start, end)
+        return habits.value?.slice(start, end)
     })
 
     const prevPage = () => {
@@ -37,6 +37,7 @@ export const usePagination = () => {
         currentPage,
         totalPages,
         paginatedItems,
+
         prevPage,
         nextPage,
     }

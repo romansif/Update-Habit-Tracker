@@ -1,7 +1,7 @@
 <script setup>
 import { useQuery } from "@tanstack/vue-query";
 
-import { useHabits } from './composables/useHabits.js'
+import { useUserStore } from "../../shared/composables/store/useUserStore.js";
 import { useGetHabits } from "./composables/getHabits.js";
 import { usePagination } from "../footer/composable/usePagination.js"
 
@@ -10,9 +10,9 @@ import DeleteHabitModal from "../../shared/ui/delete-modals/DeleteHabitModal.vue
 import HabitInfoModal from "../../shared/ui/info-modals/HabitInfoModal.vue";
 import Pagination from "../footer/Pagination.vue";
 
-const { habits, habitInfoModalVisible, deleteHabitModalVisible } = useHabits()
 const { getHabits } = useGetHabits()
 const { paginatedItems } = usePagination()
+const { habits, habitInfoModalVisible, deleteHabitModalVisible } = useUserStore()
 
 const { isPending, isError, error } = useQuery({
   queryKey: ['habits'],
@@ -31,11 +31,11 @@ const { isPending, isError, error } = useQuery({
       <span class="text-2xl text-gray-200 italic pt-15">Нет привычек для отображения</span>
   </div>
   <div v-else class="flex justify-center pt-10">
-    <transition-group name="list" tag="ul" class="grid grid-cols-4 gap-9 overflow-y-auto min-h-[300px] max-h-[580px] no-scrollbar">
+    <transition-group name="list" tag="ul" class="grid grid-cols-4 gap-9">
         <HabitCard v-for="habit in paginatedItems" :key="habit.id" :habit="habit" />
     </transition-group>
   </div>
-  <Pagination />
+  <Pagination v-if="habits && habits.length > 0"/>
   <transition name="modal" >
     <HabitInfoModal v-show="habitInfoModalVisible" />
   </transition>

@@ -2,11 +2,9 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { ChevronDownIcon } from '@heroicons/vue/20/solid'
 
-import { useUser } from "../../auth/composables/userComposable.js";
-import { useHabits } from "../../habits/composables/useHabits.js";
+import { useModals } from '../../../shared/composables/modal/useModals.js'
 
-const { openLogoutUserModal, openDeleteUserModal } = useUser()
-const { openCreateModal } = useHabits()
+const { openCreateHabitModal, openLogoutUserModal, openDeleteUserModal } = useModals()
 </script>
 
 <template>
@@ -23,7 +21,7 @@ const { openCreateModal } = useHabits()
       <MenuItems class="absolute right-6 z-10 mt-2 w-46 origin-top-right divide-y divide-white/40 rounded-md bg-indigo-400 outline-1 -outline-offset-1 outline-white/10">
         <div class="py-1">
           <MenuItem v-slot="{ active }">
-            <button @click=openCreateModal class="w-full text-start">
+            <button @click=openCreateHabitModal class="w-full text-start">
                 <span :class="[
                         active ? 'bg-white/25 text-white outline-hidden' :
                         'text-white', 'block px-4 py-2 text-sm'

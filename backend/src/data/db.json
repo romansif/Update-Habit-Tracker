@@ -1,114 +1,41 @@
 {
   "users": [
     {
-      "name": "akmal",
+      "name": "12345678",
       "email": "akmalmavlonov25@gmail.com",
-      "password": "$2b$10$jVnqjMqfLUmkwplpOSS5jeRXOOORtFayQ/xHkShK1nIEhGtP/hEUG",
-      "dateCreatedAccount": "14.05.2026",
-      "id": "DvUwj-LLNhU"
+      "password": "$2b$10$dx/yv.SMhsN7JCV3vKKp.uORYPoTy4l4FMrqoOoXYaQBrq03bMsha",
+      "dateCreatedAccount": "18.05.2026",
+      "id": "2V7l7i3Ewe8"
     }
   ],
   "habits": [
-
-  ],
-  "current-records": [
     {
-      "allHabitsCounter": 15,
-      "dayCompletedHabits": 0,
-      "allCompletedHabits": 2,
-      "id": "MlDXRJNa1hc"
-    }
-  ],
-  "calendar-records": [
-    {
-      "userRecordsId": "MlDXRJNa1hc",
-      "date": "2026-05-14T12:51:19.290Z",
-      "dateCreatedRecord": "14.05.2026",
-      "monthCreatedRecord": "05.2026",
-      "timeCreatedRecord": "17:51",
-      "habit": "Чтение книги про психологию",
+      "userId": "2V7l7i3Ewe8",
+      "category": "qewqe",
+      "habit": "qweqe",
+      "frequency": "3 раза в неделю",
+      "time": "21312 мин в день",
       "series": 1,
-      "firstStatus": "Не выполнено",
-      "id": "TJLYcrR7Zqg",
-      "secondStatus": "В процессе",
-      "timeUpdatedStatus": "13:57",
-      "thirdStatus": "Выполнено",
-      "newTimeUpdatedStatus": "13:57"
-    },
-    {
-      "userRecordsId": "MlDXRJNa1hc",
-      "date": "2026-05-15T10:23:55.883Z",
-      "dateCreatedRecord": "15.05.2026",
-      "monthCreatedRecord": "05.2026",
-      "timeCreatedRecord": "15:23",
-      "habit": "qweqeq",
-      "series": 0,
-      "firstStatus": "Не выполнено",
-      "id": "5k-hKcscTws",
-      "secondStatus": "В процессе",
-      "timeUpdatedStatus": "15:30",
-      "thirdStatus": "Выполнено",
-      "newTimeUpdatedStatus": "15:31"
-    },
-    {
-      "userRecordsId": "MlDXRJNa1hc",
-      "date": "2026-05-15T10:40:05.075Z",
-      "dateCreatedRecord": "15.05.2026",
-      "monthCreatedRecord": "05.2026",
-      "timeCreatedRecord": "15:40",
-      "habit": "Бегать ",
-      "series": 0,
-      "firstStatus": "Не выполнено",
-      "id": "LRaA4kyxV-U"
-    },
-    {
-      "userRecordsId": "MlDXRJNa1hc",
-      "date": "2026-05-15T10:43:40.447Z",
-      "dateCreatedRecord": "15.05.2026",
-      "monthCreatedRecord": "05.2026",
-      "timeCreatedRecord": "15:43",
-      "habit": "Читать книгу",
-      "series": 0,
-      "firstStatus": "Не выполнено",
-      "id": "P9t2y0yHoOQ",
-      "secondStatus": "В процессе",
-      "timeUpdatedStatus": "16:17",
-      "thirdStatus": "Выполнено",
-      "newTimeUpdatedStatus": "16:17"
-    },
-    {
-      "userRecordsId": "MlDXRJNa1hc",
-      "date": "2026-05-15T11:19:30.968Z",
-      "dateCreatedRecord": "15.05.2026",
-      "monthCreatedRecord": "05.2026",
-      "timeCreatedRecord": "16:19",
-      "habit": "12312",
-      "series": 0,
-      "firstStatus": "Не выполнено",
-      "id": "LGZE3Rz2tN4"
-    },
-    {
-      "userRecordsId": "MlDXRJNa1hc",
-      "date": "2026-05-15T11:59:37.332Z",
-      "dateCreatedRecord": "15.05.2026",
-      "monthCreatedRecord": "05.2026",
-      "timeCreatedRecord": "16:59",
-      "habit": "qwewq",
-      "series": 0,
-      "firstStatus": "Не выполнено",
-      "id": "n6kgX7rkQQI"
-    },
-    {
-      "userRecordsId": "MlDXRJNa1hc",
-      "date": "2026-05-15T12:35:05.342Z",
-      "dateCreatedRecord": "15.05.2026",
-      "monthCreatedRecord": "05.2026",
-      "timeCreatedRecord": "17:35",
-      "habit": "wqeqe",
-      "series": 0,
-      "firstStatus": "Не выполнено",
-      "id": "smQYKR9Jvq0"
+      "status": "Выполнено",
+      "term": "3 месяца",
+      "date": "2026-05-18T12:50:54.131Z",
+      "dateCreatedHabit": "18.05.2026",
+      "timeCreatedHabit": "17:50",
+      "endDateHabit": "18.08.2026",
+      "id": "txfkBUGpjXI",
+      "lastDate": "18.05.2026",
+      "lastTime": "17:50"
     }
   ],
+  "habits-counter": [
+    {
+      "allHabitsCounter": 9,
+      "dayCompletedHabits": 1,
+      "allCompletedHabits": 9,
+      "id": "lTMPNf1tRuQ",
+      "lastDate": "18.05.2026"
+    }
+  ],
+  "calendar-records": [],
   "$schema": "./node_modules/json-server/schema.json"
 }

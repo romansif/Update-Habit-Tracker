@@ -1,13 +1,15 @@
 <script setup>
 import { ref, watch } from "vue";
-import { useUser } from "./composables/userComposable.js"
+import { useUser } from "./composables/useUser.js"
 import { useForms } from "../../shared/composables/forms/useForms.js"
+import { useClearForms } from "../../shared/composables/forms/clearForms.js";
 
 import opened from '../../app/assets/icons/opened.png'
 import closed from '../../app/assets/icons/closed.png'
 import BaseButton from "../../shared/ui/BaseButton.vue";
 
-const { loginUser, clearLoginForm } = useUser();
+const { loginUser } = useUser();
+const { clearLoginForm } = useClearForms();
 const { loginForm, userErrors } = useForms();
 
 const showPassword = ref(false)

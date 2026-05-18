@@ -1,5 +1,5 @@
 export const useHabitsFilter = () => {
-    const today = new Date();
+    const getToday = () => new Date();
 
     const formatDate = (date) => {
         if(!date) return null;
@@ -9,6 +9,8 @@ export const useHabitsFilter = () => {
 
     const shouldResetHabit = (habit) => {
         const lastDate = formatDate(habit.lastDate);
+
+        const today = getToday();
 
         if (!lastDate) return false;
 
@@ -29,6 +31,8 @@ export const useHabitsFilter = () => {
     const isToday = (dateStr) => {
         const date = formatDate(dateStr);
 
+        const today = getToday()
+
         if(!date) return false;
 
         return(
@@ -41,6 +45,8 @@ export const useHabitsFilter = () => {
     const isFullyCompleted = (habit) => {
         const endDate = formatDate(habit.endDateHabit);
 
+        const today = getToday()
+
         return endDate && today >= endDate
     }
 
@@ -50,11 +56,10 @@ export const useHabitsFilter = () => {
         }else if(habit.status === 'Выполнено'){
             return 'Выполнено сегодня'
         }
-
         return 'В процессе'
     }
 
-    const filteredHabits = (data, route) => {
+    const filteredHabits = (data, routeName) => {
         const rollBack = data.map(habit => {
             if(habit.status === 'Выполнено' && shouldResetHabit(habit)){
                 return {
@@ -73,22 +78,21 @@ export const useHabitsFilter = () => {
 
         const activeHabits = rollBack
 
-        if(route.name === 'habits'){
+        if(routeName === 'habits'){
             return activeHabits.filter(habit => habit.status !== 'Выполнено')
-        }else if(route.name === 'day-completed-habits'){
+        }else if(routeName === 'day-completed-habits'){
             return activeHabits.filter(habit => habit.status === 'Выполнено' && isToday(habit.lastDate))
-        }else if(route.name === 'all-completed-habits'){
+        }else if(routeName === 'all-completed-habits'){
             return activeHabits.filter(habit => getHabitStatus(habit) === 'Завершено')
-        }else if(route.name === 'in-progress-habits'){
+        }else if(routeName === 'in-progress-habits'){
             return activeHabits.filter(habit => habit.status === 'В процессе')
-        }else if(route.name === 'incompleted-habits'){
+        }else if(routeName === 'incompleted-habits'){
             return activeHabits.filter(habit => habit.status === 'Не выполнено' )
         }
         return activeHabits
     }
 
     return{
-        today,
         formatDate,
         shouldResetHabit,
         isToday,

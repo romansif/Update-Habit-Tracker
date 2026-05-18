@@ -1,40 +1,21 @@
-import { ref, computed } from 'vue';
-
+import { computed } from 'vue';
 import { handler } from '../../../shared/api/http.js';
 import { useUserStore } from "../../../shared/composables/store/useUserStore.js";
-
 import { useGetHabits } from "./getHabits.js";
 import { useGetRecords } from "../../calendar/composables/getRecords.js";
 import { useRecords } from "../../calendar/composables/useRecords.js";
-
 import { useForms } from "../../../shared/composables/forms/useForms.js";
 import { useValidation } from "../../../shared/composables/forms/useValidation.js";
-import { useClearForms } from "../../../shared/composables/forms/clearForms.js";
-
-const habitId = ref(null);
-
-
-const deleteHabitMessage = ref('')
-
-const createHabitModalVisible = ref(false);
-const habitInfoModalVisible = ref(false);
-const deleteHabitModalVisible = ref(false);
+import { useModals } from "../../../shared/composables/modal/useModals.js";
 
 export const useHabits = () => {
-    const { habits, seriesCount } = useUserStore();
-
-    const { getHabits, getHabit } = useGetHabits();
+    const modals = useModals();
+    const { getHabits } = useGetHabits();
     const { getRecords } = useGetRecords();
-
     const { validateHabitForm } = useValidation()
     const { habitForm, habitErrors } = useForms()
-    const { clearHabitForm } = useClearForms();
-
-    const { habitsCurrent, createRecord, updateHabitsCurrent, updateRecordStatus } = useRecords();
-
-    const openCreateModal = () => {
-        createHabitModalVisible.value = true;
-    }
+    const { habits, habitsCurrent, habitId, seriesCount } = useUserStore();
+    const { createRecord, updateHabitsCurrent, updateRecordStatus } = useRecords();
 
     const createHabit = async (status) => {
         const userId = localStorage.getItem('userId');
@@ -51,6 +32,8 @@ export const useHabits = () => {
                 hour: "2-digit",
                 minute: "2-digit",
             })
+
+            const timeInDay = `${habitForm.value.time} мин в день`;
 
             const endDate = computed(() => {
                 if(!habitForm.value.term) return null
@@ -79,7 +62,7 @@ export const useHabits = () => {
                     category: habitForm.value.category,
                     habit: habitForm.value.habit,
                     frequency: habitForm.value.frequency,
-                    time: habitForm.value.time + 'мин',
+                    time: timeInDay,
                     series: seriesCount.value,
                     status: status,
                     term: habitForm.value.term,
@@ -95,28 +78,12 @@ export const useHabits = () => {
 
             await getRecords();
 
-            closeCreateModal();
+            modals.closeCreateHabitModal();
         }catch(err){
             console.log(err)
         }
     }
 
-    const closeCreateModal = () => {
-        createHabitModalVisible.value = false;
-
-        clearHabitForm();
-    }
-
-
-    const openInfoModal = async (id) => {
-        await getHabit(id)
-
-        habitInfoModalVisible.value = true
-    }
-
-    const closeInfoModal = async () => {
-        habitInfoModalVisible.value = false
-    }
 
     const updateStatus = async (id, newStatus) => {
         try{
@@ -130,13 +97,12 @@ export const useHabits = () => {
             })
 
             const habit = habits.value.find(habit => habit.id === id);
+            if(!habit) return null
 
-            seriesCount.value = habit?.series || 0
-
-            console.log(seriesCount.value)
+            seriesCount.value = habit.series || 0
 
             if(newStatus === 'Выполнено'){
-                await handler(`/habits/${id}`, {
+                const update = await handler(`/habits/${id}`, {
                     method: 'PATCH',
                     body: JSON.stringify({
                         series: seriesCount.value + 1,
@@ -145,6 +111,7 @@ export const useHabits = () => {
                         lastTime: time
                     })
                 })
+                seriesCount.value = update.series
             }else(
                 await handler(`/habits/${id}`, {
                     method: 'PATCH',
@@ -155,34 +122,23 @@ export const useHabits = () => {
                     })
                 })
             )
+            habit.status = newStatus;
 
-            if(habits.value){
-                if(habit){
-                    habit.status = newStatus;
-                    await getHabits()
-                }
+            await getHabits()
 
-                await updateRecordStatus(habit.habit, habit.series, habit.status, newStatus)
-                await updateHabitsCurrent(newStatus)
-            }
+            await updateRecordStatus(habit.habit, seriesCount.value, habit.status, newStatus)
+
+            await updateHabitsCurrent(newStatus)
+
         }catch(err){
             console.log(err);
         }
     }
 
-
-    const openDeleteHabitModal = (id, message) => {
-        habitId.value = id;
-
-        deleteHabitMessage.value = message;
-
-        deleteHabitModalVisible.value = true;
-    }
-
     const deleteHabit = async () => {
         const userRecordsId = localStorage.getItem('userRecordsId');
 
-        const currentDayCompletedCounter = habitsCurrent.value?.dayCompletedHabits || 0;
+        const currentDayCompletedCounter = habitsCurrent?.dayCompletedHabits || 0;
 
         try{
             await handler(`/habits/${habitId.value}`, {
@@ -190,7 +146,7 @@ export const useHabits = () => {
             });
             habits.value = habits.value.filter(habit => habit.id !== habitId.value);
 
-            const res = await handler(`/current-records/${userRecordsId}`, {
+            const res = await handler(`/habits-counter/${userRecordsId}`, {
                 method: 'PATCH',
                 body: JSON.stringify({
                     dayCompletedHabits: Math.max(0, currentDayCompletedCounter - 1)
@@ -198,38 +154,17 @@ export const useHabits = () => {
             })
             habitsCurrent.value = res
 
-            closeDeleteHabitModal()
+            await modals.closeHabitInfoModal()
+
+            modals.closeDeleteHabitModal()
         }catch(err){
             console.log(err);
         }
     }
 
-    const closeDeleteHabitModal = () => {
-        deleteHabitModalVisible.value = false;
-    }
-
-
     return{
-        habits,
-        habitForm,
-        habitErrors,
-
-        createHabitModalVisible,
-        habitInfoModalVisible,
-        deleteHabitModalVisible,
-        deleteHabitMessage,
-
-        openCreateModal,
         createHabit,
-        closeCreateModal,
-
-        openInfoModal,
-        closeInfoModal,
-
-        openDeleteHabitModal,
         deleteHabit,
-        closeDeleteHabitModal,
-
         updateStatus,
     }
 }

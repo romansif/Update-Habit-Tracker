@@ -1,24 +1,13 @@
-import { ref } from 'vue'
 import { handler } from '../../../shared/api/http.js';
 import { useUserStore } from "../../../shared/composables/store/useUserStore.js";
 import { useGetRecords } from "./getRecords.js"
-
-const RESET_TYPES = ref({
-    ONE:'ONE',
-    DAY:'DAY',
-    MONTH:'MONTH',
-    ALL:'ALL',
-})
-
-const recordId = ref(null)
-
-const resetMessage = ref('')
-
-const resetRecordsModalVisible = ref(false)
+import { useModals } from "../../../shared/composables/modal/useModals.js";
 
 export const useRecords = () => {
-    const { selectedReset, resetDate, getRecords, getDayRecords } = useGetRecords();
-    const { habitsCurrent, dayRecords } = useUserStore();
+    const modals = useModals();
+
+    const { RESET_TYPES, selectedReset, resetDate, habitsCurrent, recordId, dayRecords } = useUserStore();
+    const { getRecords, getDayRecords } = useGetRecords();
 
     const userRecordsId = localStorage.getItem('userRecordsId');
     const userRecordId = localStorage.getItem('userRecordId');
@@ -32,7 +21,7 @@ export const useRecords = () => {
                 console.log('Не найдено общее количество привычек');
                 return;
             }
-            await handler(`/current-records/${userRecordsId}`, {
+            await handler(`/habits-counter/${userRecordsId}`, {
                 method: 'PATCH',
                 body: JSON.stringify({
                     allHabitsCounter: newAllHabitsCounter,
@@ -76,13 +65,16 @@ export const useRecords = () => {
         const currentDayCompleted = habitsCurrent.value?.dayCompletedHabits || 0;
         const currentAllCompleted = habitsCurrent.value?.allCompletedHabits || 0;
 
+        const date = new Date().toLocaleDateString()
+
         try{
             if(newStatus === 'Выполнено'){
-                const res = await handler(`/current-records/${userRecordsId}`, {
+                const res = await handler(`/habits-counter/${userRecordsId}`, {
                     method: 'PATCH',
                     body: JSON.stringify({
                         dayCompletedHabits: currentDayCompleted + 1,
-                        allCompletedHabits: currentAllCompleted + 1
+                        allCompletedHabits: currentAllCompleted + 1,
+                        lastDate: date
                     })
                 })
 
@@ -94,8 +86,26 @@ export const useRecords = () => {
     };
 
     const resetHabitsCurrent = async () => {
+        const res = await handler(`/habits-counter/${userRecordsId}`, {
+            method: 'GET'
+        });
 
+        const today = new Date();
 
+        const todayString = today.toLocaleDateString('ru-RU')
+
+        if(res.lastDate !== todayString){
+            try{
+                await handler(`/habits-counter/${res.id}`, {
+                    method: 'PATCH',
+                    body: JSON.stringify({
+                        dayCompletedHabits: 0,
+                        lastDate: todayString,
+                    })
+            })
+        }catch(err){
+            console.error(err);}
+        }
     }
 
     const updateRecordStatus = async (habit, series, newStatus) => {
@@ -129,19 +139,6 @@ export const useRecords = () => {
         }catch(err){
             console.log(err);
         }
-    }
-
-    const openResetRecordsModal = (id, message, resetType, month) => {
-        resetMessage.value = message;
-
-        recordId.value = id
-        selectedReset.value = resetType;
-
-        if(resetType === RESET_TYPES.value.MONTH){
-            resetDate.value = month
-        }
-
-        resetRecordsModalVisible.value = true;
     }
 
     const resetRecords = async () => {
@@ -192,34 +189,18 @@ export const useRecords = () => {
 
             await getRecords()
 
-            closeResetRecordsModal();
+            modals.closeResetRecordsModal();
         }catch(err){
             console.log(err);
         }
     }
 
-    const closeResetRecordsModal = () => {
-        recordId.value = null;
-        selectedReset.value = null;
-
-        resetRecordsModalVisible.value = false
-    }
 
     return{
-        habitsCurrent,
-        dayRecords,
-
-        resetMessage,
-        resetRecordsModalVisible,
-
         createRecord,
-
         updateHabitsCurrent,
         resetHabitsCurrent,
         updateRecordStatus,
-
-        openResetRecordsModal,
         resetRecords,
-        closeResetRecordsModal
     }
 }

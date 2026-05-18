@@ -8,8 +8,8 @@ import NavSort from "./NavSort.vue";
 
 import reset from '../../app/assets/icons/reset-search.png'
 
-const { searchForm, debouncedSearch, resetSearchForm } = useSearchingHabits();
 const { getHabits } = useGetHabits();
+const { searchForm, debouncedSearch, resetSearchForm } = useSearchingHabits();
 
 watch(() => searchForm.value.search, async (newValue) => {
   if(newValue) {

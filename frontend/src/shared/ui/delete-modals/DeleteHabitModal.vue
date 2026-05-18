@@ -1,9 +1,13 @@
 <script setup>
 import BaseButton from '../BaseButton.vue';
 
+import { useModals } from "../../composables/modal/useModals.js";
+import { useUserStore } from "../../composables/store/useUserStore.js";
 import { useHabits } from "../../../features/habits/composables/useHabits.js";
 
-const { deleteHabitMessage, deleteHabit, closeDeleteHabitModal } = useHabits();
+const { deleteHabit } = useHabits();
+const { deleteHabitMessage } = useUserStore();
+const { closeDeleteHabitModal } = useModals();
 </script>
 
 <template>
