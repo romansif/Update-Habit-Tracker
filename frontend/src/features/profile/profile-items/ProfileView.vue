@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, watch } from "vue";
-import { useUserStore } from "../../../shared/composables/store/useUserStore.js";
+import { useAppStore } from "../../../shared/composables/store/useAppStore.js";
 import { useUser } from "../../auth/composables/useUser.js";
 import { useForms } from "../../../shared/composables/forms/useForms.js";
 
@@ -13,7 +13,7 @@ import LogoutModal from "../../../shared/ui/LogoutModal.vue";
 
 const { getUser, updateUser } = useUser();
 const { userErrors, updateForm } = useForms();
-const { user, logoutUserModalVisible, deleteUserModalVisible, createHabitModalVisible } = useUserStore();
+const { user, logoutUserModalVisible, deleteUserModalVisible, createHabitModalVisible } = useAppStore();
 
 const toLower = () => {
   updateForm.value.name = updateForm.value.name.toLowerCase()

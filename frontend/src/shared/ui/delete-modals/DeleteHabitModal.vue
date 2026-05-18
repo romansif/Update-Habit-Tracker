@@ -2,11 +2,11 @@
 import BaseButton from '../BaseButton.vue';
 
 import { useModals } from "../../composables/modal/useModals.js";
-import { useUserStore } from "../../composables/store/useUserStore.js";
+import { useAppStore } from "../../composables/store/useAppStore.js";
 import { useHabits } from "../../../features/habits/composables/useHabits.js";
 
 const { deleteHabit } = useHabits();
-const { deleteHabitMessage } = useUserStore();
+const { deleteHabitMessage } = useAppStore();
 const { closeDeleteHabitModal } = useModals();
 </script>
 

@@ -1,10 +1,10 @@
 <script setup>
 import { useModals } from "../../../shared/composables/modal/useModals.js";
-import { useUserStore } from "../../../shared/composables/store/useUserStore.js";
+import { useAppStore } from "../../../shared/composables/store/useAppStore.js";
 
 import reset_record from "../../../app/assets/icons/reset-record.png"
 
-const { dayRecords } = useUserStore()
+const { dayRecords } = useAppStore()
 const { openResetRecordsModal } = useModals()
 
 const statusClass = (status) => ({

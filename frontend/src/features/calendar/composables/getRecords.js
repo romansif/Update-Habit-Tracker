@@ -1,9 +1,9 @@
 import { handler } from "../../../shared/api/http.js";
-import { useUserStore } from "../../../shared/composables/store/useUserStore.js";
+import { useAppStore } from "../../../shared/composables/store/useAppStore.js";
 
 
 export const useGetRecords = () => {
-    const { selectedDate, resetDate, habitsCurrent, records, dayRecords } = useUserStore();
+    const { selectedDate, resetDate, habitsCurrent, records, dayRecords } = useAppStore();
 
     const userRecordsId = localStorage.getItem('userRecordsId');
 

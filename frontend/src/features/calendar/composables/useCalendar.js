@@ -1,5 +1,5 @@
 import { ref, computed } from 'vue';
-import { useUserStore } from "../../../shared/composables/store/useUserStore.js";
+import { useAppStore } from "../../../shared/composables/store/useAppStore.js";
 
 const currentDate = ref(new Date());
 
@@ -9,7 +9,7 @@ const monthNames = [
 ];
 
 export const useCalendar = () => {
-    const { records } = useUserStore()
+    const { records } = useAppStore()
 
     const currentMonth = computed(() => currentDate.value.getMonth());
     const currentYear = computed(() => currentDate.value.getFullYear());

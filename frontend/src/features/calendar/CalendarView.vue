@@ -1,5 +1,5 @@
 <script setup>
-import { useUserStore } from "../../shared/composables/store/useUserStore.js";
+import { useAppStore } from "../../shared/composables/store/useAppStore.js";
 
 import Calendar from "./calendar-items/Calendar.vue";
 import NavMenu from "../navigation/NavMenu.vue";
@@ -7,7 +7,7 @@ import RecordsModal from "../../shared/ui/info-modals/RecordsModal.vue";
 import ResetRecords from "../../shared/ui/delete-modals/ResetRecords.vue";
 import ResetMenu from "./calendar-items/ResetMenu.vue"
 
-const { recordsModalVisible, resetRecordsModalVisible } = useUserStore()
+const { recordsModalVisible, resetRecordsModalVisible } = useAppStore()
 </script>
 
 <template>

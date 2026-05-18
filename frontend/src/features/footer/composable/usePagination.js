@@ -1,13 +1,13 @@
 import { ref, computed, watch } from 'vue';
 
-import { useUserStore } from "../../../shared/composables/store/useUserStore.js";
+import { useAppStore } from "../../../shared/composables/store/useAppStore.js";
 
 const currentPage = ref(1)
 
 const itemsPerPage = 12
 
 export const usePagination = () => {
-    const { habits } = useUserStore();
+    const { habits } = useAppStore();
 
      const totalPages = computed(() => {
         return Math.ceil(habits.value?.length / itemsPerPage)

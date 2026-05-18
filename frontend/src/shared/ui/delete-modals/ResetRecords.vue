@@ -1,12 +1,12 @@
 <script setup>
-import { useUserStore } from "../../composables/store/useUserStore.js";
+import { useAppStore } from "../../composables/store/useAppStore.js";
 import { useModals } from "../../composables/modal/useModals.js";
 import { useRecords } from "../../../features/calendar/composables/useRecords.js";
 
 import BaseButton from '../BaseButton.vue';
 
 const { resetRecords } = useRecords()
-const { resetMessage } = useUserStore();
+const { resetMessage } = useAppStore();
 const { closeResetRecordsModal } = useModals();
 </script>
 

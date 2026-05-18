@@ -1,11 +1,11 @@
 <script setup>
-import { useUserStore } from "../../composables/store/useUserStore.js";
+import { useAppStore } from "../../composables/store/useAppStore.js";
 import { useModals } from "../../composables/modal/useModals.js";
 
 import BaseButton from "../BaseButton.vue";
 import reset_record from "../../../app/assets/icons/reset-record.png";
 
-const { habit } = useUserStore();
+const { habit } = useAppStore();
 const { openDeleteHabitModal, closeHabitInfoModal } = useModals();
 
 const statusClass = (status) => ({

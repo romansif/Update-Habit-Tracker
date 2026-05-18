@@ -1,11 +1,11 @@
 <script setup>
-import { useUserStore } from "../../../shared/composables/store/useUserStore.js";
+import { useAppStore } from "../../composables/store/useAppStore.js";
 import { useModals } from "../../composables/modal/useModals.js";
 
 import BaseButton from '../BaseButton.vue';
 
 const { closeDeleteUserModal } = useModals();
-const { delUserMessage, deleteUser } = useUserStore();
+const { delUserMessage, deleteUser } = useAppStore();
 </script>
 
 <template>

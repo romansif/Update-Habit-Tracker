@@ -1,9 +1,9 @@
 <script setup xmlns="http://www.w3.org/1999/html">
 import { onMounted } from "vue";
-import { useUserStore } from "../../../shared/composables/store/useUserStore.js";
+import { useAppStore } from "../../../shared/composables/store/useAppStore.js";
 import { useGetRecords } from "../../calendar/composables/getRecords.js";
 
-const { habitsCurrent } = useUserStore();
+const { habitsCurrent } = useAppStore();
 const { getRecordsCurrent } = useGetRecords();
 
 onMounted(async() => {

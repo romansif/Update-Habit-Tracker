@@ -1,6 +1,6 @@
 import { computed } from 'vue';
 import { handler } from '../../../shared/api/http.js';
-import { useUserStore } from "../../../shared/composables/store/useUserStore.js";
+import { useAppStore } from "../../../shared/composables/store/useAppStore.js";
 import { useGetHabits } from "./getHabits.js";
 import { useGetRecords } from "../../calendar/composables/getRecords.js";
 import { useRecords } from "../../calendar/composables/useRecords.js";
@@ -10,11 +10,12 @@ import { useModals } from "../../../shared/composables/modal/useModals.js";
 
 export const useHabits = () => {
     const modals = useModals();
+
+    const { habitForm } = useForms()
     const { getHabits } = useGetHabits();
     const { getRecords } = useGetRecords();
     const { validateHabitForm } = useValidation()
-    const { habitForm, habitErrors } = useForms()
-    const { habits, habitsCurrent, habitId, seriesCount } = useUserStore();
+    const { habits, habitsCurrent, habitId, seriesCount } = useAppStore();
     const { createRecord, updateHabitsCurrent, updateRecordStatus } = useRecords();
 
     const createHabit = async (status) => {

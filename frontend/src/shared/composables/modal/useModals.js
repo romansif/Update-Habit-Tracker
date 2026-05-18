@@ -1,11 +1,11 @@
-import { useUserStore } from "../store/useUserStore.js";
+import { useAppStore } from "../store/useAppStore.js";
 import { useGetRecords } from "../../../features/calendar/composables/getRecords.js";
 import { useGetHabits } from "../../../features/habits/composables/getHabits.js";
 import { useClearForms } from "../forms/clearForms.js";
 import { useCalendar } from "../../../features/calendar/composables/useCalendar.js";
 
 export const useModals = () => {
-    const store = useUserStore();
+    const store = useAppStore();
 
     const openLogoutUserModal = (message) => {
         store.logoutUserMessage.value = message;

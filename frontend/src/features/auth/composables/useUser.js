@@ -1,6 +1,6 @@
 import { useRouter } from "vue-router";
 import { handler } from '../../../shared/api/http.js';
-import { useUserStore } from "../../../shared/composables/store/useUserStore.js";
+import { useAppStore } from "../../../shared/composables/store/useAppStore.js";
 import { useForms } from "../../../shared/composables/forms/useForms.js";
 import { useValidation } from "../../../shared/composables/forms/useValidation.js";
 import { useClearForms } from "../../../shared/composables/forms/clearForms.js";
@@ -13,8 +13,8 @@ export const useUser = () => {
     const modals = useModals();
 
     const { clearRegisterForm, clearLoginForm } = useClearForms();
-    const { users, user, habits, habitsCurrent, habitsCounter, records } = useUserStore()
     const { registerForm, loginForm, updateForm, userErrors } = useForms();
+    const { users, user, habits, habitsCurrent, habitsCounter, records } = useAppStore()
     const { validateRegisterForm, validateLoginForm, validateUpdateForm } = useValidation();
 
     const registerUser = async () => {

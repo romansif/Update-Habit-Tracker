@@ -1,13 +1,13 @@
 import { handler } from '../../../shared/api/http.js';
-import { useUserStore } from "../../../shared/composables/store/useUserStore.js";
+import { useAppStore } from "../../../shared/composables/store/useAppStore.js";
 import { useGetRecords } from "./getRecords.js"
 import { useModals } from "../../../shared/composables/modal/useModals.js";
 
 export const useRecords = () => {
     const modals = useModals();
 
-    const { RESET_TYPES, selectedReset, resetDate, habitsCurrent, recordId, dayRecords } = useUserStore();
     const { getRecords, getDayRecords } = useGetRecords();
+    const { RESET_TYPES, selectedReset, resetDate, habitsCurrent, recordId, dayRecords } = useAppStore();
 
     const userRecordsId = localStorage.getItem('userRecordsId');
     const userRecordId = localStorage.getItem('userRecordId');

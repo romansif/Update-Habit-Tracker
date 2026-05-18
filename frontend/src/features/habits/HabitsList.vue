@@ -1,7 +1,7 @@
 <script setup>
 import { useQuery } from "@tanstack/vue-query";
 
-import { useUserStore } from "../../shared/composables/store/useUserStore.js";
+import { useAppStore } from "../../shared/composables/store/useAppStore.js";
 import { useGetHabits } from "./composables/getHabits.js";
 import { usePagination } from "../footer/composable/usePagination.js"
 
@@ -12,7 +12,7 @@ import Pagination from "../footer/Pagination.vue";
 
 const { getHabits } = useGetHabits()
 const { paginatedItems } = usePagination()
-const { habits, habitInfoModalVisible, deleteHabitModalVisible } = useUserStore()
+const { habits, habitInfoModalVisible, deleteHabitModalVisible } = useAppStore()
 
 const { isPending, isError, error } = useQuery({
   queryKey: ['habits'],

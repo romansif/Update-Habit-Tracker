@@ -5,12 +5,12 @@ const user = ref(null);
 
 const habits = ref([]);
 const habitsCurrent = ref(null);
-const currentForms = ref({
+const currentForms = {
     allHabits: 0,
     dayCompletedHabits: 0,
     allCompletedHabits: 0,
     incompletedHabits: 0,
-})
+}
 const habitId = ref(null);
 const habit = ref(null)
 const seriesCount = ref(0);
@@ -22,12 +22,12 @@ const selectedCategory = ref(null)
 const selectedDate = ref(null)
 const selectedReset = ref(null)
 const resetDate = ref(null)
-const RESET_TYPES = ref({
+const RESET_TYPES = {
     ONE:'ONE',
     DAY:'DAY',
     MONTH:'MONTH',
     ALL:'ALL',
-})
+}
 
 const delUserMessage = ref('')
 const logoutUserMessage = ref('')
@@ -43,7 +43,7 @@ const deleteHabitModalVisible = ref(false);
 const recordsModalVisible = ref(false)
 const infoModalVisible = ref(false)
 
-export const useUserStore = () => {
+export const useAppStore = () => {
     return{
         users,
         user,

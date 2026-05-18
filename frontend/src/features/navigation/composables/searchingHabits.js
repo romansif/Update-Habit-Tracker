@@ -2,11 +2,11 @@ import { ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useDebounceFn } from "@vueuse/core";
 import { handler } from '../../../shared/api/http.js';
-import { useUserStore } from "../../../shared/composables/store/useUserStore.js";
+import { useAppStore } from "../../../shared/composables/store/useAppStore.js";
 import { useHabitsFilter } from "../../../shared/composables/filter/useHabitsFilter.js";
 
 export const useSearchingHabits = () => {
-    const { habits } = useUserStore();
+    const { habits } = useAppStore();
     const { filteredHabits } = useHabitsFilter();
 
     const route = useRoute();
