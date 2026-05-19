@@ -1,11 +1,11 @@
 <script setup>
 import { useModals } from "../../../shared/composables/modal/useModals.js";
-import { useAppStore } from "../../../shared/composables/store/useAppStore.js";
+import { useRecordsStore } from "../../../shared/composables/store/recordsStore.js";
 
 import reset_record from "../../../app/assets/icons/reset-record.png"
 
-const { dayRecords } = useAppStore()
-const { openResetRecordsModal } = useModals()
+const { dayRecords } = useRecordsStore();
+const { openResetRecordsModal } = useModals();
 
 const statusClass = (status) => ({
   'bg-green-500 italic text-white px-2 py-1 rounded': status === 'Выполнено',
@@ -21,8 +21,8 @@ const statusClass = (status) => ({
       Привычка создана в {{ dayRecord.timeCreatedRecord }}
     </span>
     <div class="flex items-center gap-2 py-1">
-      <div class="flex items-center gap-1 bg-orange-100 text-orange-600 px-2 py-1 rounded-lg">
-        <span class="text-sm">🔥</span>
+      <div class="flex items-center gap-1 bg-orange-100 text-orange-600 px-2 py-1 rounded-lg text-sm">
+        <span>🔥</span>
         <span class="font-semibold">{{ dayRecord.series }}</span>
       </div>
       <span class="text-lg font-medium">

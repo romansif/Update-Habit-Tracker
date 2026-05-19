@@ -62,10 +62,10 @@ export const useValidation = () => {
         habitErrors.value.termError = !habitForm.value.term
 
         habitErrors.value.habitMessage = habitErrors.value.habitError ? 'Поле привычки должно быть заполненно' : ''
-        habitErrors.value.timeMessage = habitErrors.value.timeError ? 'Поле времени на привычку должно быть заполненно' : ''
-        habitErrors.value.categoryMessage = habitErrors.value.categoryError ? 'Поле категории привычки должно быть заполненно' : ''
-        habitErrors.value.frequencyMessage = habitErrors.value.frequencyError ? 'Поле частоты выполнения привычки должно быть заполненно' : ''
-        habitErrors.value.termMessage = habitErrors.value.termError ? 'Поле срока выполения привычки должно быть заполненно' : ''
+        habitErrors.value.timeMessage = habitErrors.value.timeError ? 'Поле времени на выполнение должно быть заполненно' : ''
+        habitErrors.value.categoryMessage = habitErrors.value.categoryError ? 'Поле категории должно быть заполненно' : ''
+        habitErrors.value.frequencyMessage = habitErrors.value.frequencyError ? 'Поле частоты выполнения должно быть заполненно' : ''
+        habitErrors.value.termMessage = habitErrors.value.termError ? 'Поле срока выполения должно быть заполненно' : ''
 
         return !(!habitForm.value.habit || !habitForm.value.time || !habitForm.value.category ||
             !habitForm.value.frequency || !habitForm.value.term)

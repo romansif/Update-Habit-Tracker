@@ -1,11 +1,14 @@
 <script setup>
 import { watch } from 'vue';
-import { useHabits } from "../../features/habits/composables/useHabits.js";
+
 import { useForms } from "../composables/forms/useForms.js";
 import { useModals } from "../composables/modal/useModals.js";
+import { useHabitsStore } from "../composables/store/habitsStore.js";
+import { useHabits } from "../../features/habits/composables/useHabits.js";
 
-import BaseButton from '../ui/BaseButton.vue';
+import BaseButton from './button/BaseButton.vue';
 
+const { categories, frequencies, terms } = useHabitsStore();
 const { createHabit } = useHabits();
 const { habitForm, habitErrors } = useForms();
 const { closeCreateHabitModal } = useModals();
@@ -44,8 +47,14 @@ watch(() => [
       <div class="flex gap-10">
         <div class="w-1/2 flex flex-col gap-4">
           <div class="flex flex-col gap-2 min-h-[90px]">
-            <input type="text" v-model="habitForm.category" placeholder="Категория (например, здоровье, учеба)"
-                   class="bg-gray-300 outline-none rounded-[4px] p-4 w-full"/>
+            <select v-model="habitForm.category" name="" id="" class="bg-gray-300 outline-none rounded-[4px] px-3 py-4 text-gray-500 w-full">
+              <option disabled value="">
+                Выберите категорию
+              </option>
+              <option v-for="category in categories" :key="category" class="text-black">
+                {{ category.icon }} {{ category.category }}
+              </option>
+            </select>
             <span v-if="habitErrors.categoryError" class="text-sm text-red-500">
               {{ habitErrors.categoryMessage }}
             </span>
@@ -71,9 +80,7 @@ watch(() => [
               <option disabled value="">
                 Выберите частоту
               </option>
-              <option>Ежедневно</option>
-              <option>1 раз в неделю</option>
-              <option>3 раза в неделю</option>
+              <option v-for="frequency in frequencies" class="text-black">{{ frequency }}</option>
             </select>
             <span v-if="habitErrors.frequencyError" class="text-sm text-red-500">
               {{ habitErrors.frequencyMessage }}
@@ -84,11 +91,7 @@ watch(() => [
               <option disabled value="">
                 Выберите срок выполнения
               </option>
-              <option>1 месяц</option>
-              <option>3 месяца</option>
-              <option>6 месяцев</option>
-              <option>1 год</option>
-              <option>3 года</option>
+              <option v-for="term in terms" class="text-black">{{ term }}</option>
             </select>
             <span v-if="habitErrors.termError" class="text-sm text-red-500">
               {{ habitErrors.termMessage }}

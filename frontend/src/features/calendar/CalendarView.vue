@@ -1,13 +1,13 @@
 <script setup>
-import { useAppStore } from "../../shared/composables/store/useAppStore.js";
+import { useModalsStore } from "../../shared/composables/store/modalsStore.js";
 
-import Calendar from "./calendar-items/Calendar.vue";
 import NavMenu from "../navigation/NavMenu.vue";
-import RecordsModal from "../../shared/ui/info-modals/RecordsModal.vue";
-import ResetRecords from "../../shared/ui/delete-modals/ResetRecords.vue";
+import Calendar from "./calendar-items/Calendar.vue";
 import ResetMenu from "./calendar-items/ResetMenu.vue"
+import DayRecords from "../../shared/ui/info-modals/dayRecords.vue";
+import ResetRecords from "../../shared/ui/delete-modals/ResetRecords.vue";
 
-const { recordsModalVisible, resetRecordsModalVisible } = useAppStore()
+const { recordsModalVisible, resetRecordsModalVisible } = useModalsStore();
 </script>
 
 <template>
@@ -17,7 +17,7 @@ const { recordsModalVisible, resetRecordsModalVisible } = useAppStore()
   </div>
    <Calendar />
   <transition name="modal" >
-    <RecordsModal v-show="recordsModalVisible" />
+    <DayRecords v-show="recordsModalVisible" />
   </transition>
   <transition name="modal" >
     <ResetRecords v-show="resetRecordsModalVisible" />

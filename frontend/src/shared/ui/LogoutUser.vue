@@ -1,12 +1,12 @@
 <script setup>
-import { useAppStore } from "../composables/store/useAppStore.js";
-import { useUser } from '../../features/auth/composables/useUser.js'
 import { useModals } from "../composables/modal/useModals.js";
+import { useUserStore } from "../composables/store/userStore.js";
+import { useUser } from '../../features/auth/composables/useUser.js'
 
-import BaseButton from '../ui/BaseButton.vue';
+import BaseButton from './button/BaseButton.vue';
 
 const { logoutUser } = useUser()
-const { logoutUserMessage } = useAppStore();
+const { logoutUserMessage } = useUserStore();
 const { closeLogoutUserModal } = useModals();
 </script>
 

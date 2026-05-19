@@ -1,18 +1,20 @@
 <script setup>
 import { useQuery } from "@tanstack/vue-query";
 
-import { useAppStore } from "../../shared/composables/store/useAppStore.js";
 import { useGetHabits } from "./composables/getHabits.js";
 import { usePagination } from "../footer/composable/usePagination.js"
+import { useModalsStore } from "../../shared/composables/store/modalsStore.js";
+import { useHabitsStore } from "../../shared/composables/store/habitsStore.js";
 
-import HabitCard from "./habits-items/HabitCard.vue";
-import DeleteHabitModal from "../../shared/ui/delete-modals/DeleteHabitModal.vue";
-import HabitInfoModal from "../../shared/ui/info-modals/HabitInfoModal.vue";
 import Pagination from "../footer/Pagination.vue";
+import HabitCard from "./habits-items/HabitCard.vue";
+import DeleteHabit from "../../shared/ui/delete-modals/DeleteHabit.vue";
+import HabitInfo from "../../shared/ui/info-modals/HabitInfo.vue";
 
+const { habits } = useHabitsStore()
 const { getHabits } = useGetHabits()
 const { paginatedItems } = usePagination()
-const { habits, habitInfoModalVisible, deleteHabitModalVisible } = useAppStore()
+const { habitInfoModalVisible, deleteHabitModalVisible } = useModalsStore()
 
 const { isPending, isError, error } = useQuery({
   queryKey: ['habits'],
@@ -37,10 +39,10 @@ const { isPending, isError, error } = useQuery({
   </div>
   <Pagination v-if="habits && habits.length > 0"/>
   <transition name="modal" >
-    <HabitInfoModal v-show="habitInfoModalVisible" />
+    <HabitInfo v-show="habitInfoModalVisible" />
   </transition>
   <transition name="modal">
-    <DeleteHabitModal v-show="deleteHabitModalVisible" />
+    <DeleteHabit v-show="deleteHabitModalVisible" />
   </transition>
 </template>
 

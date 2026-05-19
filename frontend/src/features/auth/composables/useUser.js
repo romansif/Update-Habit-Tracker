@@ -1,6 +1,11 @@
 import { useRouter } from "vue-router";
+
 import { handler } from '../../../shared/api/http.js';
-import { useAppStore } from "../../../shared/composables/store/useAppStore.js";
+
+import { useUserStore } from '../../../shared/composables/store/userStore';
+import { useHabitsStore } from "../../../shared/composables/store/habitsStore.js";
+import { useRecordsStore } from "../../../shared/composables/store/recordsStore.js";
+
 import { useForms } from "../../../shared/composables/forms/useForms.js";
 import { useValidation } from "../../../shared/composables/forms/useValidation.js";
 import { useClearForms } from "../../../shared/composables/forms/clearForms.js";
@@ -12,22 +17,26 @@ export const useUser = () => {
     const router = useRouter();
     const modals = useModals();
 
+    const { records } = useRecordsStore();
+    const { users, user } = useUserStore();
+    const { habits, habitsCount, habitsCountForm } = useHabitsStore();
+
     const { clearRegisterForm, clearLoginForm } = useClearForms();
     const { registerForm, loginForm, updateForm, userErrors } = useForms();
-    const { users, user, habits, habitsCurrent, habitsCounter, records } = useAppStore()
+
     const { validateRegisterForm, validateLoginForm, validateUpdateForm } = useValidation();
 
     const registerUser = async () => {
-        const isValid = validateRegisterForm()
+        const isValid = validateRegisterForm();
 
-        if(!isValid) return
+        if(!isValid) return;
 
         try{
             const now = new Date();
 
-            const dateCreatedAccount = now.toLocaleDateString()
+            const dateCreatedAccount = now.toLocaleDateString();
 
-            const hashedPassword = await bcrypt.hash(registerForm.value.password, 10)
+            const hashedPassword = await bcrypt.hash(registerForm.value.password, 10);
 
             const newUser = await handler('/users', {
                 method: 'POST',
@@ -39,19 +48,19 @@ export const useUser = () => {
                 })
             });
 
-            const newRecords = await handler('/habits-counter', {
+            const newHabitsCount = await handler('/habits-count', {
                 method: 'POST',
                 body: JSON.stringify({
-                    allHabitsCounter: habitsCounter.value.allHabits,
-                    dayCompletedHabits: habitsCounter.value.dayCompletedHabits,
-                    allCompletedHabits: habitsCounter.value.allCompletedHabits,
+                    allHabitsCounter: habitsCountForm?.allHabits,
+                    dayCompletedHabits: habitsCountForm?.dayCompletedHabits,
+                    allCompletedHabits: habitsCountForm?.allCompletedHabits,
                 })
             })
 
             users.value = newUser;
 
             localStorage.setItem('userId', newUser.id);
-            localStorage.setItem('userRecordsId', newRecords.id);
+            localStorage.setItem('userRecordsId', newHabitsCount.id);
 
             router.push({ path: 'profile' });
             clearRegisterForm();
@@ -61,26 +70,26 @@ export const useUser = () => {
     };
 
     const loginUser = async () => {
-        const isValid = validateLoginForm()
+        const isValid = validateLoginForm();
 
-        if(!isValid) return
+        if(!isValid) return;
 
         try{
             const users = await handler(`/users?email=${loginForm.value.email}`, {
                 method: 'GET'
-            })
+            });
 
             const foundUser = users[0];
             if(!foundUser){
                 userErrors.value.emailMessage = 'Не удалось найти пользователя';
                 return;
-            }
+            };
 
             const passwordMatch = await bcrypt.compare(loginForm.value.password, foundUser.password);
             if(!passwordMatch){
                userErrors.value.passwordMessage = 'Не правильный пароль';
                return;
-            }
+            };
 
             localStorage.setItem('currentUser', JSON.stringify(foundUser));
             localStorage.setItem('userId', foundUser.id);
@@ -100,7 +109,7 @@ export const useUser = () => {
         try{
             const res = await handler(`/users/${userId}`, {
                 method: 'GET',
-            })
+            });
             user.value = res;
         }catch(err){
             console.log(err);
@@ -110,9 +119,9 @@ export const useUser = () => {
     const updateUser = async () => {
         const userId = localStorage.getItem('userId');
 
-        const isValid = validateUpdateForm()
+        const isValid = validateUpdateForm();
 
-        if(!isValid) return
+        if(!isValid) return;
 
         try{
             const updatedUser = await handler(`/users/${userId}`, {
@@ -120,7 +129,7 @@ export const useUser = () => {
                 body: JSON.stringify({
                     name: updateForm.value.name,
                 })
-            })
+            });
             user.value = updatedUser;
 
             updateForm.value.name = '';
@@ -134,7 +143,7 @@ export const useUser = () => {
             localStorage.removeItem('userId');
             user.value = null;
 
-            modals.closeLogoutUserModal()
+            modals.closeLogoutUserModal();
 
             router.push({ name: 'login' });
         }catch(err){
@@ -149,35 +158,35 @@ export const useUser = () => {
         try{
             const allHabits = await handler(`/habits?userId=${userId}`, {
                 method: 'GET'
-            })
+            });
             await Promise.all(
                 allHabits.map(habit => {
                     handler(`/habits/${habit.id}`, {
                         method: 'DELETE',
                     })
                 })
-            )
+            );
             habits.value = allHabits;
 
 
-            const count = await handler(`/habits-counter/${userRecordsId}`, {
+            const count = await handler(`/habits-count/${userRecordsId}`, {
                 method: 'DELETE'
             });
-            habitsCurrent.value = count
+            habitsCount.value = count;
 
             localStorage.removeItem('userRecordsId');
 
 
-            const allRecords = await handler(`/calendar-records?userRecordsId=${userRecordsId}`, {
+            const allRecords = await handler(`/records?userRecordsId=${userRecordsId}`, {
                 method: 'GET'
-            })
+            });
             await Promise.all(
                 allRecords.map(record =>
-                    handler(`/calendar-records/${record.id}`, {
+                    handler(`/records/${record.id}`, {
                         method: 'DELETE',
                     })
                 )
-            )
+            );
             records.value = allRecords;
 
 
@@ -198,10 +207,8 @@ export const useUser = () => {
     return{
         registerUser,
         loginUser,
-        clearRegisterForm,
-        clearLoginForm,
-        logoutUser,
         getUser,
+        logoutUser,
         updateUser,
         deleteUser,
     }

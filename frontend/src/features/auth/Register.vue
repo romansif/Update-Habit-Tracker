@@ -1,25 +1,26 @@
 <script setup>
 import { ref, watch } from "vue";
+
 import { useUser } from "./composables/useUser.js";
 import { useForms } from "../../shared/composables/forms/useForms.js";
 
 import opened from '../../app/assets/icons/opened.png'
 import closed from '../../app/assets/icons/closed.png'
-import BaseButton from "../../shared/ui/BaseButton.vue";
+import BaseButton from "../../shared/ui/button/BaseButton.vue";
 
-const { registerUser } = useUser()
-const { clearRegisterForm } = useForms()
-const { registerForm, userErrors } = useForms()
+const { registerUser } = useUser();
+const { clearRegisterForm } = useForms();
+const { registerForm, userErrors } = useForms();
 
-const showPassword = ref(false)
+const showPassword = ref(false);
 
 const togglePassword = () => {
-  showPassword.value = !showPassword.value
+  showPassword.value = !showPassword.value;
 }
 
 const toLower = () => {
   registerForm.value.name = registerForm.value.name.toLowerCase()
-}
+};
 
 watch(() => [registerForm.value.name, registerForm.value.email, registerForm.value.password],([name, email, password]) => {
       if(name){

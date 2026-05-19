@@ -1,12 +1,13 @@
-import { computed } from 'vue';
-import { handler } from '../../../shared/api/http.js';
-import { useAppStore } from "../../../shared/composables/store/useAppStore.js";
+import { ref, computed } from 'vue';
+
 import { useGetHabits } from "./getHabits.js";
-import { useGetRecords } from "../../calendar/composables/getRecords.js";
+import { handler } from '../../../shared/api/http.js';
 import { useRecords } from "../../calendar/composables/useRecords.js";
 import { useForms } from "../../../shared/composables/forms/useForms.js";
-import { useValidation } from "../../../shared/composables/forms/useValidation.js";
+import { useGetRecords } from "../../calendar/composables/getRecords.js";
 import { useModals } from "../../../shared/composables/modal/useModals.js";
+import { useHabitsStore } from "../../../shared/composables/store/habitsStore.js";
+import { useValidation } from "../../../shared/composables/forms/useValidation.js";
 
 export const useHabits = () => {
     const modals = useModals();
@@ -15,31 +16,31 @@ export const useHabits = () => {
     const { getHabits } = useGetHabits();
     const { getRecords } = useGetRecords();
     const { validateHabitForm } = useValidation()
-    const { habits, habitsCurrent, habitId, seriesCount } = useAppStore();
-    const { createRecord, updateHabitsCurrent, updateRecordStatus } = useRecords();
+    const { habits, habitId, habitsCount, seriesCount } = useHabitsStore();
+    const { createRecord, updateHabitsCurrentCount, updateRecordStatus } = useRecords();
 
     const createHabit = async (status) => {
         const userId = localStorage.getItem('userId');
 
-        const isValid = validateHabitForm()
+        const isValid = validateHabitForm();
 
-        if(!isValid) return
+        if(!isValid) return;
         try{
+            const timeInDay = `${habitForm.value.time} мин в день`;
+
             const now = new Date();
 
-            const dateCreatedHabit = now.toLocaleDateString()
+            const dateCreatedHabit = now.toLocaleDateString();
 
             const timeCreatedHabit = now.toLocaleTimeString("ru-RU", {
                 hour: "2-digit",
                 minute: "2-digit",
-            })
-
-            const timeInDay = `${habitForm.value.time} мин в день`;
+            });
 
             const endDate = computed(() => {
-                if(!habitForm.value.term) return null
+                if(!habitForm.value.term) return null;
 
-                const date = new Date()
+                const date = new Date();
 
                 if(habitForm.value.term === '1 месяц'){
                     date.setMonth(date.getMonth() + 1)
@@ -54,7 +55,7 @@ export const useHabits = () => {
                 }
 
                 return date.toLocaleDateString()
-            })
+            });
 
             const newHabit = await handler('/habits', {
                 method: 'POST',
@@ -71,8 +72,9 @@ export const useHabits = () => {
                     dateCreatedHabit: dateCreatedHabit,
                     timeCreatedHabit: timeCreatedHabit,
                     endDateHabit: endDate.value,
+                    progress: 0
                 })
-            })
+            });
             habits.value.push(newHabit);
 
             await createRecord(newHabit.habit, newHabit.series, newHabit.status);
@@ -83,8 +85,44 @@ export const useHabits = () => {
         }catch(err){
             console.log(err)
         }
-    }
+    };
 
+    const updateProgress = async (id) => {
+        const habit = habits.value.find(habit => habit.id === id);
+
+        const progressRatio = computed(() => {
+            if(!habit) return null;
+
+            const days = ref(null)
+
+            const progressCount = ref(null)
+
+            if(habit.term === '1 месяц'){
+                days.value = 30
+            }else if(habit.term === '3 месяца'){
+                days.value = 90
+            }else if(habit.term === '6 месяцев'){
+                days.value = 120
+            }else if(habit.term === '1 год'){
+                days.value = 365
+            }else if(habit.term === '3 года') {
+                days.value = 1095
+            }
+
+            return (progressCount.value = 100 / days.value)
+        })
+
+        try{
+            await handler(`/habits/${habit.id}`, {
+                method: 'PATCH',
+                body: JSON.stringify({
+                    progress: Math.ceil(100, habit.progress + progressRatio.value)
+                })
+            })
+        }catch(err){
+            console.log(err)
+        }
+    }
 
     const updateStatus = async (id, newStatus) => {
         try{
@@ -113,6 +151,8 @@ export const useHabits = () => {
                     })
                 })
                 seriesCount.value = update.series
+
+                await updateProgress(habit.id);
             }else(
                 await handler(`/habits/${id}`, {
                     method: 'PATCH',
@@ -125,12 +165,11 @@ export const useHabits = () => {
             )
             habit.status = newStatus;
 
-            await getHabits()
-
             await updateRecordStatus(habit.habit, seriesCount.value, habit.status, newStatus)
 
-            await updateHabitsCurrent(newStatus)
+            await updateHabitsCurrentCount(newStatus)
 
+            await getHabits()
         }catch(err){
             console.log(err);
         }
@@ -139,7 +178,7 @@ export const useHabits = () => {
     const deleteHabit = async () => {
         const userRecordsId = localStorage.getItem('userRecordsId');
 
-        const currentDayCompletedCounter = habitsCurrent?.dayCompletedHabits || 0;
+        const currentDayCompletedCounter = habitsCount?.dayCompletedHabits || 0;
 
         try{
             await handler(`/habits/${habitId.value}`, {
@@ -147,17 +186,17 @@ export const useHabits = () => {
             });
             habits.value = habits.value.filter(habit => habit.id !== habitId.value);
 
-            const res = await handler(`/habits-counter/${userRecordsId}`, {
+            const res = await handler(`/habits-count/${userRecordsId}`, {
                 method: 'PATCH',
                 body: JSON.stringify({
                     dayCompletedHabits: Math.max(0, currentDayCompletedCounter - 1)
                 })
             })
-            habitsCurrent.value = res
-
-            await modals.closeHabitInfoModal()
+            habitsCount.value = res
 
             modals.closeDeleteHabitModal()
+
+            await modals.closeHabitInfoModal()
         }catch(err){
             console.log(err);
         }

@@ -1,13 +1,14 @@
 import { useRoute } from "vue-router";
+
 import { handler } from "../../../shared/api/http.js";
-import { useAppStore } from "../../../shared/composables/store/useAppStore.js";
+import { useHabitsStore } from "../../../shared/composables/store/habitsStore.js";
 import { useHabitsFilter } from "../../../shared/composables/filter/useHabitsFilter.js";
 
 export const useGetHabits = () => {
-    const { habits, habit } = useAppStore();
-    const { filteredHabits } = useHabitsFilter();
-
     const route = useRoute();
+
+    const { habits, habit } = useHabitsStore();
+    const { filteredHabits } = useHabitsFilter();
 
     const getHabits = async () => {
         const userId = localStorage.getItem('userId');

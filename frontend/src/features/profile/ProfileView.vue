@@ -1,19 +1,22 @@
 <script setup>
 import { onMounted, watch } from "vue";
-import { useAppStore } from "../../../shared/composables/store/useAppStore.js";
-import { useUser } from "../../auth/composables/useUser.js";
-import { useForms } from "../../../shared/composables/forms/useForms.js";
 
-import BaseButton from "../../../shared/ui/BaseButton.vue";
-import ProfileStatusCards from "./ProfileStatusCards.vue";
-import ProfileMenu from "./ProfileMenu.vue";
-import CreateHabitModal from "../../../shared/ui/CreateHabitModal.vue";
-import DeleteUserModal from "../../../shared/ui/delete-modals/DeleteUserModal.vue";
-import LogoutModal from "../../../shared/ui/LogoutModal.vue";
+import { useUser } from "../auth/composables/useUser.js";
+import { useForms } from "../../shared/composables/forms/useForms.js";
+import { useUserStore } from "../../shared/composables/store/userStore.js";
+import { useModalsStore } from "../../shared/composables/store/modalsStore.js";
 
+import ProfileMenu from "./profile-items/ProfileMenu.vue";
+import ProfileCountsCard from "./profile-items/ProfileCountsCard.vue";
+import BaseButton from "../../shared/ui/button/BaseButton.vue";
+import LogoutUser from "../../shared/ui/LogoutUser.vue";
+import CreateHabit from "../../shared/ui/CreateHabit.vue";
+import DeleteUser from "../../shared/ui/delete-modals/DeleteUser.vue";
+
+const { user } = useUserStore()
 const { getUser, updateUser } = useUser();
 const { userErrors, updateForm } = useForms();
-const { user, logoutUserModalVisible, deleteUserModalVisible, createHabitModalVisible } = useAppStore();
+const { logoutUserModalVisible, deleteUserModalVisible, createHabitModalVisible } = useModalsStore();
 
 const toLower = () => {
   updateForm.value.name = updateForm.value.name.toLowerCase()
@@ -42,7 +45,7 @@ onMounted(async () => {
     </div>
     <section class="flex justify-center py-13">
       <div class="w-[850px]">
-          <ProfileStatusCards />
+          <ProfileCountsCard />
         <div class="flex flex-col justify-center items-center mt-30">
           <div>
             <h1 class="text-xl">Текущее имя пользователя: {{ user?.name }}</h1>
@@ -56,13 +59,13 @@ onMounted(async () => {
         </div>
       </div>
       <transition name="modal" >
-        <CreateHabitModal v-show="createHabitModalVisible" />
+        <CreateHabit v-show="createHabitModalVisible" />
       </transition>
       <transition name="modal" >
-        <DeleteUserModal v-show="deleteUserModalVisible" />
+        <DeleteUser v-show="deleteUserModalVisible" />
       </transition>
       <transition name="modal" >
-        <LogoutModal v-show="logoutUserModalVisible" />
+        <LogoutUser v-show="logoutUserModalVisible" />
       </transition>
     </section>
   </div>

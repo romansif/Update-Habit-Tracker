@@ -1,38 +1,45 @@
-import { useAppStore } from "../store/useAppStore.js";
+import { useUserStore } from "../store/userStore.js";
+import { useHabitsStore } from "../store/habitsStore.js";
+import { useRecordsStore } from "../store/recordsStore.js";
+import { useModalsStore } from "../store/modalsStore.js";
+
 import { useGetRecords } from "../../../features/calendar/composables/getRecords.js";
 import { useGetHabits } from "../../../features/habits/composables/getHabits.js";
 import { useClearForms } from "../forms/clearForms.js";
 import { useCalendar } from "../../../features/calendar/composables/useCalendar.js";
 
 export const useModals = () => {
-    const store = useAppStore();
+    const userStore = useUserStore();
+    const habitsStore = useHabitsStore();
+    const recordsStore = useRecordsStore();
+    const modalsStore = useModalsStore();
 
     const openLogoutUserModal = (message) => {
-        store.logoutUserMessage.value = message;
-        store.logoutUserModalVisible.value = true;
+        userStore.logoutUserMessage.value = message;
+        modalsStore.logoutUserModalVisible.value = true;
     }
 
     const closeLogoutUserModal = () => {
-        store.logoutUserModalVisible.value = false;
+        modalsStore.logoutUserModalVisible.value = false;
     }
 
     const openDeleteUserModal = (message) => {
-        store.delUserMessage.value = message;
-        store.deleteUserModalVisible.value = true;
+        userStore.deleteUserMessage.value = message;
+        modalsStore.deleteUserModalVisible.value = true;
     }
 
     const closeDeleteUserModal = () => {
-        store.deleteUserModalVisible.value = false;
+        modalsStore.deleteUserModalVisible.value = false;
     }
 
     const openCreateHabitModal = () => {
-        store.createHabitModalVisible.value = true;
+        modalsStore.createHabitModalVisible.value = true;
     }
 
     const closeCreateHabitModal = () => {
         const clearForms = useClearForms()
 
-        store.createHabitModalVisible.value = false;
+        modalsStore.createHabitModalVisible.value = false;
         clearForms.clearHabitForm();
     }
 
@@ -40,21 +47,21 @@ export const useModals = () => {
         const getHabits = useGetHabits()
 
         await getHabits.getHabit(id);
-        store.habitInfoModalVisible.value = true;
+        modalsStore.habitInfoModalVisible.value = true;
     }
 
     const closeHabitInfoModal = async () => {
-        store.habitInfoModalVisible.value = false;
+        modalsStore.habitInfoModalVisible.value = false;
     }
 
     const openDeleteHabitModal = (id, message) => {
-        store.habitId.value = id;
-        store.deleteHabitMessage.value = message;
-        store.deleteHabitModalVisible.value = true;
+        habitsStore.habitId.value = id;
+        habitsStore.deleteHabitMessage.value = message;
+        modalsStore.deleteHabitModalVisible.value = true;
     }
 
     const closeDeleteHabitModal = () => {
-        store.deleteHabitModalVisible.value = false;
+        modalsStore.deleteHabitModalVisible.value = false;
     }
 
     const openRecordsModal = async (day) => {
@@ -67,36 +74,36 @@ export const useModals = () => {
             day
         );
 
-        store.selectedDate.value = date;
-        store.resetDate.value = store.selectedDate.value.toLocaleDateString();
+        recordsStore.selectedDate.value = date;
+        recordsStore.resetDate.value = recordsStore.selectedDate.value.toLocaleDateString();
 
         await getRecords.getDayRecords();
 
-        store.recordsModalVisible.value = true;
+        modalsStore.recordsModalVisible.value = true;
     }
 
     const closeRecordsModal = () => {
-        store.dayRecords.value = [];
-        store.selectedDate.value = null;
-        store.recordsModalVisible.value = false;
+        recordsStore.dayRecords.value = [];
+        recordsStore.selectedDate.value = null;
+        modalsStore.recordsModalVisible.value = false;
     }
 
     const openResetRecordsModal = (id, message, resetType, month) => {
-        store.resetMessage.value = message;
-        store.recordId.value = id;
-        store.selectedReset.value = resetType;
+        recordsStore.resetMessage.value = message;
+        recordsStore.recordId.value = id;
+        recordsStore.selectedResetType.value = resetType;
 
-        if(resetType === store.RESET_TYPES.value.MONTH){
-            store.resetDate.value = month;
+        if(resetType === recordsStore.RESET_TYPES.MONTH){
+            recordsStore.resetDate.value = month;
         }
 
-        store.resetRecordsModalVisible.value = true;
+        modalsStore.resetRecordsModalVisible.value = true;
     }
 
     const closeResetRecordsModal = () => {
-        store.recordId.value = null;
-        store.selectedReset.value = null;
-        store.resetRecordsModalVisible.value = false;
+        recordsStore.recordId.value = null;
+        recordsStore.selectedResetType.value = null;
+        modalsStore.resetRecordsModalVisible.value = false;
     }
 
     return {

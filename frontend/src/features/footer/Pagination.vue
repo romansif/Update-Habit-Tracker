@@ -1,9 +1,9 @@
 <script setup>
 import { usePagination } from "./composable/usePagination.js";
 
-import BaseButton from "../../shared/ui/BaseButton.vue";
+import BaseButton from "../../shared/ui/button/BaseButton.vue";
 
-const { currentPage, totalPages, nextPage, prevPage } = usePagination()
+const { currentPage, totalPages, nextPage, prevPage } = usePagination();
 </script>
 
 <template>

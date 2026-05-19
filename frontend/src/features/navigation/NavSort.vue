@@ -1,8 +1,8 @@
 <script setup>
-import { useSortingHabits } from "./composables/sortHabits.js";
-
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { ChevronDownIcon } from '@heroicons/vue/20/solid'
+
+import { useSortingHabits } from "./composables/sortHabits.js";
 
 const { sortingByNew, sortingByOld } = useSortingHabits();
 </script>

@@ -1,41 +1,56 @@
 {
   "users": [
     {
-      "name": "12345678",
+      "name": "akmal",
       "email": "akmalmavlonov25@gmail.com",
-      "password": "$2b$10$dx/yv.SMhsN7JCV3vKKp.uORYPoTy4l4FMrqoOoXYaQBrq03bMsha",
-      "dateCreatedAccount": "18.05.2026",
-      "id": "2V7l7i3Ewe8"
+      "password": "$2b$10$YSQI3THmRNJFeHI2APQlbOfnsjX5TEP.8lpj702VsUFKo5APyuzuC",
+      "dateCreatedAccount": "19.05.2026",
+      "id": "On5IdhgM97A"
     }
   ],
   "habits": [
     {
-      "userId": "2V7l7i3Ewe8",
-      "category": "qewqe",
-      "habit": "qweqe",
-      "frequency": "3 раза в неделю",
-      "time": "21312 мин в день",
+      "userId": "On5IdhgM97A",
+      "category": "💧 Вода",
+      "habit": "e",
+      "frequency": "Ежедневно",
+      "time": "2 мин в день",
       "series": 1,
       "status": "Выполнено",
-      "term": "3 месяца",
-      "date": "2026-05-18T12:50:54.131Z",
-      "dateCreatedHabit": "18.05.2026",
-      "timeCreatedHabit": "17:50",
-      "endDateHabit": "18.08.2026",
-      "id": "txfkBUGpjXI",
-      "lastDate": "18.05.2026",
-      "lastTime": "17:50"
+      "term": "1 месяц",
+      "date": "2026-05-19T12:59:01.658Z",
+      "dateCreatedHabit": "19.05.2026",
+      "timeCreatedHabit": "17:59",
+      "endDateHabit": "19.06.2026",
+      "progress": 3.3333333333333335,
+      "id": "eSSUwedYt1k",
+      "lastDate": "19.05.2026",
+      "lastTime": "18:12"
     }
   ],
-  "habits-counter": [
+  "habits-count": [
     {
-      "allHabitsCounter": 9,
+      "allHabitsCounter": 1,
       "dayCompletedHabits": 1,
-      "allCompletedHabits": 9,
-      "id": "lTMPNf1tRuQ",
-      "lastDate": "18.05.2026"
+      "allCompletedHabits": 1,
+      "id": "Q17jYBfe1E0",
+      "lastDate": "19.05.2026"
     }
   ],
-  "calendar-records": [],
+  "records": [
+    {
+      "userRecordsId": "Q17jYBfe1E0",
+      "date": "2026-05-19T12:59:01.672Z",
+      "dateCreatedRecord": "19.05.2026",
+      "monthCreatedRecord": "05.2026",
+      "timeCreatedRecord": "17:59",
+      "habit": "e",
+      "series": 1,
+      "firstStatus": "Не выполнено",
+      "id": "DW-RWYNXUmY",
+      "thirdStatus": "Выполнено",
+      "newTimeUpdatedStatus": "18:12"
+    }
+  ],
   "$schema": "./node_modules/json-server/schema.json"
 }

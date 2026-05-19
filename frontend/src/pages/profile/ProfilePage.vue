@@ -1,10 +1,9 @@
 <script setup>
-import ProfileSettings from "../../features/profile/ProfileSettings.vue";
-import CreateHabitModal from "../../shared/ui/CreateHabitModal.vue";
+import ProfileView from "../../features/profile/ProfileView.vue";
 </script>
 
 <template>
-  <ProfileSettings />
+  <ProfileView />
 </template>
 
 <style scoped>

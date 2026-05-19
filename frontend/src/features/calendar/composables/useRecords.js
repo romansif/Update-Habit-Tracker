@@ -1,19 +1,27 @@
-import { handler } from '../../../shared/api/http.js';
-import { useAppStore } from "../../../shared/composables/store/useAppStore.js";
 import { useGetRecords } from "./getRecords.js"
+import { handler } from '../../../shared/api/http.js';
 import { useModals } from "../../../shared/composables/modal/useModals.js";
+import { useRecordsStore } from "../../../shared/composables/store/recordsStore.js";
+import { useHabitsStore } from "../../../shared/composables/store/habitsStore.js";
 
+const RESET_TYPES = {
+    ONE:'ONE',
+    DAY:'DAY',
+    MONTH:'MONTH',
+    ALL:'ALL',
+}
 export const useRecords = () => {
     const modals = useModals();
 
+    const { habitsCount } = useHabitsStore();
     const { getRecords, getDayRecords } = useGetRecords();
-    const { RESET_TYPES, selectedReset, resetDate, habitsCurrent, recordId, dayRecords } = useAppStore();
+    const { recordId, dayRecords, selectedResetType, resetDate } = useRecordsStore();
 
     const userRecordsId = localStorage.getItem('userRecordsId');
     const userRecordId = localStorage.getItem('userRecordId');
 
     const createRecord = async (habit, series, status) => {
-        const currentAllCounter = habitsCurrent.value?.allHabitsCounter || 0;
+        const currentAllCounter = habitsCount.value?.allHabitsCounter || 0;
         const newAllHabitsCounter = currentAllCounter + 1;
 
         try{
@@ -21,7 +29,7 @@ export const useRecords = () => {
                 console.log('Не найдено общее количество привычек');
                 return;
             }
-            await handler(`/habits-counter/${userRecordsId}`, {
+            await handler(`/habits-count/${userRecordsId}`, {
                 method: 'PATCH',
                 body: JSON.stringify({
                     allHabitsCounter: newAllHabitsCounter,
@@ -33,14 +41,14 @@ export const useRecords = () => {
             const month = now.toLocaleDateString('ru-RU', {
                 year: 'numeric',
                 month: '2-digit',
-            })
+            });
 
             const time = now.toLocaleTimeString("ru-RU", {
                 hour: "2-digit",
                 minute: "2-digit",
-            })
+            });
 
-            const newRecordDay = await handler(`/calendar-records`, {
+            const newRecordDay = await handler(`/records`, {
                 method: 'POST',
                 body: JSON.stringify({
                     userRecordsId: userRecordsId,
@@ -56,55 +64,55 @@ export const useRecords = () => {
             dayRecords.value = newRecordDay;
 
             localStorage.setItem('userRecordId', newRecordDay.id);
-        }catch(err){
-            console.log(err)
+        } catch (err) {
+            console.log(err);
         }
     }
 
-    const updateHabitsCurrent = async (newStatus) => {
-        const currentDayCompleted = habitsCurrent.value?.dayCompletedHabits || 0;
-        const currentAllCompleted = habitsCurrent.value?.allCompletedHabits || 0;
+    const updateHabitsCurrentCount = async (newStatus) => {
+        const currentDayCompleted = habitsCount.value?.dayCompletedHabits || 0;
+        const currentAllCompleted = habitsCount.value?.allCompletedHabits || 0;
 
-        const date = new Date().toLocaleDateString()
+        const date = new Date().toLocaleDateString();
 
-        try{
-            if(newStatus === 'Выполнено'){
-                const res = await handler(`/habits-counter/${userRecordsId}`, {
+        if(newStatus === 'Выполнено'){
+            try{
+                const res = await handler(`/habits-count/${userRecordsId}`, {
                     method: 'PATCH',
                     body: JSON.stringify({
                         dayCompletedHabits: currentDayCompleted + 1,
                         allCompletedHabits: currentAllCompleted + 1,
                         lastDate: date
                     })
-                })
-
-                habitsCurrent.value = res
+                });
+                habitsCount.value = res;
+            }catch(err){
+                console.error(err);
             }
-        }catch(err){
-            console.error(err);
         }
     };
 
-    const resetHabitsCurrent = async () => {
-        const res = await handler(`/habits-counter/${userRecordsId}`, {
+    const resetHabitsCurrentCount = async () => {
+        const res = await handler(`/habits-count/${userRecordsId}`, {
             method: 'GET'
         });
 
         const today = new Date();
 
-        const todayString = today.toLocaleDateString('ru-RU')
+        const todayString = today.toLocaleDateString('ru-RU');
 
         if(res.lastDate !== todayString){
             try{
-                await handler(`/habits-counter/${res.id}`, {
+                await handler(`/habits-count/${res.id}`, {
                     method: 'PATCH',
                     body: JSON.stringify({
                         dayCompletedHabits: 0,
                         lastDate: todayString,
                     })
-            })
-        }catch(err){
-            console.error(err);}
+                });
+            }catch(err){
+                console.error(err);
+            }
         }
     }
 
@@ -114,11 +122,11 @@ export const useRecords = () => {
         const time = now.toLocaleTimeString("ru-RU", {
             hour: "2-digit",
             minute: "2-digit",
-        })
+        });
 
         try{
             if(newStatus === 'В процессе'){
-                await handler(`/calendar-records/${userRecordId}`, {
+                await handler(`/records/${userRecordId}`, {
                     method: 'PATCH',
                     body: JSON.stringify({
                         secondStatus: newStatus,
@@ -126,7 +134,7 @@ export const useRecords = () => {
                     })
                 });
             }else{
-                await handler(`/calendar-records/${userRecordId}`, {
+                await handler(`/records/${userRecordId}`, {
                     method: 'PATCH',
                     body: JSON.stringify({
                         series: series,
@@ -143,51 +151,49 @@ export const useRecords = () => {
 
     const resetRecords = async () => {
         try{
-            if(selectedReset.value === RESET_TYPES.value.ONE){
-                await handler(`/calendar-records/${recordId.value}`, {
+            if(selectedResetType?.value === RESET_TYPES.ONE){
+                await handler(`/records/${recordId.value}`, {
                     method: 'DELETE'
-                })
+                });
                 dayRecords.value = dayRecords.value.filter(record => record.id !== recordId.value);
-            }else if(selectedReset.value === RESET_TYPES.value.DAY){
-                const dayRecords = await handler(`/calendar-records?dateCreatedRecord=${resetDate.value}`,{
+            }else if(selectedResetType?.value === RESET_TYPES.DAY){
+                const dayRecords = await handler(`/records?dateCreatedRecord=${resetDate.value}`, {
                     method: 'GET'
-                })
+                });
                 await Promise.all(
                     dayRecords.map(record =>
-                        handler(`/calendar-records/${record.id}`, {
+                        handler(`/records/${record.id}`, {
                             method: 'DELETE',
                         })
                     )
                 )
                 localStorage.removeItem('userRecordId')
-            }else if(selectedReset.value === RESET_TYPES.value.MONTH){
-                const res = await handler(`/calendar-records?userRecordsId=${userRecordsId}`,{
-                    method: 'GET'
-                })
-                const monthRecords = res.filter(record => record.monthCreatedRecord === resetDate.value)
+            }else if(selectedResetType?.value === RESET_TYPES.MONTH){
+                const res = await getRecords()
+
+                const monthRecords = res.value.filter(record => record.monthCreatedRecord === resetDate.value);
 
                 await Promise.all(
                     monthRecords.map(record =>
-                        handler(`/calendar-records/${record.id}`, {
+                        handler(`/records/${record.id}`, {
                             method: 'DELETE',
                         })
                     )
                 )
-            }else if(selectedReset.value === RESET_TYPES.value.ALL){
-                const allRecords = await handler(`/calendar-records?userRecordsId=${userRecordsId}`, {
-                    method: 'GET'
-                })
+            }else if(selectedResetType?.value === RESET_TYPES.ALL){
+                const allRecords = await getRecords()
+
                 await Promise.all(
-                    allRecords.map(record =>
-                        handler(`/calendar-records/${record.id}`, {
+                    allRecords.value.map(record =>
+                        handler(`/records/${record.id}`, {
                             method: 'DELETE',
                         })
                     )
                 )
             }
-            await getDayRecords()
+            await getDayRecords();
 
-            await getRecords()
+            await getRecords();
 
             modals.closeResetRecordsModal();
         }catch(err){
@@ -195,12 +201,11 @@ export const useRecords = () => {
         }
     }
 
-
     return{
-        createRecord,
-        updateHabitsCurrent,
-        resetHabitsCurrent,
-        updateRecordStatus,
         resetRecords,
+        createRecord,
+        updateRecordStatus,
+        updateHabitsCurrentCount,
+        resetHabitsCurrentCount,
     }
 }

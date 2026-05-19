@@ -2,13 +2,14 @@
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
-import { useModals } from "../../../shared/composables/modal/useModals.js";
+
 import { useHabits } from "../composables/useHabits.js";
+import { useModals } from "../../../shared/composables/modal/useModals.js";
 
 import options from "../../../app/assets/icons/options.png";
 
-const { openHabitInfoModal, openDeleteHabitModal } = useModals()
 const { updateStatus } = useHabits()
+const { openHabitInfoModal, openDeleteHabitModal } = useModals()
 
 const route = useRoute()
 

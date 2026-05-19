@@ -1,9 +1,11 @@
 <script setup>
 import { onMounted } from 'vue';
+
 import { useCalendar } from '../composables/useCalendar.js';
 import { useGetRecords } from "../composables/getRecords.js";
+import { useModals } from "../../../shared/composables/modal/useModals.js";
+
 import arrow from '../../../app/assets/icons/arrow.png'
-import {useModals} from "../../../shared/composables/modal/useModals.js";
 
 const {
   currentMonthName, currentYear, calendarDays, lastMonth, nextMonth,

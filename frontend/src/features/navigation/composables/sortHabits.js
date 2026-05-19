@@ -1,10 +1,11 @@
-import { handler } from "../../../shared/api/http.js";
 import { useRoute } from "vue-router";
-import { useAppStore } from "../../../shared/composables/store/useAppStore.js";
+
+import { handler } from "../../../shared/api/http.js";
+import { useHabitsStore } from "../../../shared/composables/store/habitsStore.js";
 import { useHabitsFilter } from "../../../shared/composables/filter/useHabitsFilter.js";
 
 export const useSortingHabits = () => {
-    const { habits } = useAppStore();
+    const { habits } = useHabitsStore();
     const { filteredHabits } = useHabitsFilter();
 
     const route = useRoute();

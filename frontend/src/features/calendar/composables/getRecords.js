@@ -1,9 +1,10 @@
 import { handler } from "../../../shared/api/http.js";
-import { useAppStore } from "../../../shared/composables/store/useAppStore.js";
-
+import { useHabitsStore } from "../../../shared/composables/store/habitsStore.js";
+import { useRecordsStore } from "../../../shared/composables/store/recordsStore.js";
 
 export const useGetRecords = () => {
-    const { selectedDate, resetDate, habitsCurrent, records, dayRecords } = useAppStore();
+    const { habitsCount } = useHabitsStore();
+    const { selectedDate, resetDate, records, dayRecords } = useRecordsStore();
 
     const userRecordsId = localStorage.getItem('userRecordsId');
 
@@ -11,14 +12,14 @@ export const useGetRecords = () => {
         if(!userRecordsId){
             console.log('Id записей не найдены');
             return;
-        }
+        };
         try{
-            const res = await handler(`/habits-counter/${userRecordsId}`, {
+            const res = await handler(`/habits-count/${userRecordsId}`, {
                 method: 'GET'
-            })
-            habitsCurrent.value = res;
+            });
+            habitsCount.value = res;
         }catch(err){
-            console.log(err)
+            console.log(err);
         }
     }
 
@@ -28,10 +29,12 @@ export const useGetRecords = () => {
             return;
         }
         try{
-            const res = await handler(`/calendar-records?userRecordsId=${userRecordsId}`, {
+            const res = await handler(`/records?userRecordsId=${userRecordsId}`, {
                 method: 'GET'
-            })
-            records.value = res
+            });
+            records.value = res;
+
+            return records;
         }catch(err){
             console.log(err)
         }
@@ -40,10 +43,10 @@ export const useGetRecords = () => {
     const getDayRecords = async () => {
         if(!selectedDate.value) return;
         try{
-            const res = await handler(`/calendar-records?userRecordsId=${userRecordsId}&dateCreatedRecord=${resetDate.value}`, {
+            const res = await handler(`/records?userRecordsId=${userRecordsId}&dateCreatedRecord=${resetDate.value}`, {
                 method: 'GET'
             });
-            dayRecords.value = res
+            dayRecords.value = res;
         }catch(err){
             console.log(err);
         }

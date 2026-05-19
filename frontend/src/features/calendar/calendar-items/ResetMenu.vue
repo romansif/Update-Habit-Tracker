@@ -1,17 +1,17 @@
 <script setup>
 import { computed } from 'vue'
-import { useModals } from '../../../shared/composables/modal/useModals.js'
-import { useCalendar } from "../composables/useCalendar.js";
-
-import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { ChevronDownIcon } from '@heroicons/vue/20/solid'
+import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 
-const { openResetRecordsModal } = useModals()
-const { currentMonth, currentYear } = useCalendar()
+import { useCalendar } from "../composables/useCalendar.js";
+import { useModals } from '../../../shared/composables/modal/useModals.js'
+
+const { openResetRecordsModal } = useModals();
+const { currentMonth, currentYear } = useCalendar();
 
 const month = computed(() => {
   return String(currentMonth.value + 1).padStart(2, '0') + '.' + currentYear.value
-})
+});
 </script>
 
 <template>
