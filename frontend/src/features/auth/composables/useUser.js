@@ -17,9 +17,8 @@ export const useUser = () => {
     const router = useRouter();
     const modals = useModals();
 
-    const { records } = useRecordsStore();
     const { users, user } = useUserStore();
-    const { habits, habitsCount, habitsCountForm } = useHabitsStore();
+    const { habitsCountForm } = useHabitsStore();
 
     const { clearRegisterForm, clearLoginForm } = useClearForms();
     const { registerForm, loginForm, updateForm, userErrors } = useForms();
@@ -83,13 +82,13 @@ export const useUser = () => {
             if(!foundUser){
                 userErrors.value.emailMessage = 'Не удалось найти пользователя';
                 return;
-            };
+            }
 
             const passwordMatch = await bcrypt.compare(loginForm.value.password, foundUser.password);
             if(!passwordMatch){
                userErrors.value.passwordMessage = 'Не правильный пароль';
                return;
-            };
+            }
 
             localStorage.setItem('currentUser', JSON.stringify(foundUser));
             localStorage.setItem('userId', foundUser.id);
@@ -151,48 +150,43 @@ export const useUser = () => {
         }
     }
 
-    const deleteUser = async () => {
+    const deleteUserData = async () => {
         const userId = localStorage.getItem('userId');
         const userRecordsId = localStorage.getItem('userRecordsId');
 
+        const allRecords = await handler(`/records?userRecordsId=${userRecordsId}`, {
+            method: 'GET'
+        });
+        for(let record of allRecords){
+            await handler(`/records/${record.id}`, {
+                method: 'DELETE',
+            })
+        }
+
+        const allHabits = await handler(`/habits?userId=${userId}`, {
+            method: 'GET'
+        });
+        for(let habit of allHabits){
+            await handler(`/habits/${habit.id}`, {
+                method: 'DELETE',
+            })
+        }
+
+        await handler(`/habits-count/${userRecordsId}`, {
+            method: 'DELETE'
+        });
+
+        await handler(`/users/${userId}`, {
+            method: 'DELETE'
+        });
+    }
+
+    const deleteUser = async () => {
         try{
-            const allHabits = await handler(`/habits?userId=${userId}`, {
-                method: 'GET'
-            });
-            await Promise.all(
-                allHabits.map(habit => {
-                    handler(`/habits/${habit.id}`, {
-                        method: 'DELETE',
-                    })
-                })
-            );
-            habits.value = allHabits;
-
-
-            const count = await handler(`/habits-count/${userRecordsId}`, {
-                method: 'DELETE'
-            });
-            habitsCount.value = count;
+            await deleteUserData()
 
             localStorage.removeItem('userRecordsId');
 
-
-            const allRecords = await handler(`/records?userRecordsId=${userRecordsId}`, {
-                method: 'GET'
-            });
-            await Promise.all(
-                allRecords.map(record =>
-                    handler(`/records/${record.id}`, {
-                        method: 'DELETE',
-                    })
-                )
-            );
-            records.value = allRecords;
-
-
-            await handler(`/users/${userId}`, {
-                method: 'DELETE'
-            });
             localStorage.removeItem('userId');
 
             modals.closeDeleteUserModal();

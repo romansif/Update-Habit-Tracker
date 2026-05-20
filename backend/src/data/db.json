@@ -3,53 +3,34 @@
     {
       "name": "akmal",
       "email": "akmalmavlonov25@gmail.com",
-      "password": "$2b$10$YSQI3THmRNJFeHI2APQlbOfnsjX5TEP.8lpj702VsUFKo5APyuzuC",
-      "dateCreatedAccount": "19.05.2026",
-      "id": "On5IdhgM97A"
+      "password": "$2b$10$4wB/pOKGQy/PGxwkJUOPV.ZnZcuFslVbx/CQYxI.z7x9MGWTrzppi",
+      "dateCreatedAccount": "20.05.2026",
+      "id": "iNt5uDEAHX0"
     }
   ],
-  "habits": [
-    {
-      "userId": "On5IdhgM97A",
-      "category": "💧 Вода",
-      "habit": "e",
-      "frequency": "Ежедневно",
-      "time": "2 мин в день",
-      "series": 1,
-      "status": "Выполнено",
-      "term": "1 месяц",
-      "date": "2026-05-19T12:59:01.658Z",
-      "dateCreatedHabit": "19.05.2026",
-      "timeCreatedHabit": "17:59",
-      "endDateHabit": "19.06.2026",
-      "progress": 3.3333333333333335,
-      "id": "eSSUwedYt1k",
-      "lastDate": "19.05.2026",
-      "lastTime": "18:12"
-    }
-  ],
+  "habits": [],
   "habits-count": [
     {
       "allHabitsCounter": 1,
-      "dayCompletedHabits": 1,
+      "dayCompletedHabits": 0,
       "allCompletedHabits": 1,
-      "id": "Q17jYBfe1E0",
-      "lastDate": "19.05.2026"
+      "id": "zTJN2wPDbgA",
+      "lastDate": "20.05.2026"
     }
   ],
   "records": [
     {
-      "userRecordsId": "Q17jYBfe1E0",
-      "date": "2026-05-19T12:59:01.672Z",
-      "dateCreatedRecord": "19.05.2026",
-      "monthCreatedRecord": "05.2026",
-      "timeCreatedRecord": "17:59",
-      "habit": "e",
+      "userRecordsId": "zTJN2wPDbgA",
+      "date": "2026-05-20T12:41:27.863Z",
+      "dateCreatedRecord": "20.05.2026",
+      "monthCreatedRecord": 5.2026,
+      "timeCreatedRecord": "17:41",
+      "habit": "1",
       "series": 1,
       "firstStatus": "Не выполнено",
-      "id": "DW-RWYNXUmY",
-      "thirdStatus": "Выполнено",
-      "newTimeUpdatedStatus": "18:12"
+      "id": "aLAHcm_SjFY",
+      "thirdStatus": "Не выполнено",
+      "newTimeUpdatedStatus": "17:41"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

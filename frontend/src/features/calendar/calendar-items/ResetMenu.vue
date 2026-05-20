@@ -30,7 +30,7 @@ const month = computed(() => {
           <MenuItem v-slot="{ active }">
             <button @click="openResetRecordsModal
                     (
-                      'Month', 'историю выполенния привычек за месяц?', 'MONTH',
+                      'MONTH', 'историю выполенния привычек за месяц?', 'MONTH',
                       month
                     )">
               <span :class="[

@@ -8,7 +8,7 @@ import { useHabits } from "../../features/habits/composables/useHabits.js";
 
 import BaseButton from './button/BaseButton.vue';
 
-const { categories, frequencies, terms } = useHabitsStore();
+const { categoriesForm, frequenciesForm, termsForm } = useHabitsStore();
 const { createHabit } = useHabits();
 const { habitForm, habitErrors } = useForms();
 const { closeCreateHabitModal } = useModals();
@@ -47,11 +47,11 @@ watch(() => [
       <div class="flex gap-10">
         <div class="w-1/2 flex flex-col gap-4">
           <div class="flex flex-col gap-2 min-h-[90px]">
-            <select v-model="habitForm.category" name="" id="" class="bg-gray-300 outline-none rounded-[4px] px-3 py-4 text-gray-500 w-full">
+            <select v-model="habitForm.category" name="" id="" class="bg-gray-300 outline-none rounded-[4px] px-3 py-4 text-black w-full">
               <option disabled value="">
                 Выберите категорию
               </option>
-              <option v-for="category in categories" :key="category" class="text-black">
+              <option v-for="category in categoriesForm" :key="category">
                 {{ category.icon }} {{ category.category }}
               </option>
             </select>
@@ -61,14 +61,14 @@ watch(() => [
           </div>
           <div class="flex flex-col gap-2 min-h-[90px]">
             <input type="text" v-model="habitForm.habit" placeholder="Название привычки"
-                   class="bg-gray-300 outline-none rounded-[4px] p-4 w-full"/>
+                   class="bg-gray-300 outline-none rounded-[4px] p-4 w-full placeholder:text-black"/>
             <span v-if="habitErrors.habitError" class="text-sm text-red-500">
               {{ habitErrors.habitMessage }}
             </span>
           </div>
           <div class="flex flex-col gap-2 min-h-[90px]">
             <input type="number" v-model="habitForm.time" placeholder="Время на выполнение (мин)"
-                   class="bg-gray-300 outline-none rounded-[4px] p-4 w-full"/>
+                   class="bg-gray-300 outline-none rounded-[4px] p-4 w-full placeholder:text-black"/>
             <span v-if="habitErrors.timeError" class="text-sm text-red-500">
               {{ habitErrors.timeMessage }}
             </span>
@@ -76,22 +76,22 @@ watch(() => [
         </div>
         <div class="w-1/2 flex flex-col gap-4">
           <div class="flex flex-col gap-2 min-h-[90px]">
-            <select v-model="habitForm.frequency" class="bg-gray-300 outline-none rounded-[4px] px-3 py-4 text-gray-500 w-full">
+            <select v-model="habitForm.frequency" class="bg-gray-300 outline-none rounded-[4px] px-3 py-4 text-black w-full">
               <option disabled value="">
                 Выберите частоту
               </option>
-              <option v-for="frequency in frequencies" class="text-black">{{ frequency }}</option>
+              <option v-for="frequency in frequenciesForm">{{ frequency }}</option>
             </select>
             <span v-if="habitErrors.frequencyError" class="text-sm text-red-500">
               {{ habitErrors.frequencyMessage }}
             </span>
           </div>
           <div class="flex flex-col gap-2 min-h-[90px]">
-            <select v-model="habitForm.term" class="bg-gray-300 outline-none rounded-[4px] px-3 py-4 text-gray-500 w-full">
+            <select v-model="habitForm.term" class="bg-gray-300 outline-none rounded-[4px] px-3 py-4 text-black w-full">
               <option disabled value="">
                 Выберите срок выполнения
               </option>
-              <option v-for="term in terms" class="text-black">{{ term }}</option>
+              <option v-for="term in termsForm">{{ term }}</option>
             </select>
             <span v-if="habitErrors.termError" class="text-sm text-red-500">
               {{ habitErrors.termMessage }}

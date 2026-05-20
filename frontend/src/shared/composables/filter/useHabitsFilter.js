@@ -16,15 +16,13 @@ export const useHabitsFilter = () => {
 
         const nextDate = new Date(lastDate);
 
-        if (habit.frequency === 'Ежедневно') {
-            nextDate.setDate(nextDate.getDate() + 1);
+        const frequency = {
+            'Ежедневно': () => nextDate.setDate(nextDate.getDate() + 1),
+            '1 раз в неделю': () => nextDate.setDate(nextDate.getDate() + 7),
+            '3 раза в неделю': () => nextDate.setDate(nextDate.getDate() + 2)
         }
-        if (habit.frequency === '1 раз в неделю') {
-            nextDate.setDate(nextDate.getDate() + 7);
-        }
-        if (habit.frequency === '3 раза в неделю') {
-            nextDate.setDate(nextDate.getDate() + 2);
-        }
+        frequency[habit.frequency]?.()
+
         return today >= nextDate;
     };
 
@@ -78,18 +76,24 @@ export const useHabitsFilter = () => {
 
         const activeHabits = rollBack
 
-        if(routeName === 'habits'){
-            return activeHabits.filter(habit => habit.status !== 'Выполнено')
-        }else if(routeName === 'day-completed-habits'){
-            return activeHabits.filter(habit => habit.status === 'Выполнено' && isToday(habit.lastDate))
-        }else if(routeName === 'all-completed-habits'){
-            return activeHabits.filter(habit => getHabitStatus(habit) === 'Завершено')
-        }else if(routeName === 'in-progress-habits'){
-            return activeHabits.filter(habit => habit.status === 'В процессе')
-        }else if(routeName === 'incompleted-habits'){
-            return activeHabits.filter(habit => habit.status === 'Не выполнено' )
+        const routeNames = {
+            'habits': () => {
+                return activeHabits.filter(habit => habit.status !== 'Выполнено')
+            },
+            'day-completed-habits': () => {
+                return activeHabits.filter(habit => habit.status === 'Выполнено' && isToday(habit.lastDate))
+            },
+            'all-completed-habits': () => {
+                return activeHabits.filter(habit => getHabitStatus(habit) === 'Завершено')
+            },
+            'in-progress-habits': () => {
+                return activeHabits.filter(habit => habit.status === 'В процессе')
+            },
+            'incompleted-habits': () => {
+                return activeHabits.filter(habit => habit.status === 'Не выполнено' )
+            }
         }
-        return activeHabits
+        return routeNames[routeName]?.() || activeHabits
     }
 
     return{

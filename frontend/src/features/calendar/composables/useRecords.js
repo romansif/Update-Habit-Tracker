@@ -4,18 +4,12 @@ import { useModals } from "../../../shared/composables/modal/useModals.js";
 import { useRecordsStore } from "../../../shared/composables/store/recordsStore.js";
 import { useHabitsStore } from "../../../shared/composables/store/habitsStore.js";
 
-const RESET_TYPES = {
-    ONE:'ONE',
-    DAY:'DAY',
-    MONTH:'MONTH',
-    ALL:'ALL',
-}
 export const useRecords = () => {
     const modals = useModals();
 
     const { habitsCount } = useHabitsStore();
-    const { getRecords, getDayRecords } = useGetRecords();
-    const { recordId, dayRecords, selectedResetType, resetDate } = useRecordsStore();
+    const { recordId, selectedResetType } = useRecordsStore();
+    const { getRecords, getRecordsCurrent, getMonthRecords, getDayRecords } = useGetRecords();
 
     const userRecordsId = localStorage.getItem('userRecordsId');
     const userRecordId = localStorage.getItem('userRecordId');
@@ -25,10 +19,7 @@ export const useRecords = () => {
         const newAllHabitsCounter = currentAllCounter + 1;
 
         try{
-            if(currentAllCounter === null){
-                console.log('Не найдено общее количество привычек');
-                return;
-            }
+            if(currentAllCounter === null) return null;
             await handler(`/habits-count/${userRecordsId}`, {
                 method: 'PATCH',
                 body: JSON.stringify({
@@ -37,12 +28,11 @@ export const useRecords = () => {
             });
 
             const now = new Date();
-
-            const month = now.toLocaleDateString('ru-RU', {
+            const dateCreated = now.toLocaleDateString()
+            const month = Number(now.toLocaleDateString('ru-RU', {
                 year: 'numeric',
                 month: '2-digit',
-            });
-
+            }));
             const time = now.toLocaleTimeString("ru-RU", {
                 hour: "2-digit",
                 minute: "2-digit",
@@ -53,7 +43,7 @@ export const useRecords = () => {
                 body: JSON.stringify({
                     userRecordsId: userRecordsId,
                     date: now,
-                    dateCreatedRecord: now.toLocaleDateString(),
+                    dateCreatedRecord: dateCreated,
                     monthCreatedRecord: month,
                     timeCreatedRecord: time,
                     habit: habit,
@@ -61,7 +51,7 @@ export const useRecords = () => {
                     firstStatus: status,
                 })
             });
-            dayRecords.value = newRecordDay;
+            await getDayRecords()
 
             localStorage.setItem('userRecordId', newRecordDay.id);
         } catch (err) {
@@ -77,7 +67,7 @@ export const useRecords = () => {
 
         if(newStatus === 'Выполнено'){
             try{
-                const res = await handler(`/habits-count/${userRecordsId}`, {
+                await handler(`/habits-count/${userRecordsId}`, {
                     method: 'PATCH',
                     body: JSON.stringify({
                         dayCompletedHabits: currentDayCompleted + 1,
@@ -85,7 +75,7 @@ export const useRecords = () => {
                         lastDate: date
                     })
                 });
-                habitsCount.value = res;
+                await getRecordsCurrent()
             }catch(err){
                 console.error(err);
             }
@@ -95,10 +85,9 @@ export const useRecords = () => {
     const resetHabitsCurrentCount = async () => {
         const res = await handler(`/habits-count/${userRecordsId}`, {
             method: 'GET'
-        });
+        })
 
         const today = new Date();
-
         const todayString = today.toLocaleDateString('ru-RU');
 
         if(res.lastDate !== todayString){
@@ -118,7 +107,6 @@ export const useRecords = () => {
 
     const updateRecordStatus = async (habit, series, newStatus) => {
         const now = new Date();
-
         const time = now.toLocaleTimeString("ru-RU", {
             hour: "2-digit",
             minute: "2-digit",
@@ -149,56 +137,50 @@ export const useRecords = () => {
         }
     }
 
-    const resetRecords = async () => {
-        try{
-            if(selectedResetType?.value === RESET_TYPES.ONE){
-                await handler(`/records/${recordId.value}`, {
-                    method: 'DELETE'
-                });
-                dayRecords.value = dayRecords.value.filter(record => record.id !== recordId.value);
-            }else if(selectedResetType?.value === RESET_TYPES.DAY){
-                const dayRecords = await handler(`/records?dateCreatedRecord=${resetDate.value}`, {
-                    method: 'GET'
-                });
-                await Promise.all(
-                    dayRecords.map(record =>
-                        handler(`/records/${record.id}`, {
-                            method: 'DELETE',
-                        })
-                    )
-                )
-                localStorage.removeItem('userRecordId')
-            }else if(selectedResetType?.value === RESET_TYPES.MONTH){
-                const res = await getRecords()
+    const deleteRecordById = async (id) => {
+        await handler(`/records/${id}`, {
+            method: 'DELETE'
+        })
+    }
 
-                const monthRecords = res.value.filter(record => record.monthCreatedRecord === resetDate.value);
+    const methods = {
+        'ONE': async () => {
+            await deleteRecordById(recordId.value);
 
-                await Promise.all(
-                    monthRecords.map(record =>
-                        handler(`/records/${record.id}`, {
-                            method: 'DELETE',
-                        })
-                    )
-                )
-            }else if(selectedResetType?.value === RESET_TYPES.ALL){
-                const allRecords = await getRecords()
+            await getDayRecords();
+            await getRecords();
+        },
+        'DAY': async () => {
+            const dayRecords = await getDayRecords()
 
-                await Promise.all(
-                    allRecords.value.map(record =>
-                        handler(`/records/${record.id}`, {
-                            method: 'DELETE',
-                        })
-                    )
-                )
+            for(let record of dayRecords.value){
+                await deleteRecordById(record.id)
             }
             await getDayRecords();
-
             await getRecords();
+        },
+        'MONTH': async () => {
+            const monthRecords = await getMonthRecords()
 
-            modals.closeResetRecordsModal();
-        }catch(err){
-            console.log(err);
+            for(let record of monthRecords.value) {
+                await deleteRecordById(record.id)
+            }
+            await getRecords();
+        },
+        'ALL': async () => {
+            const allRecords = await getRecords()
+
+            for(let record of allRecords.value){
+                await deleteRecordById(record.id)
+            }
+            await getRecords();
         }
+    }
+
+    const resetRecords = async () => {
+        methods[selectedResetType?.value]?.()
+
+        modals.closeResetRecordsModal();
     }
 
     return{

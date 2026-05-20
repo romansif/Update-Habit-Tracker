@@ -1,7 +1,7 @@
 import { ref } from "vue";
 
 const habits = ref([]);
-const categories = [
+const categoriesForm = [
     { category: 'Сон', icon: '😴'},
     { category: 'Вода',  icon: '💧'},
     { category: 'Спорт', icon: '🏋️'},
@@ -15,18 +15,25 @@ const categories = [
     { category: 'Медитация', icon: '🧘'},
     { category: 'Саморазвитие',  icon: '🧠'},
 ]
-const frequencies = {
+const frequenciesForm = {
     everyDay: 'Ежедневно',
     oneTimeInWeek: '1 раз в неделю',
     threeTimeInWeek: '3 раза в неделю'
 }
-const terms = {
+const termsForm = {
     oneMonth: '1 месяц',
     threeMonth: '3 месяца',
     sixMonth: '6 месяцев',
     oneYear: '1 год',
     threeYear: '3 года',
     sixYear: '6 лет'
+}
+const termsValue = {
+    '1 месяц': {type: 'month', value: 1, days: 30},
+    '3 месяца': {type: 'month', value: 3, days: 90},
+    '6 месяцев': {type: 'month', value: 6, days: 120},
+    '1 год': {type: 'year', value: 1, days: 365},
+    '3 года': {type: 'year', value: 3, days: 1095},
 }
 const habitsCount = ref(null);
 const habitsCountForm = {
@@ -43,9 +50,10 @@ const deleteHabitMessage = ref('')
 export const useHabitsStore = () => {
     return{
         habits,
-        categories,
-        frequencies,
-        terms,
+        categoriesForm,
+        frequenciesForm,
+        termsForm,
+        termsValue,
         habitsCount,
         habitsCountForm,
         habitId,

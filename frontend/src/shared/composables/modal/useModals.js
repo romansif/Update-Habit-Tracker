@@ -93,7 +93,7 @@ export const useModals = () => {
         recordsStore.recordId.value = id;
         recordsStore.selectedResetType.value = resetType;
 
-        if(resetType === recordsStore.RESET_TYPES.MONTH){
+        if(resetType === "MONTH"){
             recordsStore.resetDate.value = month;
         }
 

@@ -57,7 +57,7 @@ const isCalendarPage = computed(() => route.name !== 'calendar')
                         active ? 'bg-white/25 text-white outline-hidden' :
                         'text-white', 'block px-4 py-2 text-sm'
                     ]">
-                    Все привычки
+                    Привычки
                 </span>
             </router-link>
           </MenuItem>

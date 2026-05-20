@@ -17,7 +17,7 @@ const { closeRecordsModal, openResetRecordsModal } = useModals();
         <h3 class="text-xl italic mt-1">Прогресс привычек за {{ resetDate }}</h3>
         <button @click="openResetRecordsModal
                         (
-                        'Day','историю выполнения привычек за день?','DAY'
+                        'DAY','историю выполнения привычек за день?','DAY'
                         )">
           <img :src="options" alt="" class="w-[30px] h-[30px]">
         </button>

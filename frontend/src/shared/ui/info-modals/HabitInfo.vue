@@ -49,7 +49,7 @@ const statusClass = (status) => ({
             Текущий статус —
             <span :class="statusClass(habit?.status)"> {{ habit?.status }}</span>
           </span>
-        <span v-if="habit?.lastTime" class="text-gray-700">Последнее время обновления — {{ habit?.lastTime }}</span>
+        <span v-if="habit?.lastTime" class="text-gray-500">Последнее время обновления — {{ habit?.lastTime }}</span>
       </div>
       <div class="flex items-center border-b gap-2 py-4">
         <span>Серия выполнения привычки — </span>
@@ -59,7 +59,7 @@ const statusClass = (status) => ({
         </div>
       </div>
       <div class="border-b py-4">
-          <span class=""> Прогресс выполнения привычки — {{ habit?.progress }}%</span>
+          <span>Прогресс выполнения привычки — {{ habit?.progress }}%</span>
       </div>
       <div class="mt-4">
         <span class="text-gray-600">Конечная дата выполнения привычки — {{ habit?.endDateHabit }}</span>
