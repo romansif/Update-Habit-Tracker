@@ -31,7 +31,7 @@ const { closeHabitsRecordsModal, openResetRecordsModal } = useModals();
             <ul v-if="dayHabitsRecords?.length > 0" >
               <DayHabits />
             </ul>
-            <span v-else class="italic text-gray-500">Пустой день</span>
+            <span v-else class="italic text-gray-500 px-2">Пустой день</span>
           </transition-group>
         </div>
       </div>

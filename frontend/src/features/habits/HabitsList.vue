@@ -12,11 +12,12 @@ import HabitCalendar from "./habit-calendar/HabitCalendar.vue";
 import HabitInfo from "../../shared/ui/info-modals/HabitInfo.vue";
 import DeleteHabit from "../../shared/ui/delete-modals/DeleteHabit.vue";
 import DayHabitModal from "../../shared/ui/info-modals/DayHabitModal.vue";
+import ResetRecords from "../../shared/ui/delete-modals/ResetRecords.vue";
 
 const { habits } = useHabitsStore()
 const { getHabits } = useGetHabits()
 const { paginatedItems } = usePagination()
-const { habitInfoModalVisible, deleteHabitModalVisible, calendarModalVisible, habitRecordsModalVisible } = useModalsStore()
+const { habitInfoModalVisible, deleteHabitModalVisible, calendarModalVisible, habitRecordsModalVisible, resetRecordsModalVisible } = useModalsStore()
 
 const { isPending, isError, error } = useQuery({
   queryKey: ['habits'],
@@ -48,6 +49,9 @@ const { isPending, isError, error } = useQuery({
   </transition>
   <transition name="modal">
     <DayHabitModal v-show="habitRecordsModalVisible" />
+  </transition>
+  <transition name="modal">
+    <ResetRecords v-show="resetRecordsModalVisible"/>
   </transition>
   <transition name="modal">
     <DeleteHabit v-show="deleteHabitModalVisible" />

@@ -8,69 +8,16 @@
       "id": "-GUJCwVAuP0"
     }
   ],
-  "habits": [
-    {
-      "userId": "-GUJCwVAuP0",
-      "category": "💧Вода",
-      "habit": "e",
-      "frequency": "1 раз в неделю",
-      "time": "1 мин в день",
-      "series": 6,
-      "status": "Не выполнено",
-      "term": "3 месяца",
-      "date": "2026-05-21T12:13:14.003Z",
-      "dateCreatedHabit": "21.05.2026",
-      "monthCreatedRecord": 5.2026,
-      "timeCreatedHabit": "17:13",
-      "endDateHabit": "21.08.2026",
-      "progress": 6.66,
-      "id": "Y_L7Eo9bjfs",
-      "lastDate": "21.05.2026",
-      "lastTime": "17:24"
-    }
-  ],
+  "habits": [],
   "habits-count": [
     {
-      "allHabits": 4,
-      "dayCompletedHabits": 5,
-      "allCompletedHabits": 5,
+      "allHabits": 5,
+      "dayCompletedHabits": 7,
+      "allCompletedHabits": 7,
       "id": "Gj-eWbwgN84",
       "lastDate": "21.05.2026"
     }
   ],
-  "records": [
-    {
-      "userRecordsId": "Gj-eWbwgN84",
-      "recordId": "Y_L7Eo9bjfs",
-      "date": "2026-05-20T12:13:14.026Z",
-      "dateCreatedRecord": "20.05.2026",
-      "monthCreatedRecord": 5.2026,
-      "timeCreatedRecord": "17:13",
-      "habit": "e",
-      "series": 6,
-      "firstStatus": "Не выполнено",
-      "id": "UzM4Yfmslx4",
-      "secondStatus": "В процессе",
-      "timeUpdatedStatus": "17:13",
-      "thirdStatus": "Выполнено",
-      "newTimeUpdatedStatus": "17:24"
-    },
-    {
-      "userRecordsId": "Gj-eWbwgN84",
-      "recordId": "Y_L7Eo9bjfs",
-      "date": "2026-05-21T12:13:14.026Z",
-      "dateCreatedRecord": "21.05.2026",
-      "monthCreatedRecord": 5.2026,
-      "timeCreatedRecord": "17:13",
-      "habit": "e",
-      "series": 1,
-      "firstStatus": "Не выполнено",
-      "id": "UzM4Yfmslx4",
-      "secondStatus": "В процессе",
-      "timeUpdatedStatus": "17:13",
-      "thirdStatus": "Выполнено",
-      "newTimeUpdatedStatus": "17:13"
-    }
-  ],
+  "records": [],
   "$schema": "./node_modules/json-server/schema.json"
 }

@@ -27,12 +27,12 @@ const statusClass = (status) => ({
       <span class="text-lg font-medium">
         {{ dayHabitRecord.habit }}
       </span>
-<!--      <button class="ml-auto" @click="openResetRecordsModal-->
-<!--          (-->
-<!--            dayHabitRecord?.id, 'историю выполенния этой привычки?', 'ONE'-->
-<!--          )">-->
-<!--        <img :src="reset_record" class="w-5 h-5 opacity-70 hover:opacity-100" />-->
-<!--      </button>-->
+      <button class="ml-auto" @click="openResetRecordsModal
+          (
+            dayHabitRecord?.id, 'историю выполенния этой привычки?', 'ONE'
+          )">
+        <img :src="reset_record" class="w-5 h-5 opacity-70 hover:opacity-100" />
+      </button>
     </div>
     <div class="flex flex-col gap-4">
       <span v-if="dayHabitRecord.firstStatus" class="text-sm">

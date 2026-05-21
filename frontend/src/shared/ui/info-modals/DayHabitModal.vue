@@ -15,13 +15,15 @@ const { dayHabitRecords, resetDate } = useRecordsStore();
       <div class="flex">
         <img :src="close" alt="" class="w-[25px] h-[25px] ml-auto" @click=closeHabitRecordsModal />
       </div>
-      <div class="px-3">
+      <div class="px-3 mb-4">
         <div class="flex justify-between items-center mb-4">
           <h3 class="text-xl italic mt-1">Прогресс привычек за {{ resetDate }}</h3>
         </div>
-        <span v-if="dayHabitRecords && dayHabitRecords.length < 0" class="italic text-gray-500">Пустой день</span>
         <transition-group name="list" tag="ul">
-          <DayHabit :dayHabitRecords="dayHabitRecords"/>
+          <ul v-if="dayHabitRecords && dayHabitRecords.length > 0">
+            <DayHabit />
+          </ul>
+          <span v-else class="italic text-gray-500 px-2">Пустой день</span>
         </transition-group>
       </div>
     </div>

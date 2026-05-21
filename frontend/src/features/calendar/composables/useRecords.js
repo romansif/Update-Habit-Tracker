@@ -9,7 +9,7 @@ export const useRecords = () => {
 
     const { habitsCount } = useHabitsStore();
     const { recordId, selectedResetType } = useRecordsStore();
-    const { getRecords, getRecordsCurrent, getMonthRecords, getDayRecords } = useGetRecords();
+    const { getRecords, getRecordsCurrent, getMonthRecords, getDayRecords, getDayHabitRecords } = useGetRecords();
 
     const userRecordsId = localStorage.getItem('userRecordsId');
     const userRecordId = localStorage.getItem('userRecordId');
@@ -149,6 +149,7 @@ export const useRecords = () => {
         'ONE': async () => {
             await deleteRecordById(recordId.value);
 
+            await getDayHabitRecords();
             await getDayRecords();
             await getRecords();
         },
