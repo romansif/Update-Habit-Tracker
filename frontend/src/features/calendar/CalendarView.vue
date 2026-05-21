@@ -2,12 +2,12 @@
 import { useModalsStore } from "../../shared/composables/store/modalsStore.js";
 
 import NavMenu from "../navigation/NavMenu.vue";
-import Calendar from "./calendar-items/Calendar.vue";
+import HabitsCalendar from "./calendar-items/HabitsCalendar.vue";
 import ResetMenu from "./calendar-items/ResetMenu.vue"
-import DayRecords from "../../shared/ui/info-modals/dayRecords.vue";
+import DayHabitsModal from "../../shared/ui/info-modals/DayHabitsModal.vue";
 import ResetRecords from "../../shared/ui/delete-modals/ResetRecords.vue";
 
-const { recordsModalVisible, resetRecordsModalVisible } = useModalsStore();
+const { habitsRecordsModalVisible, resetRecordsModalVisible } = useModalsStore();
 </script>
 
 <template>
@@ -15,9 +15,9 @@ const { recordsModalVisible, resetRecordsModalVisible } = useModalsStore();
     <NavMenu />
     <ResetMenu />
   </div>
-   <Calendar />
+   <HabitsCalendar />
   <transition name="modal" >
-    <DayRecords v-show="recordsModalVisible" />
+    <DayHabitsModal v-show="habitsRecordsModalVisible" />
   </transition>
   <transition name="modal" >
     <ResetRecords v-show="resetRecordsModalVisible" />

@@ -52,7 +52,7 @@ watch(() => [
                 Выберите категорию
               </option>
               <option v-for="category in categoriesForm" :key="category">
-                {{ category.icon }} {{ category.category }}
+                {{ category.icon }}{{ category.category }}
               </option>
             </select>
             <span v-if="habitErrors.categoryError" class="text-sm text-red-500">

@@ -2,11 +2,15 @@ import {ref} from "vue";
 
 const deleteUserModalVisible = ref(false);
 const logoutUserModalVisible = ref(false);
-const resetRecordsModalVisible = ref(false)
+
 const createHabitModalVisible = ref(false);
 const habitInfoModalVisible = ref(false);
 const deleteHabitModalVisible = ref(false);
-const recordsModalVisible = ref(false)
+
+const resetRecordsModalVisible = ref(false)
+const calendarModalVisible = ref(false);
+const habitRecordsModalVisible = ref(false);
+const habitsRecordsModalVisible = ref(false);
 
 export const useModalsStore = () => {
     return{
@@ -15,7 +19,9 @@ export const useModalsStore = () => {
         resetRecordsModalVisible,
         createHabitModalVisible,
         habitInfoModalVisible,
+        calendarModalVisible,
         deleteHabitModalVisible,
-        recordsModalVisible,
+        habitRecordsModalVisible,
+        habitsRecordsModalVisible,
     }
 }

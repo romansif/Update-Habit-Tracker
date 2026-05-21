@@ -8,13 +8,15 @@ import { useHabitsStore } from "../../shared/composables/store/habitsStore.js";
 
 import Pagination from "../footer/Pagination.vue";
 import HabitCard from "./habits-items/HabitCard.vue";
-import DeleteHabit from "../../shared/ui/delete-modals/DeleteHabit.vue";
+import HabitCalendar from "./habit-calendar/HabitCalendar.vue";
 import HabitInfo from "../../shared/ui/info-modals/HabitInfo.vue";
+import DeleteHabit from "../../shared/ui/delete-modals/DeleteHabit.vue";
+import DayHabitModal from "../../shared/ui/info-modals/DayHabitModal.vue";
 
 const { habits } = useHabitsStore()
 const { getHabits } = useGetHabits()
 const { paginatedItems } = usePagination()
-const { habitInfoModalVisible, deleteHabitModalVisible } = useModalsStore()
+const { habitInfoModalVisible, deleteHabitModalVisible, calendarModalVisible, habitRecordsModalVisible } = useModalsStore()
 
 const { isPending, isError, error } = useQuery({
   queryKey: ['habits'],
@@ -24,9 +26,9 @@ const { isPending, isError, error } = useQuery({
 
 <template>
   <div v-if="isPending" class="flex justify-center items-center h-[700px]">
-    <img src="../../app/assets/icons/loading.svg" alt="">
+    <img src="../../app/assets/icons/loading.svg" alt="" class="w-[120px] h-[120px]">
   </div>
-  <div v-else-if="isError">
+  <div v-else-if="isError" class="flex justify-center items-center h-[700px]">
     <span class="text-2xl text-gray-200 italic">Error {{ error.message }}</span>
   </div>
   <div v-else-if="habits && habits.length === 0" class="flex justify-center items-center">
@@ -40,6 +42,12 @@ const { isPending, isError, error } = useQuery({
   <Pagination v-if="habits && habits.length > 0"/>
   <transition name="modal" >
     <HabitInfo v-show="habitInfoModalVisible" />
+  </transition>
+  <transition name="modal">
+    <HabitCalendar v-show="calendarModalVisible"/>
+  </transition>
+  <transition name="modal">
+    <DayHabitModal v-show="habitRecordsModalVisible" />
   </transition>
   <transition name="modal">
     <DeleteHabit v-show="deleteHabitModalVisible" />

@@ -6,7 +6,7 @@ import BaseButton from "../button/BaseButton.vue";
 import reset_record from "../../../app/assets/icons/reset-record.png";
 
 const { habit } = useHabitsStore();
-const { openDeleteHabitModal, closeHabitInfoModal } = useModals();
+const { openDeleteHabitModal, openCalendarModal, closeHabitInfoModal } = useModals();
 
 const statusClass = (status) => ({
   'bg-green-500 italic text-sm text-white px-2 py-1 rounded': status === 'Выполнено',
@@ -20,12 +20,12 @@ const statusClass = (status) => ({
                       flex items-center justify-center">
     <div class="bg-white rounded-lg p-6 w-[600px]">
       <div class="flex flex-col gap-4 mb-4">
-        <div class="flex justify-between items-center">
+        <div class="flex justify-between items-center mt-2">
           <span class="text-gray-600">
-            Дата и время создания привычки — {{ habit?.dateCreatedHabit }}, {{ habit?.timeCreatedHabit }}
+              Дата и время создания привычки — {{ habit?.dateCreatedHabit }}, {{ habit?.timeCreatedHabit }}
           </span>
-          <button @click="openDeleteHabitModal(habit?.id, 'Хотите навсегда удалить привычку?')">
-            <img :src="reset_record" class="w-5 h-5 opacity-70 hover:opacity-100" />
+          <button @click="openDeleteHabitModal(habit?.id, 'Хотите навсегда удалить привычку?', 'ONE')">
+              <img :src="reset_record" class="w-5 h-5 opacity-70 hover:opacity-100" />
           </button>
         </div>
         <div class="flex gap-1 items-center text-xl">
@@ -64,8 +64,9 @@ const statusClass = (status) => ({
       <div class="mt-4">
         <span class="text-gray-600">Конечная дата выполнения привычки — {{ habit?.endDateHabit }}</span>
       </div>
-      <div class="flex">
+      <div class="flex justify-between items-center">
         <BaseButton button-type="Закрыть" variant="closeHabitsInDay" @click=closeHabitInfoModal />
+        <BaseButton button-type="Открыть календарь привычки" variant="openHabitCalendar" @click="openCalendarModal(habit?.id)"/>
       </div>
     </div>
   </div>

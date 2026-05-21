@@ -14,16 +14,15 @@ export const useRecords = () => {
     const userRecordsId = localStorage.getItem('userRecordsId');
     const userRecordId = localStorage.getItem('userRecordId');
 
-    const createRecord = async (habit, series, status) => {
-        const currentAllCounter = habitsCount.value?.allHabitsCounter || 0;
-        const newAllHabitsCounter = currentAllCounter + 1;
+    const createRecord = async (habit, series, status, id) => {
+        const currentAllCount = habitsCount.value?.allHabits || 0;
 
         try{
-            if(currentAllCounter === null) return null;
+            if(currentAllCount === null) return null;
             await handler(`/habits-count/${userRecordsId}`, {
                 method: 'PATCH',
                 body: JSON.stringify({
-                    allHabitsCounter: newAllHabitsCounter,
+                    allHabits: currentAllCount + 1,
                 })
             });
 
@@ -42,6 +41,7 @@ export const useRecords = () => {
                 method: 'POST',
                 body: JSON.stringify({
                     userRecordsId: userRecordsId,
+                    recordId: id,
                     date: now,
                     dateCreatedRecord: dateCreated,
                     monthCreatedRecord: month,
@@ -51,7 +51,9 @@ export const useRecords = () => {
                     firstStatus: status,
                 })
             });
-            await getDayRecords()
+            await getRecordsCurrent()
+
+            await getRecords()
 
             localStorage.setItem('userRecordId', newRecordDay.id);
         } catch (err) {

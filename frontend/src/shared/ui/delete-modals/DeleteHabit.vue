@@ -5,9 +5,9 @@ import { useHabits } from "../../../features/habits/composables/useHabits.js";
 
 import BaseButton from '../button/BaseButton.vue';
 
-const { deleteHabit } = useHabits();
-const { deleteHabitMessage } = useHabitsStore();
+const { deleteHabits } = useHabits();
 const { closeDeleteHabitModal } = useModals();
+const { deleteHabitMessage } = useHabitsStore();
 </script>
 
 <template>
@@ -18,7 +18,7 @@ const { closeDeleteHabitModal } = useModals();
         <h2 class="text-2xl text-center">{{ deleteHabitMessage }}</h2>
         <div class="flex justify-center gap-6">
           <BaseButton button-type="Нет" variant="cancelDelHabit" @click=closeDeleteHabitModal />
-          <BaseButton button-type="Да" variant="confirmDelHabit" @click=deleteHabit />
+          <BaseButton button-type="Да" variant="confirmDelHabit" @click=deleteHabits />
         </div>
       </div>
     </div>

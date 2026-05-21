@@ -7,6 +7,7 @@ import NavMenu from "./NavMenu.vue";
 import NavSort from "./NavSort.vue";
 
 import reset from '../../app/assets/icons/reset-search.png'
+import options from "../../app/assets/icons/options.svg"
 
 const { getHabits } = useGetHabits();
 const { searchForm, debouncedSearch, resetSearchForm } = useSearchingHabits();

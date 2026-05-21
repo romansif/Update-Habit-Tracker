@@ -15,7 +15,7 @@ onMounted(async() => {
   <div class="flex justify-between">
     <div class="flex flex-col gap-4 py-8 px-11.5 bg-white rounded-[10px] text-center shadow-xl">
         <span>Всего привычек</span>
-        <span>{{ habitsCount?.allHabitsCounter }}</span>
+        <span>{{ habitsCount?.allHabits }}</span>
     </div>
     <div class="flex flex-col gap-4 py-8 px-8.5 bg-white rounded-[10px] text-center shadow-xl">
         <span>Выполнено за день</span>

@@ -1,4 +1,4 @@
-import { ref, computed } from 'vue';
+import { computed } from 'vue';
 
 import { useGetHabits } from "./getHabits.js";
 import { handler } from '../../../shared/api/http.js';
@@ -16,7 +16,7 @@ export const useHabits = () => {
     const { getHabits } = useGetHabits();
     const { getRecords, getRecordsCurrent } = useGetRecords();
     const { validateHabitForm } = useValidation()
-    const { habits, habitId, habitsCount, seriesCount, termsValue } = useHabitsStore();
+    const { habits, habitId, selectedDeleteType, seriesCount, termsValue } = useHabitsStore();
     const { createRecord, updateHabitsCurrentCount, updateRecordStatus } = useRecords();
 
     const createHabit = async (status) => {
@@ -27,8 +27,12 @@ export const useHabits = () => {
         if(!isValid) return;
         try{
             const now = new Date();
-            const dateCreatedHabit = now.toLocaleDateString();
-            const timeCreatedHabit = now.toLocaleTimeString("ru-RU", {
+            const dateCreated = now.toLocaleDateString();
+            const month =Number(now.toLocaleDateString('ru-RU', {
+                year: 'numeric',
+                month: '2-digit',
+            }));
+            const time = now.toLocaleTimeString("ru-RU", {
                 hour: "2-digit",
                 minute: "2-digit",
             });
@@ -64,15 +68,16 @@ export const useHabits = () => {
                     status: status,
                     term: habitForm.value.term,
                     date: now,
-                    dateCreatedHabit: dateCreatedHabit,
-                    timeCreatedHabit: timeCreatedHabit,
+                    dateCreatedHabit: dateCreated,
+                    monthCreatedRecord: month,
+                    timeCreatedHabit: time,
                     endDateHabit: endDate.value,
                     progress: 0
                 })
             });
             await getHabits()
 
-            await createRecord(newHabit.habit, newHabit.series, newHabit.status);
+            await createRecord(newHabit.habit, newHabit.series, newHabit.status, newHabit.id);
 
             await getRecords();
 
@@ -140,7 +145,7 @@ export const useHabits = () => {
             )
             await getHabits()
 
-            await updateRecordStatus(habit.habit, seriesCount.value, habit.status, newStatus)
+            await updateRecordStatus(habit.habit, seriesCount.value, newStatus)
 
             await updateHabitsCurrentCount(newStatus)
         }catch(err){
@@ -148,36 +153,50 @@ export const useHabits = () => {
         }
     }
 
-    const deleteHabit = async () => {
-        const userRecordsId = localStorage.getItem('userRecordsId');
+    const deleteHabitById = async (id) => {
+        await handler(`/habits/${id}`, {
+            method: 'DELETE',
+        });
+    }
 
-        const currentDayCompletedCounter = habitsCount?.dayCompletedHabits || 0;
+    const updateHabitCount = async (id) => {
+        await handler(`/habits-count/${id}`, {
+            method: 'PATCH',
+        })
+    }
 
-        try{
-            await handler(`/habits/${habitId.value}`, {
-                method: 'DELETE',
-            });
-            await getHabits()
+    const methods = {
+        'ONE': async () => {
+            const userRecordsId = localStorage.getItem('userRecordsId');
 
-            await handler(`/habits-count/${userRecordsId}`, {
-                method: 'PATCH',
-                body: JSON.stringify({
-                    dayCompletedHabits: Math.max(0, currentDayCompletedCounter - 1)
-                })
-            })
-            await getRecordsCurrent
+            await deleteHabitById(habitId.value);
+            await updateHabitCount(userRecordsId);
 
-            modals.closeDeleteHabitModal()
+            await getHabits();
+            await getRecordsCurrent();
+        },
+        'ALL': async () => {
+            const allHabits = await getHabits();
 
-            await modals.closeHabitInfoModal()
-        }catch(err){
-            console.log(err);
+            for(let habit of allHabits){
+                await deleteHabitById(habit.id);
+            }
+            await getHabits();
         }
+    }
+
+    const deleteHabits = async () => {
+        methods[selectedDeleteType.value]?.()
+
+        modals.closeDeleteHabitModal()
+
+        await modals.closeHabitInfoModal()
+
     }
 
     return{
         createHabit,
-        deleteHabit,
+        deleteHabits,
         updateStatus,
     }
 }

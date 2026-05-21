@@ -6,7 +6,7 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { useHabits } from "../composables/useHabits.js";
 import { useModals } from "../../../shared/composables/modal/useModals.js";
 
-import options from "../../../app/assets/icons/options.png";
+import options from "../../../app/assets/icons/options.svg";
 
 const { updateStatus } = useHabits()
 const { openHabitInfoModal, openDeleteHabitModal } = useModals()
@@ -74,7 +74,7 @@ const canAddInProgressHabits = computed(() => props.status !== 'В процес�
         </div>
         <div class="py-1">
           <MenuItem v-slot="{ active }">
-            <button @click="openDeleteHabitModal(id, 'Хотите навсегда удалить привычку?')" class="w-full text-start">
+            <button @click="openDeleteHabitModal(id, 'Хотите навсегда удалить привычку?', 'ONE')" class="w-full text-start">
                 <span :class="[
                         active ? 'bg-white/25 text-white outline-hidden' :
                         'text-white', 'block px-4 py-1 text-sm'

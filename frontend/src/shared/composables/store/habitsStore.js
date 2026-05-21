@@ -45,6 +45,7 @@ const habitsCountForm = {
 const habit = ref({})
 const habitId = ref(null);
 const seriesCount = ref(0);
+const selectedDeleteType = ref(null);
 const deleteHabitMessage = ref('')
 
 export const useHabitsStore = () => {
@@ -59,6 +60,7 @@ export const useHabitsStore = () => {
         habitId,
         habit,
         seriesCount,
+        selectedDeleteType,
         deleteHabitMessage,
     }
 }

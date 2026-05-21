@@ -4,7 +4,7 @@ import { useRecordsStore } from "../../../shared/composables/store/recordsStore.
 
 export const useGetRecords = () => {
     const { habitsCount } = useHabitsStore();
-    const { resetDate, records, monthRecords, dayRecords } = useRecordsStore();
+    const { resetDate, records, monthRecords, dayHabitsRecords, habitRecords, dayHabitRecords, recordId } = useRecordsStore();
 
     const userRecordsId = localStorage.getItem('userRecordsId');
 
@@ -55,18 +55,43 @@ export const useGetRecords = () => {
             const res = await handler(`/records?userRecordsId=${userRecordsId}&dateCreatedRecord=${resetDate.value}`, {
                 method: 'GET'
             });
-            dayRecords.value = res;
+            dayHabitsRecords.value = res;
 
-            return dayRecords;
+            return dayHabitsRecords;
         }catch(err){
             console.log(err);
         }
     };
+
+    const getHabitRecords = async () => {
+        try{
+            const res = await handler(`/records?recordId=${recordId.value}`, {
+                method: 'GET'
+            })
+            habitRecords.value = res
+        }catch(err){
+            console.log(err);
+        }
+    }
+
+    const getDayHabitRecords = async () => {
+        try{
+            const res = await handler(`/records?dateCreatedRecord=${resetDate.value}&recordId=${recordId.value}`, {
+                method: 'GET'
+            })
+            dayHabitRecords.value = res
+
+        }catch(err){
+            console.log(err);
+        }
+    }
 
     return{
         getRecordsCurrent,
         getRecords,
         getMonthRecords,
         getDayRecords,
+        getHabitRecords,
+        getDayHabitRecords
     }
 }

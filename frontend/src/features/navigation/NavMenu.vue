@@ -18,7 +18,7 @@ const isCalendarPage = computed(() => route.name !== 'calendar')
 
 <template>
   <Menu as="div" class="relative inline-block p-6">
-    <MenuButton class="inline-flex w-full justify-center gap-x-1.5 rounded-md text-white rounded-lg
+    <MenuButton class="inline-flex w-full justify-center gap-x-3 rounded-md text-white rounded-lg
                                 bg-gradient-to-b from-indigo-400 to-indigo-600 shadow-xl
                                 shadow-indigo-500/40 active:scale-95 transition py-4 px-6 text-sm font-semibold
                                 text-white inset-ring-1 inset-ring-white/5 hover:bg-gray-500">

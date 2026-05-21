@@ -12,7 +12,7 @@ const {
   isToday, isPastDay, isWeekend, isTodayWeekend, hasStatus
 } = useCalendar();
 
-const { openRecordsModal } = useModals();
+const { openHabitsRecordsModal } = useModals();
 const { getRecords } = useGetRecords();
 
 onMounted(async() => {
@@ -42,7 +42,7 @@ onMounted(async() => {
         <div>Вс</div>
       </div>
       <div class="grid grid-cols-7 mt-4">
-        <div v-for="(day, index) in calendarDays" :key="index" @click="day && openRecordsModal(day)"
+        <div v-for="(day, index) in calendarDays" :key="index" @click="day && openHabitsRecordsModal(day)"
              :class="[ 'h-20 flex flex-col items-center justify-between py-4 rounded-2xl transition-all duration-300',
                day ? 'cursor-pointer' : 'border-transparent',
                isPastDay(day) ? 'opacity-50' : '',

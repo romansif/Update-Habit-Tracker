@@ -3,7 +3,9 @@ import {ref} from "vue";
 const records = ref([]);
 const recordId = ref(null)
 const monthRecords = ref([])
-const dayRecords = ref([]);
+const dayHabitsRecords = ref([]);
+const habitRecords = ref([])
+const dayHabitRecords = ref({})
 const selectedDate = ref(null)
 const resetDate = ref(null)
 const selectedResetType = ref(null)
@@ -14,7 +16,10 @@ export const useRecordsStore = () => {
         records,
         recordId,
         monthRecords,
-        dayRecords,
+        dayHabitsRecords,
+        habitRecords,
+        dayHabitRecords,
+
         selectedDate,
         selectedResetType,
         resetDate,

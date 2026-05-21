@@ -4,7 +4,6 @@ import { handler } from '../../../shared/api/http.js';
 
 import { useUserStore } from '../../../shared/composables/store/userStore';
 import { useHabitsStore } from "../../../shared/composables/store/habitsStore.js";
-import { useRecordsStore } from "../../../shared/composables/store/recordsStore.js";
 
 import { useForms } from "../../../shared/composables/forms/useForms.js";
 import { useValidation } from "../../../shared/composables/forms/useValidation.js";
@@ -50,7 +49,7 @@ export const useUser = () => {
             const newHabitsCount = await handler('/habits-count', {
                 method: 'POST',
                 body: JSON.stringify({
-                    allHabitsCounter: habitsCountForm?.allHabits,
+                    allHabits: habitsCountForm?.allHabits,
                     dayCompletedHabits: habitsCountForm?.dayCompletedHabits,
                     allCompletedHabits: habitsCountForm?.allCompletedHabits,
                 })
@@ -139,11 +138,12 @@ export const useUser = () => {
 
     const logoutUser = async () => {
         try{
-            localStorage.removeItem('userId');
             user.value = null;
 
-            modals.closeLogoutUserModal();
+            localStorage.removeItem('userId');
+            localStorage.removeItem('currentUser');
 
+            modals.closeLogoutUserModal();
             router.push({ name: 'login' });
         }catch(err){
             console.log(err);
