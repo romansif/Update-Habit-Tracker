@@ -8,7 +8,8 @@ import { ChevronDownIcon } from '@heroicons/vue/20/solid'
 const route = useRoute()
 
 const isProfilePage = computed(() => route.name !== 'profile')
-const isAllHabitsPage = computed(() => route.name !== 'habits')
+const isAllHabitsPage = computed(() => route.name !== 'all-habits')
+const isCurrentHabitsPage = computed(() => route.name !== 'current-habits')
 const isDayCompletedHabitsPage = computed(() => route.name !== 'day-completed-habits')
 const isAllCompletedHabitsPage = computed(() => route.name !== 'all-completed-habits')
 const isInProgressHabitsPage = computed(() => route.name !== 'in-progress-habits')
@@ -52,15 +53,27 @@ const isCalendarPage = computed(() => route.name !== 'calendar')
         </div>
         <div class="py-1">
           <MenuItem v-slot="{ active }">
-            <router-link :to="{ name: 'habits' }">
+            <router-link :to="{ name: 'all-habits' }">
                 <span v-if="isAllHabitsPage" :class="[
                         active ? 'bg-white/25 text-white outline-hidden' :
                         'text-white', 'block px-4 py-2 text-sm'
                     ]">
-                    Привычки
+                    Все привычки
                 </span>
             </router-link>
           </MenuItem>
+          <MenuItem v-slot="{ active }">
+            <router-link :to="{ name: 'current-habits' }">
+                <span v-if="isCurrentHabitsPage" :class="[
+                        active ? 'bg-white/25 text-white outline-hidden' :
+                        'text-white', 'block px-4 py-2 text-sm'
+                    ]">
+                    Текущие привычки
+                </span>
+            </router-link>
+          </MenuItem>
+        </div>
+        <div class="py-1">
           <MenuItem v-slot="{ active }">
             <router-link :to="{ name: 'all-completed-habits' }">
                 <span v-if="isAllCompletedHabitsPage" :class="[

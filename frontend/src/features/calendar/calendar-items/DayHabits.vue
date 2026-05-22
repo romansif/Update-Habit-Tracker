@@ -26,14 +26,10 @@ const statusClass = (status) => ({
         <span class="font-semibold">{{ dayHabitRecord.series }}</span>
       </div>
       <span class="text-lg font-medium">
-        {{ dayHabitRecord.habit }}
+          {{ dayHabitRecord.habit }}
       </span>
-      <button class="ml-auto" @click="openResetRecordsModal
-          (
-            dayHabitRecord.id, 'историю выполенния этой привычки?', 'ONE'
-          )">
-        <img :src="reset_record" class="w-5 h-5 opacity-70 hover:opacity-100" />
-      </button>
+      <img :src="reset_record" class="w-5 h-6 opacity-70 hover:opacity-100 ml-auto"
+             @click="openResetRecordsModal(dayHabitRecord.id, 'историю выполенния этой привычки?', 'ONE')" />
     </div>
     <div class="flex flex-col gap-4">
       <span v-if="dayHabitRecord.firstStatus" class="text-sm">

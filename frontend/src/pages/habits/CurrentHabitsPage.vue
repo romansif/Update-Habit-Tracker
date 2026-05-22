@@ -1,6 +1,6 @@
 <script setup>
-import HabitsList from "../../features/habits/HabitsList.vue";
-import NavBar from "../../features/navigation/NavBar.vue";
+  import HabitsList from "../../features/habits/HabitsList.vue";
+  import NavBar from "../../features/navigation/NavBar.vue";
 </script>
 
 <template>

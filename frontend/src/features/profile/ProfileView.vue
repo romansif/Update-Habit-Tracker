@@ -36,7 +36,7 @@ onMounted(async () => {
 <template>
   <div class="bg-indigo-200 min-h-screen">
     <div class="flex justify-between items-center gap-4">
-      <router-link :to="{ name: 'habits' }" class="px-8 py-5 text-white rounded-lg bg-gradient-to-b
+      <router-link :to="{ name: 'current-habits' }" class="px-8 py-5 text-white rounded-lg bg-gradient-to-b
                             from-indigo-400 to-indigo-600 shadow-xl shadow-indigo-500/40
                             active:scale-95 transition mx-5">
         Вернуться

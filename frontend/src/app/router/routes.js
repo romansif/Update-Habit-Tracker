@@ -40,9 +40,15 @@ const routes = [
                 meta: { requireAuth: true },
             },
             {
-                path: 'habits',
-                name: 'habits',
+                path: 'all-habits',
+                name: 'all-habits',
                 component: () => import('../../pages/habits/AllHabitsPage.vue'),
+                meta: { requireAuth: true },
+            },
+            {
+                path: 'current-habits',
+                name: 'current-habits',
+                component: () => import('../../pages/habits/CurrentHabitsPage.vue'),
                 meta: { requireAuth: true },
             },
             {

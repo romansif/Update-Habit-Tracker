@@ -6,7 +6,7 @@ import { useHabitsFilter } from "../../../shared/composables/filter/useHabitsFil
 
 export const useSortingHabits = () => {
     const { habits } = useHabitsStore();
-    const { filteredHabits } = useHabitsFilter();
+    const { filteredCurrentHabits } = useHabitsFilter();
 
     const route = useRoute();
 
@@ -17,7 +17,7 @@ export const useSortingHabits = () => {
             method: 'GET',
         });
 
-        return filteredHabits(res, route.name)
+        return filteredCurrentHabits(res, route.name)
     }
 
     const sortingByNew = async () => {
@@ -35,6 +35,6 @@ export const useSortingHabits = () => {
     return{
         sortingByNew,
         sortingByOld,
-        filteredHabits
+        filteredCurrentHabits
     }
 }

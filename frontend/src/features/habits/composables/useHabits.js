@@ -28,7 +28,7 @@ export const useHabits = () => {
         try{
             const now = new Date();
             const dateCreated = now.toLocaleDateString();
-            const month =Number(now.toLocaleDateString('ru-RU', {
+            const month = Number(now.toLocaleDateString('ru-RU', {
                 year: 'numeric',
                 month: '2-digit',
             }));
@@ -177,6 +177,8 @@ export const useHabits = () => {
         },
         'ALL': async () => {
             const allHabits = await getHabits();
+
+            console.log(allHabits);
 
             for(let habit of allHabits){
                 await deleteHabitById(habit.id);

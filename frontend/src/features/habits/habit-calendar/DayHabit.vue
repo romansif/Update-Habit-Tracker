@@ -15,24 +15,21 @@ const statusClass = (status) => ({
 </script>
 
 <template>
-  <li v-for="dayHabitRecord in dayHabitRecords" class="mb-2 pb-4 border-gray-400 flex flex-col gap-2">
+  <li v-for="dayHabitRecord in dayHabitRecords" :key="dayHabitRecord.id"
+      class="mb-2 pb-4 border-gray-400 flex flex-col gap-2">
     <span class="text-gray-500">
       Привычка создана в {{ dayHabitRecord.timeCreatedRecord }}
     </span>
-    <div class="flex items-center gap-2 py-2">
+    <div class="flex items-center gap-2 py-1">
       <div class="flex items-center gap-1 bg-orange-100 text-orange-600 px-2 py-1 rounded-lg text-sm">
         <span>🔥</span>
         <span class="font-semibold">{{ dayHabitRecord.series }}</span>
       </div>
       <span class="text-lg font-medium">
-        {{ dayHabitRecord.habit }}
+          {{ dayHabitRecord.habit }}
       </span>
-      <button class="ml-auto" @click="openResetRecordsModal
-          (
-            dayHabitRecord?.id, 'историю выполенния этой привычки?', 'ONE'
-          )">
-        <img :src="reset_record" class="w-5 h-5 opacity-70 hover:opacity-100" />
-      </button>
+      <img :src="reset_record" class="w-5 h-6 opacity-70 hover:opacity-100 ml-auto"
+           @click="openResetRecordsModal(dayHabitRecord.id, 'историю выполенния этой привычки?', 'ONE')" />
     </div>
     <div class="flex flex-col gap-4">
       <span v-if="dayHabitRecord.firstStatus" class="text-sm">

@@ -15,13 +15,13 @@ import DayHabitModal from "../../shared/ui/info-modals/DayHabitModal.vue";
 import ResetRecords from "../../shared/ui/delete-modals/ResetRecords.vue";
 
 const { habits } = useHabitsStore()
-const { getHabits } = useGetHabits()
+const { getCurrentHabits } = useGetHabits()
 const { paginatedItems } = usePagination()
 const { habitInfoModalVisible, deleteHabitModalVisible, calendarModalVisible, habitRecordsModalVisible, resetRecordsModalVisible } = useModalsStore()
 
 const { isPending, isError, error } = useQuery({
-  queryKey: ['habits'],
-  queryFn: getHabits
+  queryKey: ['current-habits'],
+  queryFn: getCurrentHabits
 })
 </script>
 

@@ -57,7 +57,7 @@ export const useHabitsFilter = () => {
         return 'В процессе'
     }
 
-    const filteredHabits = (data, routeName) => {
+    const filteredCurrentHabits = (data, routeName) => {
         const rollBack = data.map(habit => {
             if(habit.status === 'Выполнено' && shouldResetHabit(habit)){
                 return {
@@ -77,7 +77,7 @@ export const useHabitsFilter = () => {
         const activeHabits = rollBack
 
         const routeNames = {
-            'habits': () => {
+            'current-habits': () => {
                 return activeHabits.filter(habit => habit.status !== 'Выполнено')
             },
             'day-completed-habits': () => {
@@ -96,12 +96,13 @@ export const useHabitsFilter = () => {
         return routeNames[routeName]?.() || activeHabits
     }
 
+
     return{
         formatDate,
         shouldResetHabit,
         isToday,
         isFullyCompleted,
         getHabitStatus,
-        filteredHabits
+        filteredCurrentHabits
     }
 }

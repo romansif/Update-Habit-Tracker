@@ -8,7 +8,7 @@ export const useGetHabits = () => {
     const route = useRoute();
 
     const { habits, habit } = useHabitsStore();
-    const { filteredHabits } = useHabitsFilter();
+    const { filteredCurrentHabits } = useHabitsFilter();
 
     const getHabits = async () => {
         const userId = localStorage.getItem('userId');
@@ -16,7 +16,18 @@ export const useGetHabits = () => {
         const res = await handler(`/habits?userId=${userId}`, {
             method: 'GET',
         });
-        habits.value = filteredHabits(
+        habits.value = res
+
+        return habits.value;
+    }
+
+    const getCurrentHabits = async () => {
+        const userId = localStorage.getItem('userId');
+
+        const res = await handler(`/habits?userId=${userId}`, {
+            method: 'GET',
+        });
+        habits.value = filteredCurrentHabits(
             res.sort((a, b) => new Date(b.date) - new Date(a.date)),
             route.name
         );
@@ -28,12 +39,12 @@ export const useGetHabits = () => {
         const res = await handler(`/habits/${id}`, {
             method: 'GET',
         });
-
         habit.value = res
     }
 
     return{
         getHabits,
+        getCurrentHabits,
         getHabit
     }
 }
