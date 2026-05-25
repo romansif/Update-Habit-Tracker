@@ -18,6 +18,7 @@ const habitForm = ref({
     status: 'Не выполнено',
     frequency: '',
     term: '',
+    linkedHabit: '',
 });
 
 const updateForm = ref({

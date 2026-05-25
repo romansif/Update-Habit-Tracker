@@ -1,6 +1,7 @@
 import { ref } from "vue";
 
 const habits = ref([]);
+const restoreHabitsSeries = ref([])
 const categoriesForm = [
     { category: 'Сон', icon: '😴'},
     { category: 'Вода',  icon: '💧'},
@@ -46,11 +47,13 @@ const habit = ref({})
 const habitId = ref(null);
 const seriesCount = ref(0);
 const selectedDeleteType = ref(null);
+const restoreMessage = ref('')
 const deleteHabitMessage = ref('')
 
 export const useHabitsStore = () => {
     return{
         habits,
+        restoreHabitsSeries,
         categoriesForm,
         frequenciesForm,
         termsForm,
@@ -61,6 +64,7 @@ export const useHabitsStore = () => {
         habit,
         seriesCount,
         selectedDeleteType,
+        restoreMessage,
         deleteHabitMessage,
     }
 }

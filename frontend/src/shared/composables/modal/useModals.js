@@ -8,75 +8,125 @@ import { useGetHabits } from "../../../features/habits/composables/getHabits.js"
 import { useCalendar } from "../../../features/calendar/composables/useCalendar.js";
 import { useGetRecords } from "../../../features/calendar/composables/getRecords.js";
 
-export const useModals = () => {
+export const useUserModals = () => {
     const userStore = useUserStore();
+    const modalsStore = useModalsStore();
+
+    const openLogoutUser = (message) => {
+        userStore.logoutUserMessage.value = message;
+        modalsStore.logoutUserVisible.value = true;
+    }
+    const closeLogoutUser = () => {
+        modalsStore.logoutUserVisible.value = false;
+    }
+
+    const openDeleteUser = (message) => {
+        userStore.deleteUserMessage.value = message;
+        modalsStore.deleteUserVisible.value = true;
+    }
+    const closeDeleteUser = () => {
+        modalsStore.deleteUserVisible.value = false;
+    }
+
+    return {
+        openLogoutUser,
+        openDeleteUser,
+
+        closeLogoutUser,
+        closeDeleteUser,
+    }
+}
+
+export const useHabitModals = () => {
     const habitsStore = useHabitsStore();
     const modalsStore = useModalsStore();
-    const recordsStore = useRecordsStore();
 
-    const openLogoutUserModal = (message) => {
-        userStore.logoutUserMessage.value = message;
-        modalsStore.logoutUserModalVisible.value = true;
+    const openCreateHabit = () => {
+        modalsStore.createHabitVisible.value = true;
     }
-    const closeLogoutUserModal = () => {
-        modalsStore.logoutUserModalVisible.value = false;
-    }
-
-    const openDeleteUserModal = (message) => {
-        userStore.deleteUserMessage.value = message;
-        modalsStore.deleteUserModalVisible.value = true;
-    }
-    const closeDeleteUserModal = () => {
-        modalsStore.deleteUserModalVisible.value = false;
-    }
-
-    const openCreateHabitModal = () => {
-        modalsStore.createHabitModalVisible.value = true;
-    }
-    const closeCreateHabitModal = () => {
+    const closeCreateHabit = () => {
         const clearForms = useClearForms()
 
-        modalsStore.createHabitModalVisible.value = false;
+        modalsStore.createHabitVisible.value = false;
         clearForms.clearHabitForm();
     }
 
-    const openHabitInfoModal = async (id) => {
+    const openHabitInfo = async (id) => {
         const getHabits = useGetHabits()
 
         await getHabits.getHabit(id);
-        modalsStore.habitInfoModalVisible.value = true;
+        modalsStore.habitInfoVisible.value = true;
     }
-    const closeHabitInfoModal = async () => {
-        modalsStore.habitInfoModalVisible.value = false;
-    }
-
-    const openCalendarModal = async (id) => {
-        const getRecords = useGetRecords()
-
-        recordsStore.recordId.value = id;
-
-        modalsStore.calendarModalVisible.value = true;
-        await getRecords.getHabitRecords();
-
-        modalsStore.habitInfoModalVisible.value = false;
-    }
-    const closeCalendarModal = async () => {
-        modalsStore.calendarModalVisible.value = false;
-        modalsStore.habitInfoModalVisible.value = true;
+    const closeHabitInfo = async () => {
+        modalsStore.habitInfoVisible.value = false;
     }
 
-    const openDeleteHabitModal = (id, message, deleteType) => {
+    const openDeleteHabit = (id, message, deleteType) => {
         habitsStore.habitId.value = id;
         habitsStore.deleteHabitMessage.value = message;
         habitsStore.selectedDeleteType.value = deleteType;
 
-        modalsStore.deleteHabitModalVisible.value = true;
+        modalsStore.deleteHabitVisible.value = true;
     }
-    const closeDeleteHabitModal = () => {
-        modalsStore.deleteHabitModalVisible.value = false;
+    const closeDeleteHabit = () => {
+        modalsStore.deleteHabitVisible.value = false;
     }
 
-    const openHabitsRecordsModal = async (day) => {
+    const openRollBackSeries = (habit) => {
+        habitsStore.restoreHabitsSeries.value.push(habit)
+
+        habitsStore.restoreMessage.value = 'Вы потеряли свою серию выполнения этих привычек:'
+        modalsStore.rollbackSeriesVisible.value = true;
+    }
+    const closeRollBackSeries = async () => {
+        modalsStore.rollbackSeriesVisible.value = false;
+    }
+
+    const openRestoreSeries = (id) => {
+        habitsStore.habitId.value = id
+
+        modalsStore.restoreSeriesVisible.value = true
+    }
+    const closeRestoreSeries = () => {
+        modalsStore.restoreSeriesVisible.value = false
+    }
+
+    return{
+        openCreateHabit,
+        openHabitInfo,
+        openDeleteHabit,
+        openRollBackSeries,
+        openRestoreSeries,
+
+        closeCreateHabit,
+        closeHabitInfo,
+        closeDeleteHabit,
+        closeRollBackSeries,
+        closeRestoreSeries
+    }
+}
+
+export const useRecordsModals = () => {
+    const recordsStore = useRecordsStore();
+    const modalsStore = useModalsStore();
+
+    const openCalendar = async (id) => {
+        const getRecords = useGetRecords()
+
+        recordsStore.recordId.value = id;
+
+        modalsStore.calendarVisible.value = true;
+        await getRecords.getHabitRecords();
+
+        modalsStore.habitInfoVisible.value = false;
+    }
+    const closeCalendar = async () => {
+        modalsStore.calendarVisible.value = false;
+        modalsStore.habitInfoVisible.value = true;
+    }
+
+
+    const openHabitsRecords = async (day) => {
         const calendar = useCalendar();
         const getRecords = useGetRecords()
 
@@ -93,16 +143,16 @@ export const useModals = () => {
 
         await getRecords.getDayRecords();
 
-        modalsStore.habitsRecordsModalVisible.value = true;
+        modalsStore.habitsRecordsVisible.value = true;
     }
-    const closeHabitsRecordsModal = () => {
+    const closeHabitsRecords = () => {
         recordsStore.dayHabitsRecords.value = [];
         recordsStore.selectedDate.value = null;
 
-        modalsStore.habitsRecordsModalVisible.value = false;
+        modalsStore.habitsRecordsVisible.value = false;
     }
 
-    const openHabitRecordsModal = async (day) => {
+    const openHabitRecords = async (day) => {
         const calendar = useCalendar();
         const getRecords = useGetRecords()
 
@@ -116,17 +166,17 @@ export const useModals = () => {
 
         await getRecords.getDayHabitRecords();
 
-        modalsStore.habitRecordsModalVisible.value = true;
+        modalsStore.habitRecordsVisible.value = true;
     }
 
-    const closeHabitRecordsModal = () => {
+    const closeHabitRecords = () => {
         recordsStore.dayHabitRecords.value = [];
         recordsStore.selectedDate.value = null;
 
-        modalsStore.habitRecordsModalVisible.value = false;
+        modalsStore.habitRecordsVisible.value = false;
     }
 
-    const openResetRecordsModal = (id, message, resetType, month) => {
+    const openResetRecords = (id, message, resetType, month) => {
         recordsStore.recordId.value = id;
         recordsStore.resetMessage.value = message;
         recordsStore.selectedResetType.value = resetType;
@@ -134,32 +184,23 @@ export const useModals = () => {
         if(resetType === "MONTH"){
             recordsStore.resetDate.value = month;
         }
-        modalsStore.resetRecordsModalVisible.value = true;
+        modalsStore.resetRecordsVisible.value = true;
     }
 
-    const closeResetRecordsModal = () => {
-        modalsStore.resetRecordsModalVisible.value = false;
+    const closeResetRecords = () => {
+        modalsStore.resetRecordsVisible.value = false;
     }
 
-    return {
-        openLogoutUserModal,
-        openDeleteUserModal,
-        openCreateHabitModal,
-        openHabitInfoModal,
-        openCalendarModal,
-        openDeleteHabitModal,
-        openHabitsRecordsModal,
-        openHabitRecordsModal,
-        openResetRecordsModal,
 
-        closeLogoutUserModal,
-        closeDeleteUserModal,
-        closeCreateHabitModal,
-        closeHabitInfoModal,
-        closeCalendarModal,
-        closeDeleteHabitModal,
-        closeHabitsRecordsModal,
-        closeHabitRecordsModal,
-        closeResetRecordsModal
+    return{
+        openCalendar,
+        openHabitsRecords,
+        openResetRecords,
+        openHabitRecords,
+
+        closeCalendar,
+        closeHabitsRecords,
+        closeResetRecords,
+        closeHabitRecords
     }
 }

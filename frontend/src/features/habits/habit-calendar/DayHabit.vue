@@ -1,11 +1,11 @@
 <script setup>
-import { useModals } from "../../../shared/composables/modal/useModals.js";
+import { useRecordsModals } from "../../../shared/composables/modal/useModals.js";
 import { useRecordsStore } from "../../../shared/composables/store/recordsStore.js";
 
 import reset_record from "../../../app/assets/icons/reset-record.png"
 
 const { dayHabitRecords } = useRecordsStore();
-const { openResetRecordsModal } = useModals();
+const { openResetRecords } = useRecordsModals();
 
 const statusClass = (status) => ({
   'bg-green-500 italic text-white px-2 py-1 rounded': status === 'Выполнено',
@@ -23,13 +23,13 @@ const statusClass = (status) => ({
     <div class="flex items-center gap-2 py-1">
       <div class="flex items-center gap-1 bg-orange-100 text-orange-600 px-2 py-1 rounded-lg text-sm">
         <span>🔥</span>
-        <span class="font-semibold">{{ dayHabitRecord.series }}</span>
+        <span class="font-semibold">{{ dayHabitRecord.currentSeries }}</span>
       </div>
       <span class="text-lg font-medium">
           {{ dayHabitRecord.habit }}
       </span>
       <img :src="reset_record" class="w-5 h-6 opacity-70 hover:opacity-100 ml-auto"
-           @click="openResetRecordsModal(dayHabitRecord.id, 'историю выполенния этой привычки?', 'ONE')" />
+           @click="openResetRecords(dayHabitRecord.id, 'историю выполенния этой привычки?', 'ONE')" />
     </div>
     <div class="flex flex-col gap-4">
       <span v-if="dayHabitRecord.firstStatus" class="text-sm">

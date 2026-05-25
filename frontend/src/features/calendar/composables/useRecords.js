@@ -1,11 +1,11 @@
 import { useGetRecords } from "./getRecords.js"
 import { handler } from '../../../shared/api/http.js';
-import { useModals } from "../../../shared/composables/modal/useModals.js";
+import { useRecordsModals } from "../../../shared/composables/modal/useModals.js";
 import { useRecordsStore } from "../../../shared/composables/store/recordsStore.js";
 import { useHabitsStore } from "../../../shared/composables/store/habitsStore.js";
 
 export const useRecords = () => {
-    const modals = useModals();
+    const modals = useRecordsModals();
 
     const { habitsCount } = useHabitsStore();
     const { recordId, selectedResetType } = useRecordsStore();
@@ -47,7 +47,7 @@ export const useRecords = () => {
                     monthCreatedRecord: month,
                     timeCreatedRecord: time,
                     habit: habit,
-                    series: series,
+                    currentSeries: series,
                     firstStatus: status,
                 })
             });
@@ -107,7 +107,7 @@ export const useRecords = () => {
         }
     }
 
-    const updateRecordStatus = async (habit, series, newStatus) => {
+    const updateRecordStatus = async (series, newStatus) => {
         const now = new Date();
         const time = now.toLocaleTimeString("ru-RU", {
             hour: "2-digit",
@@ -127,7 +127,7 @@ export const useRecords = () => {
                 await handler(`/records/${userRecordId}`, {
                     method: 'PATCH',
                     body: JSON.stringify({
-                        series: series,
+                        currentSeries: series,
                         thirdStatus: newStatus,
                         newTimeUpdatedStatus: time
                     })
@@ -191,7 +191,7 @@ export const useRecords = () => {
     const resetRecords = async () => {
         methods[selectedResetType?.value]?.()
 
-        modals.closeResetRecordsModal();
+        modals.closeResetRecords();
     }
 
     return{

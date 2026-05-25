@@ -4,12 +4,12 @@ import { useRoute } from 'vue-router'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 
 import { useHabits } from "../composables/useHabits.js";
-import { useModals } from "../../../shared/composables/modal/useModals.js";
+import { useHabitModals } from "../../../shared/composables/modal/useModals.js";
 
 import options from "../../../app/assets/icons/options.svg";
 
 const { updateStatus } = useHabits()
-const { openHabitInfoModal, openDeleteHabitModal } = useModals()
+const { openHabitInfo, openDeleteHabit } = useHabitModals()
 
 const route = useRoute()
 
@@ -38,7 +38,7 @@ const canAddInProgressHabits = computed(() => props.status !== 'В процес�
       <MenuItems class="absolute z-10 w-34 divide-y divide-white/40 rounded-md bg-indigo-400 outline-1 -outline-offset-1 outline-white/10">
         <div class="py-1">
           <MenuItem v-slot="{ active }">
-            <button @click="openHabitInfoModal(id, 'Выполнено')" class="w-full text-start">
+            <button @click="openHabitInfo(id, 'Выполнено')" class="w-full text-start">
               <span :class="[
                       active ? `bg-white/25 text-white outline-hidden` :
                       'text-white', 'block px-4 py-1 text-sm'
@@ -74,7 +74,7 @@ const canAddInProgressHabits = computed(() => props.status !== 'В процес�
         </div>
         <div class="py-1">
           <MenuItem v-slot="{ active }">
-            <button @click="openDeleteHabitModal(id, 'Хотите навсегда удалить привычку?', 'ONE')" class="w-full text-start">
+            <button @click="openDeleteHabit(id, 'Хотите навсегда удалить привычку?', 'ONE')" class="w-full text-start">
                 <span :class="[
                         active ? 'bg-white/25 text-white outline-hidden' :
                         'text-white', 'block px-4 py-1 text-sm'

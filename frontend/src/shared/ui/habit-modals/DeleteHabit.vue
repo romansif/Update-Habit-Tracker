@@ -1,13 +1,13 @@
 <script setup>
-import { useModals } from "../../composables/modal/useModals.js";
+import { useHabitModals } from "../../composables/modal/useModals.js";
 import { useHabitsStore } from "../../composables/store/habitsStore.js";
 import { useHabits } from "../../../features/habits/composables/useHabits.js";
 
 import BaseButton from '../button/BaseButton.vue';
 
 const { deleteHabits } = useHabits();
-const { closeDeleteHabitModal } = useModals();
 const { deleteHabitMessage } = useHabitsStore();
+const { closeDeleteHabit } = useHabitModals();
 </script>
 
 <template>
@@ -17,8 +17,8 @@ const { deleteHabitMessage } = useHabitsStore();
       <div class="flex flex-col justify-center items-center py-8 px-2 gap-6">
         <h2 class="text-2xl text-center">{{ deleteHabitMessage }}</h2>
         <div class="flex justify-center gap-6">
-          <BaseButton button-type="Нет" variant="cancelDelHabit" @click=closeDeleteHabitModal />
-          <BaseButton button-type="Да" variant="confirmDelHabit" @click=deleteHabits />
+          <BaseButton button-type="Нет" variant="cancel" @click=closeDeleteHabit />
+          <BaseButton button-type="Да" variant="confirm" @click=deleteHabits />
         </div>
       </div>
     </div>

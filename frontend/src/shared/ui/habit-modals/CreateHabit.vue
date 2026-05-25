@@ -1,17 +1,17 @@
 <script setup>
 import { watch } from 'vue';
 
-import { useForms } from "../composables/forms/useForms.js";
-import { useModals } from "../composables/modal/useModals.js";
-import { useHabitsStore } from "../composables/store/habitsStore.js";
-import { useHabits } from "../../features/habits/composables/useHabits.js";
+import { useForms } from "../../composables/forms/useForms.js";
+import { useHabitModals } from "../../composables/modal/useModals.js";
+import { useHabitsStore } from "../../composables/store/habitsStore.js";
+import { useHabits } from "../../../features/habits/composables/useHabits.js";
 
-import BaseButton from './button/BaseButton.vue';
+import BaseButton from '../button/BaseButton.vue';
 
-const { categoriesForm, frequenciesForm, termsForm } = useHabitsStore();
+const { categoriesForm, frequenciesForm, termsForm, habits } = useHabitsStore();
 const { createHabit } = useHabits();
 const { habitForm, habitErrors } = useForms();
-const { closeCreateHabitModal } = useModals();
+const { closeCreateHabit } = useHabitModals();
 
 watch(() => [
       habitForm.value.habit, habitForm.value.time,
@@ -67,8 +67,15 @@ watch(() => [
             </span>
           </div>
           <div class="flex flex-col gap-2 min-h-[90px]">
-            <input type="number" v-model="habitForm.time" placeholder="Время на выполнение (мин)"
+            <input list="ice-creams" id="ice-cream-choice" name="ice-cream-choice"
+                   v-model="habitForm.time" placeholder="Время на выполнение (мин)"
                    class="bg-gray-300 outline-none rounded-[4px] p-4 w-full placeholder:text-black"/>
+            <datalist id="ice-creams">
+              <option value="от 1 до 5"></option>
+              <option value="от 5 до 10"></option>
+              <option value="от 10 до 20"></option>
+              <option value="от 30 до 60"></option>
+            </datalist>
             <span v-if="habitErrors.timeError" class="text-sm text-red-500">
               {{ habitErrors.timeMessage }}
             </span>
@@ -97,9 +104,20 @@ watch(() => [
               {{ habitErrors.termMessage }}
             </span>
           </div>
+          <div class="flex flex-col gap-2 min-h-[90px]">
+            <select v-model="habitForm.linkedHabit" class="bg-gray-300 outline-none rounded-[4px] px-3 py-4 text-black w-full">
+              <option value="">
+                Без связи
+              </option>
+              <option v-for="habit in habits" :key="habit">{{ habit.habit }}</option>
+            </select>
+            <span class="text-sm text-gray-500">
+              Не обязательно
+            </span>
+          </div>
           <div class="flex justify-between items-center">
-            <BaseButton button-type="Отмена" variant="cancelHabitModal" @click="closeCreateHabitModal"/>
-            <BaseButton button-type="Сохранить" variant="confirmHabitModal" @click="createHabit('Не выполнено')"/>
+            <BaseButton button-type="Отмена" variant="cancelHabit" @click="closeCreateHabit"/>
+            <BaseButton button-type="Сохранить" variant="confirmHabit" @click="createHabit('Не выполнено')"/>
           </div>
         </div>
       </div>

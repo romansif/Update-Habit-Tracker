@@ -1,27 +1,33 @@
 import {ref} from "vue";
 
-const deleteUserModalVisible = ref(false);
-const logoutUserModalVisible = ref(false);
+const deleteUserVisible = ref(false);
+const logoutUserVisible = ref(false);
 
-const createHabitModalVisible = ref(false);
-const habitInfoModalVisible = ref(false);
-const deleteHabitModalVisible = ref(false);
+const createHabitVisible = ref(false);
+const habitInfoVisible = ref(false);
+const rollbackSeriesVisible = ref(false);
+const restoreSeriesVisible = ref(false);
+const deleteHabitVisible = ref(false);
 
-const resetRecordsModalVisible = ref(false)
-const calendarModalVisible = ref(false);
-const habitRecordsModalVisible = ref(false);
-const habitsRecordsModalVisible = ref(false);
+const resetRecordsVisible = ref(false)
+const calendarVisible = ref(false);
+const habitRecordsVisible = ref(false);
+const habitsRecordsVisible = ref(false);
 
 export const useModalsStore = () => {
     return{
-        deleteUserModalVisible,
-        logoutUserModalVisible,
-        resetRecordsModalVisible,
-        createHabitModalVisible,
-        habitInfoModalVisible,
-        calendarModalVisible,
-        deleteHabitModalVisible,
-        habitRecordsModalVisible,
-        habitsRecordsModalVisible,
+        deleteUserVisible,
+        logoutUserVisible,
+
+        createHabitVisible,
+        habitInfoVisible,
+        deleteHabitVisible,
+        rollbackSeriesVisible,
+        restoreSeriesVisible,
+
+        calendarVisible,
+        resetRecordsVisible,
+        habitRecordsVisible,
+        habitsRecordsVisible,
     }
 }

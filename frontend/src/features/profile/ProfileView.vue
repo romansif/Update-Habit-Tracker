@@ -9,14 +9,14 @@ import { useModalsStore } from "../../shared/composables/store/modalsStore.js";
 import ProfileMenu from "./profile-items/ProfileMenu.vue";
 import ProfileCountsCard from "./profile-items/ProfileCountsCard.vue";
 import BaseButton from "../../shared/ui/button/BaseButton.vue";
-import LogoutUser from "../../shared/ui/LogoutUser.vue";
-import CreateHabit from "../../shared/ui/CreateHabit.vue";
-import DeleteUser from "../../shared/ui/delete-modals/DeleteUser.vue";
+import LogoutUser from "../../shared/ui/user-modals/LogoutUser.vue";
+import CreateHabit from "../../shared/ui/habit-modals/CreateHabit.vue";
+import DeleteUser from "../../shared/ui/user-modals/DeleteUser.vue";
 
 const { user } = useUserStore()
 const { getUser, updateUser } = useUser();
 const { userErrors, updateForm } = useForms();
-const { logoutUserModalVisible, deleteUserModalVisible, createHabitModalVisible } = useModalsStore();
+const { logoutUserVisible, deleteUserVisible, createHabitVisible } = useModalsStore();
 
 const toLower = () => {
   updateForm.value.name = updateForm.value.name.toLowerCase()
@@ -55,17 +55,17 @@ onMounted(async () => {
           <span v-if="userErrors.newNameError" class="text-sm text-red-500 mt-3">{{ userErrors?.newNameMessage }}</span>
         </div>
         <div class="flex justify-center mt-5">
-            <BaseButton button-type="Применить" variant="confirmEditProfile" @click="updateUser" />
+            <BaseButton button-type="Применить" variant="confirm" @click="updateUser" />
         </div>
       </div>
       <transition name="modal" >
-        <CreateHabit v-show="createHabitModalVisible" />
+        <CreateHabit v-show="createHabitVisible" />
       </transition>
       <transition name="modal" >
-        <DeleteUser v-show="deleteUserModalVisible" />
+        <DeleteUser v-show="deleteUserVisible" />
       </transition>
       <transition name="modal" >
-        <LogoutUser v-show="logoutUserModalVisible" />
+        <LogoutUser v-show="logoutUserVisible" />
       </transition>
     </section>
   </div>

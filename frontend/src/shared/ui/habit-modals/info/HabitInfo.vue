@@ -1,13 +1,15 @@
 <script setup>
-import { useModals } from "../../composables/modal/useModals.js";
-import { useHabitsStore } from "../../composables/store/habitsStore.js";
+import { useHabitsFilter } from "../../../composables/filter/HabitsFilter.js";
+import { useHabitsStore } from "../../../composables/store/habitsStore.js";
+import { useRecordsModals, useHabitModals } from "../../../composables/modal/useModals.js";
 
-import BaseButton from "../button/BaseButton.vue";
-import reset_record from "../../../app/assets/icons/reset-record.png";
-import close from '../../../app/assets/icons/close.png'
+import BaseButton from "../../button/BaseButton.vue";
+import close from '../../../../app/assets/icons/close.png'
 
 const { habit } = useHabitsStore();
-const { openDeleteHabitModal, openCalendarModal, closeHabitInfoModal } = useModals();
+const { openCalendar } = useRecordsModals();
+const { shouldResetHabit } = useHabitsFilter();
+const { closeHabitInfo, openRestoreSeries } = useHabitModals();
 
 const statusClass = (status) => ({
   'bg-green-500 italic text-sm text-white px-2 py-1 rounded': status === 'Выполнено',
@@ -25,7 +27,7 @@ const statusClass = (status) => ({
             <span class="text-gray-600">
                 Дата и время создания привычки — {{ habit?.dateCreatedHabit }}, {{ habit?.timeCreatedHabit }}
             </span>
-            <img :src="close" alt="" class="w-[25px] h-[25px] ml-auto" @click="closeHabitInfoModal">
+            <img :src="close" alt="" class="w-[25px] h-[25px] ml-auto" @click="closeHabitInfo">
           </div>
           <div class="flex gap-1 items-center text-xl">
             <h1 class="italic">Категория — </h1>
@@ -50,11 +52,17 @@ const statusClass = (status) => ({
           </span>
           <span v-if="habit?.lastTime" class="text-gray-500">Последнее время обновления — {{ habit?.lastTime }}</span>
         </div>
-        <div class="flex items-center border-b gap-2 py-4">
-          <span>Серия выполнения привычки — </span>
-          <div class="flex items-center text-sm gap-1 bg-orange-100 text-orange-600 px-2 py-1 rounded-lg">
-            <span class="text-sm">🔥</span>
-            <span class="font-semibold">{{ habit?.series }} дней подряд</span>
+        <div class="flex flex-col border-b gap-2 py-4">
+          <div class="flex gap-2">
+            <span>Серия выполнения привычки — </span>
+            <div class="flex items-center text-sm gap-1 bg-orange-100 text-orange-600 px-2 py-1 rounded-lg">
+              <span class="text-sm">🔥</span>
+              <span class="font-semibold">{{ habit?.currentSeries }} дней подряд</span>
+            </div>
+          </div>
+          <div v-if="habit?.currentSeries === 0 & shouldResetHabit(habit)" class="flex gap-2">
+            <span>Ваша серия была потеряна</span>
+            <span @click="openRestoreSeries(habit.id)" class="text-violet-600 hover:text-violet-700 focus:outline-none cursor-pointer">"Восстановить серию"</span>
           </div>
         </div>
         <div class="border-b py-4">
@@ -64,7 +72,7 @@ const statusClass = (status) => ({
           <span class="text-gray-600">Конечная дата выполнения привычки — {{ habit?.endDateHabit }}</span>
         </div>
         <div class="flex justify-between items-center">
-          <BaseButton button-type="Открыть календарь привычки" variant="openHabitCalendar" @click="openCalendarModal(habit?.id)"/>
+          <BaseButton button-type="Открыть календарь привычки" variant="openHabitCalendar" @click="openCalendar(habit?.id)"/>
         </div>
       </div>
   </div>

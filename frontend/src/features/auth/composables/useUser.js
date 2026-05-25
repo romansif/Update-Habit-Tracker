@@ -8,13 +8,13 @@ import { useHabitsStore } from "../../../shared/composables/store/habitsStore.js
 import { useForms } from "../../../shared/composables/forms/useForms.js";
 import { useValidation } from "../../../shared/composables/forms/useValidation.js";
 import { useClearForms } from "../../../shared/composables/forms/clearForms.js";
-import { useModals } from "../../../shared/composables/modal/useModals.js";
+import { useHabitModals } from "../../../shared/composables/modal/useModals.js";
 
 import bcrypt from 'bcryptjs';
 
 export const useUser = () => {
     const router = useRouter();
-    const modals = useModals();
+    const modals = useHabitModals();
 
     const { users, user } = useUserStore();
     const { habitsCountForm } = useHabitsStore();
@@ -143,7 +143,7 @@ export const useUser = () => {
             localStorage.removeItem('userId');
             localStorage.removeItem('currentUser');
 
-            modals.closeLogoutUserModal();
+            modals.closeLogoutUser();
             router.push({ name: 'login' });
         }catch(err){
             console.log(err);
@@ -189,7 +189,7 @@ export const useUser = () => {
 
             localStorage.removeItem('userId');
 
-            modals.closeDeleteUserModal();
+            modals.closeDeleteUser();
 
             router.push({ name: 'login' });
         }catch(err){

@@ -1,13 +1,13 @@
 <script setup>
-import { useModals } from "../../composables/modal/useModals.js";
+import { useUserModals } from "../../composables/modal/useModals.js";
 import { useUserStore } from "../../composables/store/userStore.js";
-import { useUser } from "../../../features/auth/composables/useUser.js";
+import { useUser } from '../../../features/auth/composables/useUser.js'
 
 import BaseButton from '../button/BaseButton.vue';
 
-const { deleteUser } = useUser()
-const { deleteUserMessage } = useUserStore();
-const { closeDeleteUserModal } = useModals();
+const { logoutUser } = useUser()
+const { logoutUserMessage } = useUserStore();
+const { closeLogoutUser } = useUserModals();
 </script>
 
 <template>
@@ -15,10 +15,10 @@ const { closeDeleteUserModal } = useModals();
                                 flex items-center justify-center">
     <div class="bg-white rounded-2xl w-[400px] h-[200px] shadow-xl">
       <div class="flex flex-col justify-center items-center py-8 px-2 gap-6">
-        <h2 class="text-2xl text-center">{{ deleteUserMessage }}</h2>
+        <h2 class="text-2xl text-center">{{ logoutUserMessage }}</h2>
         <div class="flex justify-center gap-6">
-          <BaseButton button-type="Нет" variant="cancelDelHabit" @click=closeDeleteUserModal />
-          <BaseButton button-type="Да" variant="confirmDelHabit" @click=deleteUser />
+          <BaseButton button-type="Нет" variant="cancel" @click="closeLogoutUser" />
+          <BaseButton button-type="Да" variant="confirm" @click="logoutUser" />
         </div>
       </div>
     </div>

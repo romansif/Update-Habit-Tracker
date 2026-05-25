@@ -9,15 +9,19 @@ import { useHabitsStore } from "../../shared/composables/store/habitsStore.js";
 import Pagination from "../footer/Pagination.vue";
 import HabitCard from "./habits-items/HabitCard.vue";
 import HabitCalendar from "./habit-calendar/HabitCalendar.vue";
-import HabitInfo from "../../shared/ui/info-modals/HabitInfo.vue";
-import DeleteHabit from "../../shared/ui/delete-modals/DeleteHabit.vue";
-import DayHabitModal from "../../shared/ui/info-modals/DayHabitModal.vue";
-import ResetRecords from "../../shared/ui/delete-modals/ResetRecords.vue";
+import HabitInfo from "../../shared/ui/habit-modals/info/HabitInfo.vue";
+import DeleteHabit from "../../shared/ui/habit-modals/DeleteHabit.vue";
+import DayHabit from "../../shared/ui/habit-modals/info/DayHabit.vue";
+import DeleteRecords from "../../shared/ui/records-modals/DeleteRecords.vue";
+import RollbackSeries from "../../shared/ui/habit-modals/restore/RollbackSeries.vue";
+import RestoreSeries from "../../shared/ui/habit-modals/restore/RestoreSeries.vue";
 
 const { habits } = useHabitsStore()
 const { getCurrentHabits } = useGetHabits()
 const { paginatedItems } = usePagination()
-const { habitInfoModalVisible, deleteHabitModalVisible, calendarModalVisible, habitRecordsModalVisible, resetRecordsModalVisible } = useModalsStore()
+const {habitInfoVisible, deleteHabitVisible, calendarVisible, habitRecordsVisible,
+  resetRecordsVisible, rollbackSeriesVisible, restoreSeriesVisible
+} = useModalsStore()
 
 const { isPending, isError, error } = useQuery({
   queryKey: ['current-habits'],
@@ -42,19 +46,25 @@ const { isPending, isError, error } = useQuery({
   </div>
   <Pagination v-if="habits && habits.length > 0"/>
   <transition name="modal" >
-    <HabitInfo v-show="habitInfoModalVisible" />
+    <HabitInfo v-show="habitInfoVisible" />
   </transition>
   <transition name="modal">
-    <HabitCalendar v-show="calendarModalVisible"/>
+    <HabitCalendar v-show="calendarVisible"/>
   </transition>
   <transition name="modal">
-    <DayHabitModal v-show="habitRecordsModalVisible" />
+    <DayHabit v-show="habitRecordsVisible" />
   </transition>
   <transition name="modal">
-    <ResetRecords v-show="resetRecordsModalVisible"/>
+    <DeleteRecords v-show="resetRecordsVisible"/>
   </transition>
   <transition name="modal">
-    <DeleteHabit v-show="deleteHabitModalVisible" />
+    <DeleteHabit v-show="deleteHabitVisible" />
+  </transition>
+  <transition name="modal">
+    <RollbackSeries v-show="rollbackSeriesVisible" />
+  </transition>
+  <transition name="modal">
+    <RestoreSeries v-show="restoreSeriesVisible" />
   </transition>
 </template>
 

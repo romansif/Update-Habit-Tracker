@@ -60,6 +60,7 @@ export const useValidation = () => {
         habitErrors.value.categoryError = !habitForm.value.category
         habitErrors.value.frequencyError = !habitForm.value.frequency
         habitErrors.value.termError = !habitForm.value.term
+        habitErrors.value.linkedHabitError = !habitForm.value.linkedHabit
 
         habitErrors.value.habitMessage = habitErrors.value.habitError ? 'Поле привычки должно быть заполненно' : ''
         habitErrors.value.timeMessage = habitErrors.value.timeError ? 'Поле времени на выполнение должно быть заполненно' : ''
@@ -68,7 +69,7 @@ export const useValidation = () => {
         habitErrors.value.termMessage = habitErrors.value.termError ? 'Поле срока выполения должно быть заполненно' : ''
 
         return !(!habitForm.value.habit || !habitForm.value.time || !habitForm.value.category ||
-            !habitForm.value.frequency || !habitForm.value.term)
+            !habitForm.value.frequency || !habitForm.value.term )
     }
 
     const validateUpdateForm = () => {

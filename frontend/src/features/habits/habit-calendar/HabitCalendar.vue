@@ -1,6 +1,6 @@
 <script setup>
 import { useCalendar } from '../composables/useCalendar.js';
-import { useModals } from "../../../shared/composables/modal/useModals.js";
+import { useRecordsModals } from "../../../shared/composables/modal/useModals.js";
 
 import arrow from '../../../app/assets/icons/arrow.png'
 import close from '../../../app/assets/icons/close.png'
@@ -13,7 +13,7 @@ const {
 } = useCalendar();
 
 const { recordId } = useRecordsStore()
-const { openHabitRecordsModal, openResetRecordsModal, closeCalendarModal } = useModals();
+const { openHabitRecords, openResetRecords, closeCalendar } = useRecordsModals();
 
 </script>
 
@@ -23,11 +23,11 @@ const { openHabitRecordsModal, openResetRecordsModal, closeCalendarModal } = use
     <div class="w-[600px] bg-white rounded-3xl shadow-xl p-6">
       <div class="flex justify-end gap-5 items-center">
         <img :src="options" alt="" class="w-[20px] h-[20px]"
-             @click="openResetRecordsModal
+             @click="openResetRecords
                        (
                          recordId?.value,'всю историю выполнения этой привычки?', 'ALL_BY_ID'
                        )">
-        <img :src="close" alt="" class="w-[27px] h-[27px] " @click="closeCalendarModal">
+        <img :src="close" alt="" class="w-[27px] h-[27px] " @click="closeCalendar">
       </div>
         <div class="flex flex-col">
           <div class="flex justify-between items-center mt-5">
@@ -50,7 +50,7 @@ const { openHabitRecordsModal, openResetRecordsModal, closeCalendarModal } = use
           </div>
         </div>
         <div class="grid grid-cols-7 mt-4">
-          <div v-for="(day, index) in calendarDays" :key="index" @click="day && openHabitRecordsModal(day)"
+          <div v-for="(day, index) in calendarDays" :key="index" @click="day && openHabitRecords(day)"
                :class="[ 'h-20 flex flex-col items-center justify-between py-4 rounded-2xl transition-all duration-300',
                day ? 'cursor-pointer' : 'border-transparent',
                isPastDay(day) ? 'opacity-50' : '',

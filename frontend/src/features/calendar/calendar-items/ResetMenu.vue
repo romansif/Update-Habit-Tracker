@@ -4,9 +4,9 @@ import { ChevronDownIcon } from '@heroicons/vue/20/solid'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 
 import { useCalendar } from "../composables/useCalendar.js";
-import { useModals } from '../../../shared/composables/modal/useModals.js'
+import { useRecordsModals } from '../../../shared/composables/modal/useModals.js'
 
-const { openResetRecordsModal } = useModals();
+const { openResetRecords } = useRecordsModals();
 const { currentMonth, currentYear } = useCalendar();
 
 const month = computed(() => {
@@ -28,7 +28,7 @@ const month = computed(() => {
       <MenuItems class="absolute right-6 z-10 mt-2 w-46 origin-top-right divide-y divide-white/40 rounded-md bg-indigo-400 outline-1 -outline-offset-1 outline-white/10">
         <div>
           <MenuItem v-slot="{ active }">
-            <button @click="openResetRecordsModal
+            <button @click="openResetRecords
                     (
                       'MONTH', 'историю выполенния привычек за месяц?', 'MONTH',
                       month
@@ -44,7 +44,7 @@ const month = computed(() => {
         </div>
         <div>
           <MenuItem v-slot="{ active }">
-            <button @click="openResetRecordsModal
+            <button @click="openResetRecords
                   (
                     'All','всю историю выполнения привычек?','ALL'
                   )">

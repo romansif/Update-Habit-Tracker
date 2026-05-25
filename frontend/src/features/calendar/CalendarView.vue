@@ -4,10 +4,10 @@ import { useModalsStore } from "../../shared/composables/store/modalsStore.js";
 import NavMenu from "../navigation/NavMenu.vue";
 import HabitsCalendar from "./calendar-items/HabitsCalendar.vue";
 import ResetMenu from "./calendar-items/ResetMenu.vue"
-import DayHabitsModal from "../../shared/ui/info-modals/DayHabitsModal.vue";
-import ResetRecords from "../../shared/ui/delete-modals/ResetRecords.vue";
+import DayHabits from "../../shared/ui/habit-modals/info/DayHabits.vue";
+import DeleteRecords from "../../shared/ui/records-modals/DeleteRecords.vue";
 
-const { habitsRecordsModalVisible, resetRecordsModalVisible } = useModalsStore();
+const { habitsRecordsVisible, resetRecordsVisible } = useModalsStore();
 </script>
 
 <template>
@@ -17,10 +17,10 @@ const { habitsRecordsModalVisible, resetRecordsModalVisible } = useModalsStore()
   </div>
    <HabitsCalendar />
   <transition name="modal" >
-    <DayHabitsModal v-show="habitsRecordsModalVisible" />
+    <DayHabits v-show="habitsRecordsVisible" />
   </transition>
   <transition name="modal" >
-    <ResetRecords v-show="resetRecordsModalVisible" />
+    <DeleteRecords v-show="resetRecordsVisible" />
   </transition>
 </template>
 

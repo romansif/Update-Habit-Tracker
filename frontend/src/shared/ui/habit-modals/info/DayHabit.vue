@@ -1,12 +1,12 @@
 <script setup>
-import { useModals } from "../../composables/modal/useModals.js";
-import { useRecordsStore } from "../../composables/store/recordsStore.js";
+import { useRecordsModals } from "../../../composables/modal/useModals.js";
+import { useRecordsStore } from "../../../composables/store/recordsStore.js";
 
 
-import close from "../../../app/assets/icons/close.png";
-import DayHabit from "../../../features/habits/habit-calendar/DayHabit.vue";
+import close from "../../../../app/assets/icons/close.png";
+import DayHabit from "../../../../features/habits/habit-calendar/DayHabit.vue";
 
-const { closeHabitRecordsModal } = useModals();
+const { closeHabitRecords } = useRecordsModals();
 const { dayHabitRecords, resetDate } = useRecordsStore();
 </script>
 <template>
@@ -16,7 +16,7 @@ const { dayHabitRecords, resetDate } = useRecordsStore();
       <div class="flex flex-col">
         <div class="flex items-center justify-between mb-4">
           <h3 class="text-xl italic mt-1">Прогресс привычек за {{ resetDate }}</h3>
-          <img :src="close" alt="" class="w-[25px] h-[25px]" @click=closeHabitRecordsModal />
+          <img :src="close" alt="" class="w-[25px] h-[25px]" @click=closeHabitRecords />
         </div>
         <transition-group name="list" tag="ul" class="flex flex-col max-h-[505px] overflow-y-auto no-scrollbar">
           <ul v-if="dayHabitRecords?.length > 0" >

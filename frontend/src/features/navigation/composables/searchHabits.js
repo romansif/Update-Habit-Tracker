@@ -3,7 +3,7 @@ import { useRoute } from 'vue-router';
 import { useDebounceFn } from "@vueuse/core";
 
 import { handler } from '../../../shared/api/http.js';
-import { useHabitsFilter } from "../../../shared/composables/filter/useHabitsFilter.js";
+import { useHabitsFilter } from "../../../shared/composables/filter/HabitsFilter.js";
 import { useHabitsStore } from "../../../shared/composables/store/habitsStore.js";
 
 export const useSearchingHabits = () => {

@@ -2,9 +2,10 @@
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { ChevronDownIcon } from '@heroicons/vue/20/solid'
 
-import { useModals } from '../../../shared/composables/modal/useModals.js'
+import { useUserModals, useHabitModals } from '../../../shared/composables/modal/useModals.js'
 
-const { openCreateHabitModal, openLogoutUserModal, openDeleteUserModal } = useModals()
+const { openCreateHabit } = useHabitModals()
+const { openLogoutUser, openDeleteUser } = useUserModals()
 </script>
 
 <template>
@@ -21,7 +22,7 @@ const { openCreateHabitModal, openLogoutUserModal, openDeleteUserModal } = useMo
       <MenuItems class="absolute right-6 z-10 mt-2 w-46 origin-top-right divide-y divide-white/40 rounded-md bg-indigo-400 outline-1 -outline-offset-1 outline-white/10">
         <div class="py-1">
           <MenuItem v-slot="{ active }">
-            <button @click=openCreateHabitModal class="w-full text-start">
+            <button @click=openCreateHabit class="w-full text-start">
                 <span :class="[
                         active ? 'bg-white/25 text-white outline-hidden' :
                         'text-white', 'block px-4 py-2 text-sm'
@@ -33,7 +34,7 @@ const { openCreateHabitModal, openLogoutUserModal, openDeleteUserModal } = useMo
         </div>
         <div class="py-1">
           <MenuItem v-slot="{ active }">
-            <button @click="openLogoutUserModal('Вы точно хотите выйти из этого аккаунта?')" class="w-full text-start">
+            <button @click="openLogoutUser('Вы точно хотите выйти из этого аккаунта?')" class="w-full text-start">
                   <span :class="[
                           active ? 'bg-white/25 text-white outline-hidden' :
                           'text-white', 'block px-4 py-2 text-sm'
@@ -43,7 +44,7 @@ const { openCreateHabitModal, openLogoutUserModal, openDeleteUserModal } = useMo
             </button>
           </MenuItem>
           <MenuItem v-slot="{ active }" class="w-full text-start">
-            <button @click="openDeleteUserModal('Вы хотите удалить этот аккаунт навсегда?')">
+            <button @click="openDeleteUser('Вы хотите удалить этот аккаунт навсегда?')">
                 <span :class="[
                         active ? 'bg-white/25 text-white outline-hidden' :
                         'text-white', 'block px-4 py-2 text-sm'
