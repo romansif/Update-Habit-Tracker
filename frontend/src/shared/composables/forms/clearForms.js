@@ -11,7 +11,9 @@ export const useClearForms = () => {
         userErrors.value.nameError = false;
         userErrors.value.emailError = false;
         userErrors.value.passwordError = false;
-    }
+
+        clearRegisterValidation()
+    };
 
     const clearLoginForm = () => {
         loginForm.value.email = '';
@@ -19,7 +21,9 @@ export const useClearForms = () => {
 
         userErrors.value.emailError = false;
         userErrors.value.passwordError = false;
-    }
+
+        clearLoginValidation()
+    };
 
     const clearHabitForm = () => {
         habitForm.value.habit = '';
@@ -35,11 +39,36 @@ export const useClearForms = () => {
         habitErrors.value.categoryError = false;
         habitErrors.value.frequencyError = false;
         habitErrors.value.termError = false;
+
+        clearHabitValidation()
+    };
+
+    const clearRegisterValidation = () => {
+        userErrors.value.nameMessage = '';
+        userErrors.value.emailMessage = '';
+        userErrors.value.passwordMessage = '';
+    }
+
+    const clearLoginValidation = () => {
+        userErrors.value.emailMessage = '';
+        userErrors.value.passwordMessage = '';
+    }
+
+    const clearHabitValidation = () => {
+        habitErrors.value.habitMessage = '';
+        habitErrors.value.timeMessage = '';
+        habitErrors.value.categoryMessage = '';
+        habitErrors.value.frequencyMessage = '';
+        habitErrors.value.termMessage = '';
     }
 
     return{
         clearRegisterForm,
         clearLoginForm,
         clearHabitForm,
+
+        clearRegisterValidation,
+        clearLoginValidation,
+        clearHabitValidation
     }
 }

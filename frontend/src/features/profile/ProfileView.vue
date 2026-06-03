@@ -2,6 +2,7 @@
 import { onMounted, watch } from "vue";
 
 import { useUser } from "../auth/composables/useUser.js";
+import { useGetUsers } from "../auth/composables/getUsers.js";
 import { useForms } from "../../shared/composables/forms/useForms.js";
 import { useUserStore } from "../../shared/composables/store/userStore.js";
 import { useModalsStore } from "../../shared/composables/store/modalsStore.js";
@@ -14,7 +15,8 @@ import ProfileCards from "./profile-items/ProfileCards.vue";
 import CreateHabit from "../../shared/ui/habit-modals/CreateHabit.vue";
 
 const { user } = useUserStore()
-const { getUser, updateUser } = useUser();
+const { updateUser } = useUser();
+const { getUser } = useGetUsers();
 const { userErrors, updateForm } = useForms();
 const { logoutUserVisible, deleteUserVisible, createHabitVisible } = useModalsStore();
 

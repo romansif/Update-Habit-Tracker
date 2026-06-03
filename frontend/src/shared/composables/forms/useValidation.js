@@ -1,25 +1,41 @@
 import { useForms } from "./useForms.js";
+import { useClearForms } from "./clearForms.js"
+import { useUserStore } from "../store/userStore.js";
+import { useGetUsers } from "../../../features/auth/composables/getUsers.js";
 
-const { userErrors, registerForm, loginForm, updateForm, habitErrors, habitForm } = useForms()
+const { users } = useUserStore();
+const { getUsers } = useGetUsers();
+const { userErrors, registerForm, loginForm, updateForm, habitErrors, habitForm } = useForms();
+const { clearRegisterValidation, clearLoginValidation, clearHabitValidation } = useClearForms();
 
 export const useValidation = () => {
     const isValidEmail = (email) => {
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
     }
 
-    const validateRegisterForm = () => {
+    const isUsedEmail = async (email) => {
+        await getUsers()
+        const userEmail = users.value?.find((e) => e.email === email)
+
+        return userEmail?.email
+    }
+
+    const validateRegisterForm = async () => {
+        clearRegisterValidation()
+
         userErrors.value.nameError = !registerForm.value.name
-
-        userErrors.value.emailError = !registerForm.value.email || !isValidEmail(registerForm.value.email)
-
+        userErrors.value.emailError = !registerForm.value.email || !isValidEmail(registerForm.value.email) || isUsedEmail(registerForm.value.email)
         userErrors.value.passwordError = !registerForm.value.password || !registerForm.value.password.length < 8
 
-        userErrors.value.nameMessage = userErrors.value.nameError ? 'Поле имени пользователя обязательно должно быть заполнено' : ''
+        const emailTaken = await isUsedEmail(registerForm.value.email)
 
+        userErrors.value.nameMessage = userErrors.value.nameError ? 'Поле имени пользователя обязательно должно быть заполнено' : ''
         if(!registerForm.value.email){
             userErrors.value.emailMessage = 'Поле почты обязательно должно быть заполнено'
         }else if(!isValidEmail(registerForm.value.email)){
             userErrors.value.emailMessage = 'Введённая почта не существует или введена неверно'
+        }else if(emailTaken){
+            userErrors.value.emailMessage = 'Данная почта уже зарегестрирована'
         }
 
         if(!registerForm.value.password){
@@ -27,15 +43,15 @@ export const useValidation = () => {
         }else if(registerForm.value.password.length < 8){
             userErrors.value.passwordMessage = 'Пароль должен состоять из 8 или более символов'
         }
-
         return !(!registerForm.value.name || !registerForm.value.email || !registerForm.value.password ||
-            !isValidEmail(registerForm.value.email) || registerForm.value.password.length < 8
+            !isValidEmail(registerForm.value.email) || await isUsedEmail(registerForm.value.email) || registerForm.value.password.length < 8
         )
     }
 
     const validateLoginForm = () => {
-        userErrors.value.emailError = !loginForm.value.email || !isValidEmail(loginForm.value.email)
+        clearLoginValidation()
 
+        userErrors.value.emailError = !loginForm.value.email || !isValidEmail(loginForm.value.email)
         userErrors.value.passwordError = !loginForm.value.password || !loginForm.value.password.length < 8
 
         if(!loginForm.value.email){
@@ -55,6 +71,8 @@ export const useValidation = () => {
     }
 
     const validateHabitForm = () => {
+        clearHabitValidation()
+
         habitErrors.value.habitError = !habitForm.value.habit
         habitErrors.value.timeError = !habitForm.value.time
         habitErrors.value.categoryError = !habitForm.value.category

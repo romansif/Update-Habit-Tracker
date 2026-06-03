@@ -8,13 +8,13 @@ import { useHabitsStore } from "../../../shared/composables/store/habitsStore.js
 import { useForms } from "../../../shared/composables/forms/useForms.js";
 import { useValidation } from "../../../shared/composables/forms/useValidation.js";
 import { useClearForms } from "../../../shared/composables/forms/clearForms.js";
-import { useHabitModals } from "../../../shared/composables/modal/useModals.js";
+import { useUserModals } from "../../../shared/composables/modal/useModals.js";
 
 import bcrypt from 'bcryptjs';
 
 export const useUser = () => {
     const router = useRouter();
-    const modals = useHabitModals();
+    const modals = useUserModals();
 
     const { users, user } = useUserStore();
     const { habitsCountForm } = useHabitsStore();
@@ -25,7 +25,7 @@ export const useUser = () => {
     const { validateRegisterForm, validateLoginForm, validateUpdateForm } = useValidation();
 
     const registerUser = async () => {
-        const isValid = validateRegisterForm();
+        const isValid = await validateRegisterForm();
 
         if(!isValid) return;
 
@@ -96,19 +96,6 @@ export const useUser = () => {
 
             router.push({ path: 'profile' });
             clearLoginForm();
-        }catch(err){
-            console.log(err);
-        }
-    }
-
-    const getUser = async () => {
-        const userId = localStorage.getItem('userId');
-
-        try{
-            const res = await handler(`/users/${userId}`, {
-                method: 'GET',
-            });
-            user.value = res;
         }catch(err){
             console.log(err);
         }
@@ -201,7 +188,6 @@ export const useUser = () => {
     return{
         registerUser,
         loginUser,
-        getUser,
         logoutUser,
         updateUser,
         deleteUser,
