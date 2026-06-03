@@ -8,16 +8,18 @@ import { useGetRecords } from "../../calendar/composables/getRecords.js";
 import { useHabitModals } from "../../../shared/composables/modal/useModals.js";
 import { useHabitsStore } from "../../../shared/composables/store/habitsStore.js";
 import { useValidation } from "../../../shared/composables/forms/useValidation.js";
+import { useRecordsStore } from "../../../shared/composables/store/recordsStore.js";
 
 export const useHabits = () => {
     const modals = useHabitModals();
 
     const { habitForm } = useForms()
+    const { recordId } = useRecordsStore()
     const { getCurrentHabits } = useGetHabits();
+    const { validateHabitForm } = useValidation();
     const { getRecords, getRecordsCurrent } = useGetRecords();
-    const { validateHabitForm } = useValidation()
-    const { habits, habitId, selectedDeleteType, seriesCount, termsValue } = useHabitsStore();
     const { createRecord, updateHabitsCurrentCount, updateRecordStatus } = useRecords();
+    const { habits, habitId, selectedDeleteType, seriesCount, termsValue } = useHabitsStore();
 
     const createHabit = async (status) => {
         const userId = localStorage.getItem('userId');
@@ -79,11 +81,9 @@ export const useHabits = () => {
                     progress: 0
                 })
             });
-            await getCurrentHabits()
-
-            await createRecord(newHabit.habit, newHabit.currentSeries, newHabit.status, newHabit.id);
-
             await getRecords();
+            await getCurrentHabits()
+            await createRecord(newHabit.habit, newHabit.currentSeries, newHabit.status, newHabit.id);
 
             modals.closeCreateHabit();
         }catch(err){
@@ -149,17 +149,15 @@ export const useHabits = () => {
                 })
             )
             await getCurrentHabits()
-
-            await updateRecordStatus(seriesCount.value, newStatus)
-
             await updateHabitsCurrentCount(newStatus)
+            await updateRecordStatus(seriesCount.value, newStatus)
         }catch(err){
             console.log(err);
         }
     }
 
     const restoreSeries = async () => {
-        const userRecordId = localStorage.getItem("userRecordId")
+        const userId = localStorage.getItem("userId")
 
         const habit = habits.value.find(habit => habit.id === habitId.value);
         if(!habit) return null
@@ -172,7 +170,7 @@ export const useHabits = () => {
                     currentSeries: seriesCount.value
                 })
             });
-            await handler(`/records/${userRecordId}`, {
+            await handler(`/records?recordId=${recordId}`, {
                 method: 'PATCH',
                 body: JSON.stringify({
                     currentSeries: seriesCount.value,
@@ -201,10 +199,10 @@ export const useHabits = () => {
 
     const methods = {
         'ONE': async () => {
-            const userRecordsId = localStorage.getItem('userRecordsId');
+            const habitsCountId = localStorage.getItem('habitsCountId');
 
             await deleteHabitById(habitId.value);
-            await updateHabitCount(userRecordsId);
+            await updateHabitCount(habitsCountId);
 
             await getCurrentHabits();
             await getRecordsCurrent();

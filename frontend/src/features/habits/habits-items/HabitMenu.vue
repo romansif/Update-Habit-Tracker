@@ -35,13 +35,13 @@ const canAddInProgressHabits = computed(() => props.status !== 'В процес�
       <img :src="options" alt="" class="w-[20px]">
     </MenuButton>
     <transition enter-active-class="transition ease-out duration-100" enter-from-class="transform opacity-0 scale-95" enter-to-class="transform scale-100" leave-active-class="transition ease-in duration-75" leave-from-class="transform scale-100" leave-to-class="transform opacity-0 scale-95">
-      <MenuItems class="absolute z-10 w-34 divide-y divide-white/40 rounded-md bg-indigo-400 outline-1 -outline-offset-1 outline-white/10">
+      <MenuItems class="absolute right-0 z-10 w-32 divide-y divide-white/40 rounded-md bg-indigo-400 outline-1 -outline-offset-1 outline-white/10">
         <div class="py-1">
           <MenuItem v-slot="{ active }">
             <button @click="openHabitInfo(id, 'Выполнено')" class="w-full text-start">
               <span :class="[
                       active ? `bg-white/25 text-white outline-hidden` :
-                      'text-white', 'block px-4 py-1 text-sm'
+                      'text-white', 'block px-3 py-1 text-sm'
                   ]">
                   Детали
               </span>
@@ -53,7 +53,7 @@ const canAddInProgressHabits = computed(() => props.status !== 'В процес�
             <button @click="updateStatus(id, 'Выполнено')" class="w-full text-start">
               <span :class="[
                       active ? `bg-white/25 text-white outline-hidden` :
-                      'text-white', 'block px-4 py-1 text-sm'
+                      'text-white', 'block px-3 py-1 text-sm'
                   ]">
                   В Выполненные
               </span>
@@ -65,7 +65,7 @@ const canAddInProgressHabits = computed(() => props.status !== 'В процес�
             <button @click="updateStatus(id, 'В процессе')" class="w-full text-start">
                 <span :class="[
                         active ? 'bg-white/25 text-white outline-hidden' :
-                        'text-white', 'block px-4 py-1 text-sm'
+                        'text-white', 'block px-3 py-1 text-sm'
                     ]">
                     В процессе
                 </span>
@@ -77,7 +77,7 @@ const canAddInProgressHabits = computed(() => props.status !== 'В процес�
             <button @click="openDeleteHabit(id, 'Хотите навсегда удалить привычку?', 'ONE')" class="w-full text-start">
                 <span :class="[
                         active ? 'bg-white/25 text-white outline-hidden' :
-                        'text-white', 'block px-4 py-1 text-sm'
+                        'text-white', 'block px-3 py-1 text-sm'
                     ]">
                     Удалить
                 </span>

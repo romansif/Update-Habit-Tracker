@@ -1,6 +1,5 @@
 <script setup>
 import { useQuery } from "@tanstack/vue-query";
-
 import { useGetHabits } from "./composables/getHabits.js";
 import { usePagination } from "../footer/composable/usePagination.js"
 import { useModalsStore } from "../../shared/composables/store/modalsStore.js";
@@ -17,15 +16,18 @@ import RollbackSeries from "../../shared/ui/habit-modals/restore/RollbackSeries.
 import RestoreSeries from "../../shared/ui/habit-modals/restore/RestoreSeries.vue";
 
 const { habits } = useHabitsStore()
-const { getCurrentHabits } = useGetHabits()
 const { paginatedItems } = usePagination()
-const {habitInfoVisible, deleteHabitVisible, calendarVisible, habitRecordsVisible,
+const { getCurrentHabits } = useGetHabits()
+const { habitInfoVisible, deleteHabitVisible, calendarVisible, habitRecordsVisible,
   resetRecordsVisible, rollbackSeriesVisible, restoreSeriesVisible
 } = useModalsStore()
 
 const { isPending, isError, error } = useQuery({
   queryKey: ['current-habits'],
-  queryFn: getCurrentHabits
+  queryFn: async () => {
+    const res = await getCurrentHabits()
+    return res
+  }
 })
 </script>
 

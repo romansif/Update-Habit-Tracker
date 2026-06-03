@@ -3,7 +3,7 @@ import ProfileView from "../../features/profile/ProfileView.vue";
 </script>
 
 <template>
-  <ProfileView />
+  <ProfileView class="bg-indigo-200 min-h-screen"/>
 </template>
 
 <style scoped>

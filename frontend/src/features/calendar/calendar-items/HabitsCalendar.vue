@@ -1,6 +1,5 @@
 <script setup>
-import { onMounted } from 'vue';
-
+import { useQuery } from "@tanstack/vue-query";
 import { useCalendar } from '../composables/useCalendar.js';
 import { useGetRecords } from "../composables/getRecords.js";
 import { useRecordsModals } from "../../../shared/composables/modal/useModals.js";
@@ -15,13 +14,23 @@ const {
 const { openHabitsRecords } = useRecordsModals();
 const { getRecords } = useGetRecords();
 
-onMounted(async() => {
-  await getRecords();
+const { isPending, isError, error} = useQuery({
+  queryKey: ['records'],
+  queryFn: async () => {
+    const res = await getRecords();
+    return res
+  }
 })
 </script>
 
 <template>
-  <div class="flex justify-center items-center pt-22">
+  <div v-if="isPending" class="flex justify-center items-center h-[700px]">
+    <img src="../../../app/assets/icons/loading.svg" alt="" class="w-[120px] h-[120px]">
+  </div>
+  <div v-else-if="isError" class="flex justify-center items-center h-[700px]">
+    <span class="text-2xl text-gray-200 italic">Error {{ error.message }}</span>
+  </div>
+  <div v-else class="flex justify-center items-center pt-22">
     <div class="w-[600px] bg-white rounded-3xl shadow-xl p-8">
       <div class="flex justify-between items-center mb-12">
         <button @click="lastMonth" class="hover:bg-slate-100 rounded-xl transition">

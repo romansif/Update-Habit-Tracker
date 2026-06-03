@@ -6,12 +6,14 @@ export const useGetRecords = () => {
     const { habitsCount } = useHabitsStore();
     const { resetDate, records, monthRecords, dayHabitsRecords, habitRecords, dayHabitRecords, recordId } = useRecordsStore();
 
-    const userRecordsId = localStorage.getItem('userRecordsId');
+    const userId = localStorage.getItem('userId');
+    const recordsId = localStorage.getItem('recordsId')
+    const habitsCountId = localStorage.getItem('habitsCountId')
 
     const getRecordsCurrent = async () => {
-        if(!userRecordsId) return null;
+        if(!userId) return null;
         try{
-            const res = await handler(`/habits-count/${userRecordsId}`, {
+            const res = await handler(`/habits-count/${habitsCountId}`, {
                 method: 'GET'
             });
             habitsCount.value = res;
@@ -21,12 +23,13 @@ export const useGetRecords = () => {
     }
 
     const getRecords = async() => {
-        if(!userRecordsId){
+        if(!userId){
             console.log('Id записей не найдены');
             return;
         }
+        console.log(recordId)
         try{
-            const res = await handler(`/records?userRecordsId=${userRecordsId}`, {
+            const res = await handler(`/records/${recordsId}`, {
                 method: 'GET'
             });
             records.value = res;
@@ -39,7 +42,7 @@ export const useGetRecords = () => {
 
     const getMonthRecords = async() => {
         try{
-            const res = await handler(`/records?userRecordsId=${userRecordsId}&monthCreatedRecord=${resetDate.value}`, {
+            const res = await handler(`/records/${recordsId}&monthCreatedRecord=${resetDate.value}`, {
                 method: 'GET'
             });
             monthRecords.value = res
@@ -52,7 +55,7 @@ export const useGetRecords = () => {
 
     const getDayRecords = async () => {
         try{
-            const res = await handler(`/records?userRecordsId=${userRecordsId}&dateCreatedRecord=${resetDate.value}`, {
+            const res = await handler(`/records/${recordsId}&dateCreatedRecord=${resetDate.value}`, {
                 method: 'GET'
             });
             dayHabitsRecords.value = res;
@@ -65,7 +68,7 @@ export const useGetRecords = () => {
 
     const getHabitRecords = async () => {
         try{
-            const res = await handler(`/records?recordId=${recordId.value}`, {
+            const res = await handler(`/records/${recordId.value}`, {
                 method: 'GET'
             })
             habitRecords.value = res
@@ -76,7 +79,7 @@ export const useGetRecords = () => {
 
     const getDayHabitRecords = async () => {
         try{
-            const res = await handler(`/records?dateCreatedRecord=${resetDate.value}&recordId=${recordId.value}`, {
+            const res = await handler(`/records/${recordId.value}&dateCreatedRecord=${resetDate.value}`, {
                 method: 'GET'
             })
             dayHabitRecords.value = res

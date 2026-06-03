@@ -1,11 +1,11 @@
 <script setup>
 import { useCalendar } from '../composables/useCalendar.js';
 import { useRecordsModals } from "../../../shared/composables/modal/useModals.js";
+import { useRecordsStore } from "../../../shared/composables/store/recordsStore.js";
 
 import arrow from '../../../app/assets/icons/arrow.png'
 import close from '../../../app/assets/icons/close.png'
 import options from '../../../app/assets/icons/options.svg';
-import { useRecordsStore } from "../../../shared/composables/store/recordsStore.js";
 
 const {
   currentMonthName, currentYear, calendarDays, lastMonth, nextMonth,

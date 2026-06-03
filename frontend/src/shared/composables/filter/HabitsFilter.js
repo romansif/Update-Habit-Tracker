@@ -1,11 +1,10 @@
 import { handler } from "../../api/http.js";
 import { useHabitsStore } from "../store/habitsStore.js";
 import { useRecordsModals } from "../modal/useModals.js";
-import {computed} from "vue";
 
 export const useHabitsFilter = () => {
     const modal = useRecordsModals()
-    const { habits } = useHabitsStore()
+    const { habits, habitsCount } = useHabitsStore()
 
     const getToday = () => new Date();
 
@@ -56,8 +55,18 @@ export const useHabitsFilter = () => {
         return endDate && today >= endDate
     }
 
-    const getHabitStatus = (habit) => {
+    const getHabitStatus = async (habit) => {
+        const userRecordsId = localStorage.getItem("userRecordsId");
+
+        const currentAllCompleted = habitsCount.value?.allCompletedHabits || 0;
+
         if(isFullyCompleted(habit)){
+            await handler(`/habits-count/${userRecordsId}`, {
+                method: "PATCH",
+                body: JSON.stringify({
+                    allHabits: currentAllCompleted + 1
+                })
+            })
             return 'Завершено'
         }else if(habit.status === 'Выполнено'){
             return 'Выполнено сегодня'
@@ -110,11 +119,10 @@ export const useHabitsFilter = () => {
     const isHabitLocked = (habit) => {
         if (!habit?.linkedHabit) return false
 
-        const linkedHabit = habits.value.find(h => h.id === habit.linkedHabit)
+        const linkedHabit = habits.value.find(h => h.habit === habit?.linkedHabit)
 
         return linkedHabit ? linkedHabit?.status !== 'Выполнено' : false
     }
-
 
     return{
         formatDate,

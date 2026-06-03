@@ -11,15 +11,14 @@ export const useRecords = () => {
     const { recordId, selectedResetType } = useRecordsStore();
     const { getRecords, getRecordsCurrent, getMonthRecords, getDayRecords, getHabitRecords, getDayHabitRecords } = useGetRecords();
 
-    const userRecordsId = localStorage.getItem('userRecordsId');
-    const userRecordId = localStorage.getItem('userRecordId');
+    const habitsCountId = localStorage.getItem('habitsCountId');
 
     const createRecord = async (habit, series, status, id) => {
         const currentAllCount = habitsCount.value?.allHabits || 0;
 
         try{
             if(currentAllCount === null) return null;
-            await handler(`/habits-count/${userRecordsId}`, {
+            await handler(`/habits-count/${habitsCountId}`, {
                 method: 'PATCH',
                 body: JSON.stringify({
                     allHabits: currentAllCount + 1,
@@ -37,11 +36,9 @@ export const useRecords = () => {
                 minute: "2-digit",
             });
 
-            const newRecordDay = await handler(`/records`, {
+            const newRecord = await handler(`/records`, {
                 method: 'POST',
                 body: JSON.stringify({
-                    userRecordsId: userRecordsId,
-                    recordId: id,
                     date: now,
                     dateCreatedRecord: dateCreated,
                     monthCreatedRecord: month,
@@ -55,7 +52,7 @@ export const useRecords = () => {
 
             await getRecords()
 
-            localStorage.setItem('userRecordId', newRecordDay.id);
+            localStorage.setItem('recordsId', newRecord.id);
         } catch (err) {
             console.log(err);
         }
@@ -63,17 +60,15 @@ export const useRecords = () => {
 
     const updateHabitsCurrentCount = async (newStatus) => {
         const currentDayCompleted = habitsCount.value?.dayCompletedHabits || 0;
-        const currentAllCompleted = habitsCount.value?.allCompletedHabits || 0;
 
         const date = new Date().toLocaleDateString();
 
         if(newStatus === 'Выполнено'){
             try{
-                await handler(`/habits-count/${userRecordsId}`, {
+                await handler(`/habits-count/${habitsCountId}`, {
                     method: 'PATCH',
                     body: JSON.stringify({
                         dayCompletedHabits: currentDayCompleted + 1,
-                        allCompletedHabits: currentAllCompleted + 1,
                         lastDate: date
                     })
                 });
@@ -85,25 +80,19 @@ export const useRecords = () => {
     };
 
     const resetHabitsCurrentCount = async () => {
-        const res = await handler(`/habits-count/${userRecordsId}`, {
-            method: 'GET'
-        })
-
         const today = new Date();
         const todayString = today.toLocaleDateString('ru-RU');
 
-        if(res.lastDate !== todayString){
-            try{
-                await handler(`/habits-count/${res.id}`, {
-                    method: 'PATCH',
-                    body: JSON.stringify({
-                        dayCompletedHabits: 0,
-                        lastDate: todayString,
-                    })
-                });
-            }catch(err){
-                console.error(err);
-            }
+        try{
+            await handler(`/habits-count/${habitsCountId}`, {
+                method: 'PATCH',
+                body: JSON.stringify({
+                    dayCompletedHabits: 0,
+                    lastDate: todayString,
+                })
+            });
+        }catch(err){
+            console.error(err);
         }
     }
 
@@ -116,7 +105,7 @@ export const useRecords = () => {
 
         try{
             if(newStatus === 'В процессе'){
-                await handler(`/records/${userRecordId}`, {
+                await handler(`/records?recordId=${recordId}`, {
                     method: 'PATCH',
                     body: JSON.stringify({
                         secondStatus: newStatus,
@@ -124,7 +113,7 @@ export const useRecords = () => {
                     })
                 });
             }else{
-                await handler(`/records/${userRecordId}`, {
+                await handler(`/records?recordId=${recordId}`, {
                     method: 'PATCH',
                     body: JSON.stringify({
                         currentSeries: series,

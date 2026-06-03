@@ -7,7 +7,7 @@ import { useHabitsFilter } from "../../../shared/composables/filter/HabitsFilter
 import { useHabitsStore } from "../../../shared/composables/store/habitsStore.js";
 
 export const useSearchingHabits = () => {
-    const { habits } = useHabitsStore();
+    const { allHabits } = useHabitsStore();
     const { filteredCurrentHabits } = useHabitsFilter();
 
     const route = useRoute();
@@ -23,7 +23,7 @@ export const useSearchingHabits = () => {
             method: 'GET',
         });
 
-        habits.value = filteredCurrentHabits(
+        allHabits.value = filteredCurrentHabits(
             res.filter(habit =>
                 habit.category?.toLowerCase().includes(searchForm.value.search.toLowerCase()) ||
                 habit.habit?.toLowerCase().includes(searchForm.value.search.toLowerCase()) ||
@@ -33,13 +33,13 @@ export const useSearchingHabits = () => {
             route.name
         );
 
-        return habits.value
+        return allHabits.value
     }
 
     const debouncedSearch = useDebounceFn(async () => {
-        await getSearchedHabits(habits)
+        await getSearchedHabits(allHabits)
 
-        return habits
+        return allHabits
     }, 500)
 
     const resetSearchForm = () => {

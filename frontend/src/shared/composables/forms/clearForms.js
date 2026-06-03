@@ -28,6 +28,7 @@ export const useClearForms = () => {
         habitForm.value.status = '';
         habitForm.value.frequency = '';
         habitForm.value.term = '';
+        habitForm.value.linkedHabit = '';
 
         habitErrors.value.habitError = false;
         habitErrors.value.timeError = false;

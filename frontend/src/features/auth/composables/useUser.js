@@ -8,13 +8,13 @@ import { useHabitsStore } from "../../../shared/composables/store/habitsStore.js
 import { useForms } from "../../../shared/composables/forms/useForms.js";
 import { useValidation } from "../../../shared/composables/forms/useValidation.js";
 import { useClearForms } from "../../../shared/composables/forms/clearForms.js";
-import { useHabitModals } from "../../../shared/composables/modal/useModals.js";
+import { useUserModals } from "../../../shared/composables/modal/useModals.js";
 
 import bcrypt from 'bcryptjs';
 
 export const useUser = () => {
     const router = useRouter();
-    const modals = useHabitModals();
+    const modal = useUserModals();
 
     const { users, user } = useUserStore();
     const { habitsCountForm } = useHabitsStore();
@@ -36,7 +36,7 @@ export const useUser = () => {
 
             const hashedPassword = await bcrypt.hash(registerForm.value.password, 10);
 
-            const newUser = await handler('/users', {
+            const authData = await handler('/users', {
                 method: 'POST',
                 body: JSON.stringify({
                     name: registerForm.value.name,
@@ -45,6 +45,12 @@ export const useUser = () => {
                     dateCreatedAccount: dateCreatedAccount
                 })
             });
+
+            const registeredUser = authData.user
+
+            if(authData.token){
+                localStorage.setItem('token', authData.token);
+            }
 
             const newHabitsCount = await handler('/habits-count', {
                 method: 'POST',
@@ -55,10 +61,10 @@ export const useUser = () => {
                 })
             })
 
-            users.value = newUser;
+            users.value = registeredUser;
 
-            localStorage.setItem('userId', newUser.id);
-            localStorage.setItem('userRecordsId', newHabitsCount.id);
+            localStorage.setItem('userId', authData.id);
+            localStorage.setItem('habitsCountId', newHabitsCount.id);
 
             router.push({ path: 'profile' });
             clearRegisterForm();
@@ -109,6 +115,8 @@ export const useUser = () => {
                 method: 'GET',
             });
             user.value = res;
+
+            return user
         }catch(err){
             console.log(err);
         }
@@ -140,10 +148,11 @@ export const useUser = () => {
         try{
             user.value = null;
 
+            localStorage.removeItem('token');
             localStorage.removeItem('userId');
             localStorage.removeItem('currentUser');
 
-            modals.closeLogoutUser();
+            modal.closeLogoutUser();
             router.push({ name: 'login' });
         }catch(err){
             console.log(err);
@@ -152,9 +161,8 @@ export const useUser = () => {
 
     const deleteUserData = async () => {
         const userId = localStorage.getItem('userId');
-        const userRecordsId = localStorage.getItem('userRecordsId');
 
-        const allRecords = await handler(`/records?userRecordsId=${userRecordsId}`, {
+        const allRecords = await handler(`/records?userId=${userId}`, {
             method: 'GET'
         });
         for(let record of allRecords){
@@ -172,7 +180,7 @@ export const useUser = () => {
             })
         }
 
-        await handler(`/habits-count/${userRecordsId}`, {
+        await handler(`/habitsCount?userId=${userId}`, {
             method: 'DELETE'
         });
 
@@ -185,19 +193,17 @@ export const useUser = () => {
         try{
             await deleteUserData()
 
-            localStorage.removeItem('userRecordsId');
-
+            localStorage.removeItem('token');
             localStorage.removeItem('userId');
+            localStorage.removeItem('currentUser');
 
-            modals.closeDeleteUser();
+            modal.closeDeleteUser();
 
             router.push({ name: 'login' });
         }catch(err){
             console.log(err);
         }
     }
-
-
     return{
         registerUser,
         loginUser,

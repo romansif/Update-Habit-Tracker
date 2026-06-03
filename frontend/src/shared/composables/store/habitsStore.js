@@ -36,7 +36,6 @@ const termsValue = {
     '1 год': {type: 'year', value: 1, days: 365},
     '3 года': {type: 'year', value: 3, days: 1095},
 }
-const habitsCount = ref(null);
 const habitsCountForm = {
     allHabits: 0,
     dayCompletedHabits: 0,
@@ -44,6 +43,7 @@ const habitsCountForm = {
     incompletedHabits: 0,
 }
 const habit = ref({})
+const habitsCount = ref(null);
 const habitId = ref(null);
 const seriesCount = ref(0);
 const selectedDeleteType = ref(null);
