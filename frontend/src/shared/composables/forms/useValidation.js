@@ -1,33 +1,16 @@
-import { ref } from "vue";
-
 import { useForms } from "./useForms.js";
-import { handler } from "../../api/http.js";
 
 const { userErrors, registerForm, loginForm, updateForm, habitErrors, habitForm } = useForms()
 
-export const useValidation =  () => {
-    const users = ref([])
-
+export const useValidation = () => {
     const isValidEmail = (email) => {
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
     }
 
-    const loadUsers = async () => {
-        users.value = await handler('/users', {
-            method: 'GET'
-        })
-    }
-
-    const isUsedEmail = (email) => {
-        return users.value.find(user => user.email === email)
-    }
-
-    const validateRegisterForm = async () => {
-        await loadUsers()
-
+    const validateRegisterForm = () => {
         userErrors.value.nameError = !registerForm.value.name
 
-        userErrors.value.emailError = !registerForm.value.email || !isValidEmail(registerForm.value.email) || isUsedEmail(registerForm.value.email)
+        userErrors.value.emailError = !registerForm.value.email || !isValidEmail(registerForm.value.email)
 
         userErrors.value.passwordError = !registerForm.value.password || !registerForm.value.password.length < 8
 
@@ -37,8 +20,6 @@ export const useValidation =  () => {
             userErrors.value.emailMessage = 'Поле почты обязательно должно быть заполнено'
         }else if(!isValidEmail(registerForm.value.email)){
             userErrors.value.emailMessage = 'Введённая почта не существует или введена неверно'
-        }else if(isUsedEmail(registerForm.value.email)){
-            userErrors.value.emailMessage = 'Пользователь с такой почтой уже существует'
         }
 
         if(!registerForm.value.password){
@@ -48,7 +29,7 @@ export const useValidation =  () => {
         }
 
         return !(!registerForm.value.name || !registerForm.value.email || !registerForm.value.password ||
-            !isValidEmail(registerForm.value.email) || isUsedEmail(registerForm.value.email) || registerForm.value.password.length < 8
+            !isValidEmail(registerForm.value.email) || registerForm.value.password.length < 8
         )
     }
 

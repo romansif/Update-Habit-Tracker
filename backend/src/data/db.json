@@ -6,6 +6,13 @@
       "password": "$2b$10$VUmdd4svk7tlcUKLKC9tO.8F4kMTjd6rzuqqkZcSXOYktMYZAjvUG",
       "dateCreatedAccount": "03.06.2026",
       "id": "2rbJ8nfZJAI"
+    },
+    {
+      "name": "akmal",
+      "email": "akmalmavlonov25@gmail.com",
+      "password": "$2b$10$OuMk.MWrvjza.w0yoVMxKOlDo16ziwdctebzR2IOG1YLplKHZFlni",
+      "dateCreatedAccount": "03.06.2026",
+      "id": "ZkYz7A9EjiA"
     }
   ],
   "habits": [
@@ -26,6 +33,24 @@
       "endDateHabit": "03.09.2026",
       "progress": 0,
       "id": "7UJtw0ihUG8"
+    },
+    {
+      "userId": "ZkYz7A9EjiA",
+      "category": "😴Сон",
+      "habit": "1",
+      "frequency": "1 раз в неделю",
+      "time": "1 мин в день",
+      "totalSeries": 0,
+      "currentSeries": 0,
+      "status": "Не выполнено",
+      "term": "1 месяц",
+      "date": "2026-06-03T10:56:08.414Z",
+      "dateCreatedHabit": "03.06.2026",
+      "monthCreatedRecord": 6.2026,
+      "timeCreatedHabit": "15:56",
+      "endDateHabit": "03.07.2026",
+      "progress": 0,
+      "id": "vg5WchWpAkc"
     }
   ],
   "habits-count": [
@@ -34,6 +59,13 @@
       "dayCompletedHabits": 0,
       "allCompletedHabits": 0,
       "id": "Ih5ixcz5VLM",
+      "lastDate": "03.06.2026"
+    },
+    {
+      "allHabits": 1,
+      "dayCompletedHabits": 0,
+      "allCompletedHabits": 0,
+      "id": "ZjIgLX46CAo",
       "lastDate": "03.06.2026"
     }
   ],
@@ -47,6 +79,18 @@
       "currentSeries": 0,
       "firstStatus": "Не выполнено",
       "id": "6GCDAB9NICU"
+    },
+    {
+      "habitsCountId": "ZjIgLX46CAo",
+      "recordId": "vg5WchWpAkc",
+      "date": "2026-06-03T10:56:08.437Z",
+      "dateCreatedRecord": "03.06.2026",
+      "monthCreatedRecord": 6.2026,
+      "timeCreatedRecord": "15:56",
+      "habit": "1",
+      "currentSeries": 0,
+      "firstStatus": "Не выполнено",
+      "id": "mSCuEtfJAhs"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

@@ -12,6 +12,7 @@ export const useRecords = () => {
     const { getRecords, getRecordsCurrent, getMonthRecords, getDayRecords, getHabitRecords, getDayHabitRecords } = useGetRecords();
 
     const habitsCountId = localStorage.getItem('habitsCountId');
+    const userRecordId = localStorage.getItem('userRecordId');
 
     const createRecord = async (habit, series, status, id) => {
         const currentAllCount = habitsCount.value?.allHabits || 0;
@@ -36,9 +37,11 @@ export const useRecords = () => {
                 minute: "2-digit",
             });
 
-            const newRecord = await handler(`/records`, {
+            const newRecordDay = await handler(`/records`, {
                 method: 'POST',
                 body: JSON.stringify({
+                    habitsCountId: habitsCountId,
+                    recordId: id,
                     date: now,
                     dateCreatedRecord: dateCreated,
                     monthCreatedRecord: month,
@@ -52,7 +55,7 @@ export const useRecords = () => {
 
             await getRecords()
 
-            localStorage.setItem('recordsId', newRecord.id);
+            localStorage.setItem('userRecordId', newRecordDay.id);
         } catch (err) {
             console.log(err);
         }
@@ -60,6 +63,7 @@ export const useRecords = () => {
 
     const updateHabitsCurrentCount = async (newStatus) => {
         const currentDayCompleted = habitsCount.value?.dayCompletedHabits || 0;
+        const currentAllCompleted = habitsCount.value?.allCompletedHabits || 0;
 
         const date = new Date().toLocaleDateString();
 
@@ -69,6 +73,7 @@ export const useRecords = () => {
                     method: 'PATCH',
                     body: JSON.stringify({
                         dayCompletedHabits: currentDayCompleted + 1,
+                        allCompletedHabits: currentAllCompleted + 1,
                         lastDate: date
                     })
                 });
@@ -80,19 +85,25 @@ export const useRecords = () => {
     };
 
     const resetHabitsCurrentCount = async () => {
+        const res = await handler(`/habits-count/${habitsCountId}`, {
+            method: 'GET'
+        })
+
         const today = new Date();
         const todayString = today.toLocaleDateString('ru-RU');
 
-        try{
-            await handler(`/habits-count/${habitsCountId}`, {
-                method: 'PATCH',
-                body: JSON.stringify({
-                    dayCompletedHabits: 0,
-                    lastDate: todayString,
-                })
-            });
-        }catch(err){
-            console.error(err);
+        if(res.lastDate !== todayString){
+            try{
+                await handler(`/habits-count/${res.id}`, {
+                    method: 'PATCH',
+                    body: JSON.stringify({
+                        dayCompletedHabits: 0,
+                        lastDate: todayString,
+                    })
+                });
+            }catch(err){
+                console.error(err);
+            }
         }
     }
 
@@ -105,7 +116,7 @@ export const useRecords = () => {
 
         try{
             if(newStatus === 'В процессе'){
-                await handler(`/records?recordId=${recordId}`, {
+                await handler(`/records/${userRecordId}`, {
                     method: 'PATCH',
                     body: JSON.stringify({
                         secondStatus: newStatus,
@@ -113,7 +124,7 @@ export const useRecords = () => {
                     })
                 });
             }else{
-                await handler(`/records?recordId=${recordId}`, {
+                await handler(`/records/${userRecordId}`, {
                     method: 'PATCH',
                     body: JSON.stringify({
                         currentSeries: series,

@@ -1,7 +1,6 @@
 <script setup>
-import { watch } from "vue";
+import { onMounted, watch } from "vue";
 
-import { useQuery } from "@tanstack/vue-query";
 import { useUser } from "../auth/composables/useUser.js";
 import { useForms } from "../../shared/composables/forms/useForms.js";
 import { useUserStore } from "../../shared/composables/store/userStore.js";
@@ -19,12 +18,8 @@ const { getUser, updateUser } = useUser();
 const { userErrors, updateForm } = useForms();
 const { logoutUserVisible, deleteUserVisible, createHabitVisible } = useModalsStore();
 
-const { isPending, isError, error } = useQuery({
-  queryKey: ['user'],
-  queryFn: async () => {
-    const res = await getUser()
-    return res
-  }
+onMounted(async () => {
+  await getUser();
 })
 
 const toLower = () => {
@@ -48,13 +43,7 @@ watch(() => updateForm.value.name, (newValue) => {
       </router-link>
       <ProfileMenu />
     </div>
-  <div v-if="isPending" class="flex justify-center items-center h-[600px]">
-    <img src="../../app/assets/icons/loading.svg" alt="" class="w-[120px] h-[120px]">
-  </div>
-  <div v-else-if="isError" class="flex justify-center items-center h-[600px]">
-    <span class="text-2xl text-gray-100 italic">Error {{ error.message }}</span>
-  </div>
-    <div v-else class="flex justify-center py-13">
+    <div class="flex justify-center py-13">
       <div class="w-[850px]">
           <ProfileCards />
         <div class="flex flex-col gap-3 justify-center items-center mt-30">

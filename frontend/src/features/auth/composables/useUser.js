@@ -8,13 +8,13 @@ import { useHabitsStore } from "../../../shared/composables/store/habitsStore.js
 import { useForms } from "../../../shared/composables/forms/useForms.js";
 import { useValidation } from "../../../shared/composables/forms/useValidation.js";
 import { useClearForms } from "../../../shared/composables/forms/clearForms.js";
-import { useUserModals } from "../../../shared/composables/modal/useModals.js";
+import { useHabitModals } from "../../../shared/composables/modal/useModals.js";
 
 import bcrypt from 'bcryptjs';
 
 export const useUser = () => {
     const router = useRouter();
-    const modal = useUserModals();
+    const modals = useHabitModals();
 
     const { users, user } = useUserStore();
     const { habitsCountForm } = useHabitsStore();
@@ -36,7 +36,7 @@ export const useUser = () => {
 
             const hashedPassword = await bcrypt.hash(registerForm.value.password, 10);
 
-            const authData = await handler('/users', {
+            const newUser = await handler('/users', {
                 method: 'POST',
                 body: JSON.stringify({
                     name: registerForm.value.name,
@@ -45,12 +45,6 @@ export const useUser = () => {
                     dateCreatedAccount: dateCreatedAccount
                 })
             });
-
-            const registeredUser = authData.user
-
-            if(authData.token){
-                localStorage.setItem('token', authData.token);
-            }
 
             const newHabitsCount = await handler('/habits-count', {
                 method: 'POST',
@@ -61,9 +55,9 @@ export const useUser = () => {
                 })
             })
 
-            users.value = registeredUser;
+            users.value = newUser;
 
-            localStorage.setItem('userId', authData.id);
+            localStorage.setItem('userId', newUser.id);
             localStorage.setItem('habitsCountId', newHabitsCount.id);
 
             router.push({ path: 'profile' });
@@ -91,8 +85,8 @@ export const useUser = () => {
 
             const passwordMatch = await bcrypt.compare(loginForm.value.password, foundUser.password);
             if(!passwordMatch){
-               userErrors.value.passwordMessage = 'Не правильный пароль';
-               return;
+                userErrors.value.passwordMessage = 'Не правильный пароль';
+                return;
             }
 
             localStorage.setItem('currentUser', JSON.stringify(foundUser));
@@ -115,8 +109,6 @@ export const useUser = () => {
                 method: 'GET',
             });
             user.value = res;
-
-            return user
         }catch(err){
             console.log(err);
         }
@@ -148,11 +140,10 @@ export const useUser = () => {
         try{
             user.value = null;
 
-            localStorage.removeItem('token');
             localStorage.removeItem('userId');
             localStorage.removeItem('currentUser');
 
-            modal.closeLogoutUser();
+            modals.closeLogoutUser();
             router.push({ name: 'login' });
         }catch(err){
             console.log(err);
@@ -161,8 +152,9 @@ export const useUser = () => {
 
     const deleteUserData = async () => {
         const userId = localStorage.getItem('userId');
+        const habitsCountId = localStorage.getItem('habitsCountId');
 
-        const allRecords = await handler(`/records?userId=${userId}`, {
+        const allRecords = await handler(`/records?habitsCountId=${habitsCountId}`, {
             method: 'GET'
         });
         for(let record of allRecords){
@@ -180,7 +172,7 @@ export const useUser = () => {
             })
         }
 
-        await handler(`/habitsCount?userId=${userId}`, {
+        await handler(`/habits-count/${habitsCountId}`, {
             method: 'DELETE'
         });
 
@@ -193,17 +185,19 @@ export const useUser = () => {
         try{
             await deleteUserData()
 
-            localStorage.removeItem('token');
-            localStorage.removeItem('userId');
-            localStorage.removeItem('currentUser');
+            localStorage.removeItem('habitsCountId');
 
-            modal.closeDeleteUser();
+            localStorage.removeItem('userId');
+
+            modals.closeDeleteUser();
 
             router.push({ name: 'login' });
         }catch(err){
             console.log(err);
         }
     }
+
+
     return{
         registerUser,
         loginUser,
