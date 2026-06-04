@@ -34,17 +34,19 @@ export const useUser = () => {
 
             const dateCreatedAccount = now.toLocaleDateString();
 
-            const hashedPassword = await bcrypt.hash(registerForm.value.password, 10);
-
-            const newUser = await handler('/users', {
+            const authData = await handler('/users', {
                 method: 'POST',
                 body: JSON.stringify({
                     name: registerForm.value.name,
                     email: registerForm.value.email,
-                    password: hashedPassword,
+                    password: registerForm.value.password,
                     dateCreatedAccount: dateCreatedAccount
                 })
             });
+
+            if(authData.accessToken) {
+                localStorage.setItem("accessToken", authData.accessToken);
+            }
 
             const newHabitsCount = await handler('/habits-count', {
                 method: 'POST',
@@ -55,15 +57,16 @@ export const useUser = () => {
                 })
             })
 
-            users.value = newUser;
+            users.value = authData;
 
-            localStorage.setItem('userId', newUser.id);
+            localStorage.setItem('userId', authData.id);
             localStorage.setItem('habitsCountId', newHabitsCount.id);
 
             router.push({ path: 'profile' });
             clearRegisterForm();
         }catch(err){
-            console.log(err);
+            console.log('Не удалось зарегестрировать пользователя');
+            throw err;
         }
     };
 
@@ -81,6 +84,8 @@ export const useUser = () => {
             if(!foundUser){
                 userErrors.value.emailMessage = 'Не удалось найти пользователя';
                 return;
+            }else{
+                localStorage.setItem("accessToken", foundUser.accessToken);
             }
 
             const passwordMatch = await bcrypt.compare(loginForm.value.password, foundUser.password);
@@ -89,15 +94,16 @@ export const useUser = () => {
                 return;
             }
 
-            localStorage.setItem('currentUser', JSON.stringify(foundUser));
             localStorage.setItem('userId', foundUser.id);
+            localStorage.setItem('currentUser', JSON.stringify(foundUser));
 
             user.value = foundUser;
 
             router.push({ path: 'profile' });
             clearLoginForm();
         }catch(err){
-            console.log(err);
+            console.log('Не удалось авторизовать пользователя');
+            throw err;
         }
     }
 
@@ -119,7 +125,8 @@ export const useUser = () => {
 
             updateForm.value.name = '';
         }catch(err){
-            console.log(err);
+            console.log('Не удалось обновить данные пользователя');
+            throw err;
         }
     }
 
@@ -128,12 +135,14 @@ export const useUser = () => {
             user.value = null;
 
             localStorage.removeItem('userId');
+            localStorage.removeItem('accessToken');
             localStorage.removeItem('currentUser');
 
             modals.closeLogoutUser();
             router.push({ name: 'login' });
         }catch(err){
-            console.log(err);
+            console.log('Не удалось выйти из аккаунта');
+            throw err;
         }
     }
 
@@ -172,15 +181,17 @@ export const useUser = () => {
         try{
             await deleteUserData()
 
-            localStorage.removeItem('habitsCountId');
-
             localStorage.removeItem('userId');
+            localStorage.removeItem('accessToken');
+            localStorage.removeItem('userRecordId');
+            localStorage.removeItem('habitsCountId');
 
             modals.closeDeleteUser();
 
             router.push({ name: 'login' });
         }catch(err){
-            console.log(err);
+            console.log('Ошибка при удалении данный пользователя');
+            throw err;
         }
     }
 

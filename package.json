@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "concurrently -n backend,frontend -c blue,green \"npm run dev:backend\" \"npm run dev:frontend\"",
     "dev:frontend": "cd frontend && npm run dev",
-    "dev:backend": "json-server backend/src/data/db.json",
+    "dev:backend": "node backend/src/server.js",
     "build": "vite build",
     "install:all": "cd frontend && npm install && cd ../backend && npm install",
     "preview": "vite preview"

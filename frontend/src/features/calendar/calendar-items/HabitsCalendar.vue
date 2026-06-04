@@ -16,10 +16,7 @@ const { getRecords } = useGetRecords();
 
 const { isPending, isError, error} = useQuery({
   queryKey: ['records'],
-  queryFn: async () => {
-    const res = await getRecords();
-    return res
-  }
+  queryFn: getRecords
 })
 </script>
 

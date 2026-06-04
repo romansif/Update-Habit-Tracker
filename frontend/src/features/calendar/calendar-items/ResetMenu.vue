@@ -10,7 +10,7 @@ const { openResetRecords } = useRecordsModals();
 const { currentMonth, currentYear } = useCalendar();
 
 const month = computed(() => {
-  return String(currentMonth.value + 1).padStart(2, '0') + '.' + currentYear.value
+  return Number(currentMonth.value + 1) + '.' + currentYear.value
 });
 </script>
 

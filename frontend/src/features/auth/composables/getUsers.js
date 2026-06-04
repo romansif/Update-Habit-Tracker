@@ -13,7 +13,8 @@ export const useGetUsers = () => {
             });
             user.value = res;
         }catch(err){
-            console.log(err);
+            console.log('Ошибка при получении данных пользователя');
+            throw err;
         }
     }
 
@@ -23,7 +24,8 @@ export const useGetUsers = () => {
                 method: 'GET'
             })
         }catch(err){
-            console.log(err);
+            console.log('Ошибка при получении всех пользователей');
+            throw err;
         }
     }
 

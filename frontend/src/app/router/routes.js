@@ -9,14 +9,14 @@ const routes = [
                 component: () => import('../../pages/home/HomePage.vue'),
             },
             {
-                path: '',
+                path: 'login',
                 name: 'login',
                 component: () => import('../../pages/auth/LoginPage.vue'),
                 meta: { guestOnly: true },
             },
 
             {
-                path: '',
+                path: 'register',
                 name: 'register',
                 component: () => import('../../pages/auth/RegisterPage.vue'),
                 meta: { guestOnly: true },

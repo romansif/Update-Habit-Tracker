@@ -57,7 +57,8 @@ export const useRecords = () => {
 
             localStorage.setItem('userRecordId', newRecordDay.id);
         } catch (err) {
-            console.log(err);
+            console.log('Не удалось создать новые рекорды пользователя');
+            throw err;
         }
     }
 
@@ -102,7 +103,8 @@ export const useRecords = () => {
                     })
                 });
             }catch(err){
-                console.error(err);
+                console.log('Не удалось обновить колличество привычек пользователя');
+                throw err;
             }
         }
     }
@@ -135,7 +137,8 @@ export const useRecords = () => {
             }
             await getDayRecords();
         }catch(err){
-            console.log(err);
+            console.log('Не удалось обновить рекорды привычки пользователя');
+            throw err;
         }
     }
 
@@ -189,9 +192,14 @@ export const useRecords = () => {
     }
 
     const resetRecords = async () => {
-        methods[selectedResetType?.value]?.()
+        try{
+            methods[selectedResetType?.value]?.()
 
-        modals.closeResetRecords();
+            modals.closeResetRecords();
+        }catch(err){
+            console.log('Ошибка при при удалении истории рекордов привчки(чек) пользователя');
+            throw err;
+        }
     }
 
     return{

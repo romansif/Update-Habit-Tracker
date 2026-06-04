@@ -16,7 +16,8 @@ export const useGetRecords = () => {
             });
             habitsCount.value = res;
         }catch(err){
-            console.log(err);
+            console.log('Ошибка при получении текущих рекодов пользователя');
+            throw err;
         }
     }
 
@@ -33,7 +34,8 @@ export const useGetRecords = () => {
 
             return records;
         }catch(err){
-            console.log(err)
+            console.log('Ошибка при получении всех рекордов пользователя');
+            throw err;
         }
     }
 
@@ -46,7 +48,8 @@ export const useGetRecords = () => {
 
             return monthRecords;
         }catch(err){
-            console.log(err);
+            console.log('Ошибка при получении месячных рекордов пользователя');
+            throw err;
         }
     }
 
@@ -59,7 +62,8 @@ export const useGetRecords = () => {
 
             return dayHabitsRecords;
         }catch(err){
-            console.log(err);
+            console.log('Ошибка при получении дневных рекордов пользователя');
+            throw err;
         }
     };
 
@@ -70,7 +74,8 @@ export const useGetRecords = () => {
             })
             habitRecords.value = res
         }catch(err){
-            console.log(err);
+            console.log('Ошибка при получении рекордов одной привычки пользователя');
+            throw err;
         }
     }
 
@@ -81,7 +86,8 @@ export const useGetRecords = () => {
             })
             dayHabitRecords.value = res
         }catch(err){
-            console.log(err);
+            console.log('Ошибка при получении дневных рекордов одной привычки пользователя');
+            throw err;
         }
     }
 

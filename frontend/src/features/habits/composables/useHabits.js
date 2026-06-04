@@ -87,7 +87,8 @@ export const useHabits = () => {
 
             modals.closeCreateHabit();
         }catch(err){
-            console.log(err)
+            console.log('Не удалось создать привычку пользователя пользователя');
+            throw err;
         }
     };
 
@@ -106,7 +107,8 @@ export const useHabits = () => {
                 })
             })
         }catch(err){
-            console.log(err)
+            console.log('Не удалось обновить прогресс привчки пользователя');
+            throw err;
         }
     }
 
@@ -152,13 +154,12 @@ export const useHabits = () => {
             await updateHabitsCurrentCount(newStatus)
             await updateRecordStatus(seriesCount.value, newStatus)
         }catch(err){
-            console.log(err);
+            console.log('Не удалось обновить статус привычки пользователя');
+            throw err;
         }
     }
 
     const restoreSeries = async () => {
-        const userId = localStorage.getItem("userId")
-
         const habit = habits.value.find(habit => habit.id === habitId.value);
         if(!habit) return null
 
@@ -181,7 +182,8 @@ export const useHabits = () => {
 
             modals.closeRestoreSeries()
         }catch(err){
-            console.log(err)
+            console.log('Не удалось восстановить серию привычки пользователя');
+            throw err;
         }
     }
 
@@ -210,8 +212,6 @@ export const useHabits = () => {
         'ALL': async () => {
             const allHabits = await getCurrentHabits();
 
-            console.log(allHabits);
-
             for(let habit of allHabits){
                 await deleteHabitById(habit.id);
             }
@@ -220,9 +220,14 @@ export const useHabits = () => {
     }
 
     const deleteHabits = async () => {
-        methods[selectedDeleteType.value]?.()
+        try{
+            methods[selectedDeleteType.value]?.()
 
-        modals.closeDeleteHabit()
+            modals.closeDeleteHabit()
+        }catch(err){
+            console.log('Ошибка при удалении привычки(чек) пользователя');
+            throw err;
+        }
     }
 
     return{
