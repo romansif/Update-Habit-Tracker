@@ -20,7 +20,7 @@ const dbPath = path.join(__dirname, 'db.json');
 
 
 const generateAccessToken = (user) => {
-    return jwt.sign({ userId: user.id, email: user.email }, ACCESS_SECRET, { expiresIn: '1m' });
+    return jwt.sign({ userId: user.id, email: user.email }, ACCESS_SECRET, { expiresIn: '15min' });
 }
 
 const generateRefreshToken = (user) => {

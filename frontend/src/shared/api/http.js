@@ -29,7 +29,9 @@ export const handler = async (endpoints, options) => {
                     ...options
                 })
             }else {
-                await router.push({ name: 'login'})
+                localStorage.removeItem('userId')
+                location.removeItem('accessToken')
+
                 throw new Error('Сессия истекла, авторизуйтесь заново');
             }
         }catch(err){
