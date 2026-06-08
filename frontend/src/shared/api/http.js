@@ -1,5 +1,3 @@
-import router from '../../app/router/index.js'
-
 const BASE_URL = `http://localhost:3000/api`;
 
 export const handler = async (endpoints, options) => {
@@ -8,6 +6,7 @@ export const handler = async (endpoints, options) => {
     const res = await fetch(`${BASE_URL}${endpoints}`, {
         headers: {
             "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
         },
         credentials: 'include',
         ...options
@@ -15,7 +14,7 @@ export const handler = async (endpoints, options) => {
 
     if(res.status === 401){
         localStorage.removeItem('userId')
-        location.removeItem('accessToken')
+        localStorage.removeItem('accessToken')
         try{
             const refreshRes = await fetch(`${BASE_URL}/refresh`, {
                 method: 'POST',
@@ -25,12 +24,13 @@ export const handler = async (endpoints, options) => {
                 await fetch(`${BASE_URL}${endpoints}`, {
                     headers: {
                         'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
                     },
                     ...options
                 })
             }else {
                 localStorage.removeItem('userId')
-                location.removeItem('accessToken')
+                localStorage.removeItem('accessToken')
 
                 throw new Error('Сессия истекла, авторизуйтесь заново');
             }
@@ -38,15 +38,16 @@ export const handler = async (endpoints, options) => {
             console.log('Не удалось востановить ссесию');
             throw err;
         }
-        const error = await res.json().catch(() => ({}));
-        throw new Error(error.message || `Ошибка: ${res.status}`);
     }
 
     if(!res.ok){
-        const error = await res.json().catch(() => ({}));
-        throw new Error(error.message || `Ошибка: ${res.status}`);
-    }
+        const errorData = await res.json().catch(() => ({}));
 
+        const error = new Error(errorData.message || `Ошибка: ${res.status}`);
+        error.response = { data: errorData };
+
+        throw error;
+    }
     if(res.status === 204 || (res.status === 200 && options.method === 'DELETE')){
         return null;
     }

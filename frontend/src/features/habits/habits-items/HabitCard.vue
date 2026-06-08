@@ -37,7 +37,7 @@ const props = defineProps({
       </div>
       <div class="flex justify-between mt-2">
         <div class="flex gap-4">
-          <div class="flex items-center gap-1 bg-orange-100 text-orange-600 px-2 py-1 rounded-lg">
+          <div v-if="habit?.currentSeries > 0" class="flex items-center gap-1 bg-orange-100 text-orange-600 px-2 py-1 rounded-lg">
             <span class="text-sm">🔥</span>
             <span class="font-semibold">
             {{ habit?.currentSeries }}

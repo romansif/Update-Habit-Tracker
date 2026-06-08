@@ -7,7 +7,6 @@ import { useForms } from "../../../shared/composables/forms/useForms.js";
 import { useGetRecords } from "../../calendar/composables/getRecords.js";
 import { useHabitModals } from "../../../shared/composables/modal/useModals.js";
 import { useHabitsStore } from "../../../shared/composables/store/habitsStore.js";
-import { useValidation } from "../../../shared/composables/forms/useValidation.js";
 import { useRecordsStore } from "../../../shared/composables/store/recordsStore.js";
 
 export const useHabits = () => {
@@ -16,7 +15,6 @@ export const useHabits = () => {
     const { habitForm } = useForms()
     const { recordId } = useRecordsStore()
     const { getCurrentHabits } = useGetHabits();
-    const { validateHabitForm } = useValidation();
     const { getRecords, getRecordsCurrent } = useGetRecords();
     const { createRecord, updateHabitsCurrentCount, updateRecordStatus } = useRecords();
     const { habits, habitId, selectedDeleteType, seriesCount, termsValue } = useHabitsStore();
@@ -24,9 +22,6 @@ export const useHabits = () => {
     const createHabit = async (status) => {
         const userId = localStorage.getItem('userId');
 
-        const isValid = validateHabitForm();
-
-        if(!isValid) return;
         try{
             const now = new Date();
             const dateCreated = now.toLocaleDateString();

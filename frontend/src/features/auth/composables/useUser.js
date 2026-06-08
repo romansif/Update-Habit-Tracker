@@ -1,16 +1,11 @@
 import { useRouter } from "vue-router";
-
 import { handler } from '../../../shared/api/http.js';
-
 import { useUserStore } from '../../../shared/composables/store/userStore';
 import { useHabitsStore } from "../../../shared/composables/store/habitsStore.js";
 
 import { useForms } from "../../../shared/composables/forms/useForms.js";
-import { useValidation } from "../../../shared/composables/forms/useValidation.js";
 import { useClearForms } from "../../../shared/composables/forms/clearForms.js";
 import { useUserModals } from "../../../shared/composables/modal/useModals.js";
-
-import bcrypt from 'bcryptjs';
 
 export const useUser = () => {
     const router = useRouter();
@@ -22,31 +17,18 @@ export const useUser = () => {
     const { clearRegisterForm, clearLoginForm } = useClearForms();
     const { registerForm, loginForm, updateForm, userErrors } = useForms();
 
-    const { validateRegisterForm, validateLoginForm, validateUpdateForm } = useValidation();
+    const resetErrors = () => {
+        userErrors.value.emailMessage = '';
+        userErrors.value.passwordMessage = '';
+        userErrors.value.nameMessage = '';
+    };
 
     const registerUser = async () => {
-        const isValid = await validateRegisterForm();
-
-        if(!isValid) return;
-
+        resetErrors();
         try{
             const now = new Date();
 
             const dateCreatedAccount = now.toLocaleDateString();
-
-            const authData = await handler('/users', {
-                method: 'POST',
-                body: JSON.stringify({
-                    name: registerForm.value.name,
-                    email: registerForm.value.email,
-                    password: registerForm.value.password,
-                    dateCreatedAccount: dateCreatedAccount
-                })
-            });
-
-            if(authData.accessToken) {
-                localStorage.setItem("accessToken", authData.accessToken);
-            }
 
             const newHabitsCount = await handler('/habits-count', {
                 method: 'POST',
@@ -57,62 +39,73 @@ export const useUser = () => {
                 })
             })
 
+            const authData = await handler('/users/register', {
+                method: 'POST',
+                body: JSON.stringify({
+                    name: registerForm.value.name,
+                    email: registerForm.value.email,
+                    password: registerForm.value.password,
+                    dateCreatedAccount: dateCreatedAccount,
+                    habitsCountId: newHabitsCount.id
+                })
+            });
+            if(authData.accessToken) {
+                localStorage.setItem("accessToken", authData.accessToken);
+            }
+
             users.value = authData;
 
             localStorage.setItem('userId', authData.id);
             localStorage.setItem('habitsCountId', newHabitsCount.id);
 
-            router.push({ path: 'profile' });
             clearRegisterForm();
+            router.push({ path: 'profile' });
         }catch(err){
-            console.log('Не удалось зарегестрировать пользователя');
-            throw err;
+           const errors = err.response.data.error;
+           if(errors){
+               userErrors.value.emailMessage = errors.email || '1';
+               userErrors.value.passwordMessage = errors.password || '2';
+               userErrors.value.nameMessage = errors.name || '3';
+           }
+           console.log(err.response?.data);
         }
     };
 
     const loginUser = async () => {
-        const isValid = validateLoginForm();
-
-        if(!isValid) return;
-
+        resetErrors()
         try{
-            const users = await handler(`/users?email=${loginForm.value.email}`, {
-                method: 'GET'
+            const foundUser = await handler(`/users/login`, {
+                method: 'POST',
+                body: JSON.stringify({
+                    email: loginForm.value.email,
+                    password: loginForm.value.password,
+                })
             });
-
-            const foundUser = users[0];
-            if(!foundUser){
-                userErrors.value.emailMessage = 'Не удалось найти пользователя';
+            if(!foundUser || !foundUser.id){
+                userErrors.value.emailMessage = 'Неверный email или пароль';
                 return;
             }else{
+                localStorage.setItem('userId', foundUser.id);
                 localStorage.setItem("accessToken", foundUser.accessToken);
+                localStorage.setItem('habitsCountId', foundUser.habitsCountId);
             }
-
-            const passwordMatch = await bcrypt.compare(loginForm.value.password, foundUser.password);
-            if(!passwordMatch){
-                userErrors.value.passwordMessage = 'Не правильный пароль';
-                return;
-            }
-
-            localStorage.setItem('userId', foundUser.id);
-            localStorage.setItem('currentUser', JSON.stringify(foundUser));
 
             user.value = foundUser;
 
-            router.push({ path: 'profile' });
             clearLoginForm();
+            router.push({ path: 'profile' });
         }catch(err){
-            console.log('Не удалось авторизовать пользователя');
-            throw err;
+            const errors = err.response?.data.error;
+            if(errors){
+                userErrors.value.emailMessage = errors.email || '';
+                userErrors.value.passwordMessage = errors.password || '';
+            }
+            console.log(err.response?.data);
         }
     }
 
     const updateUser = async () => {
         const userId = localStorage.getItem('userId');
-
-        const isValid = validateUpdateForm();
-
-        if(!isValid) return;
 
         try{
             const updatedUser = await handler(`/users/${userId}`, {
@@ -125,18 +118,24 @@ export const useUser = () => {
 
             updateForm.value.name = '';
         }catch(err){
-            console.log('Не удалось обновить данные пользователя');
+            console.log('Не удалось авторизовать пользователя');
             throw err;
         }
     }
 
     const logoutUser = async () => {
         try{
+            await handler(`/users/logout`, {
+                method: 'POST',
+            })
+
             user.value = null;
 
             localStorage.removeItem('userId');
             localStorage.removeItem('accessToken');
             localStorage.removeItem('currentUser');
+            localStorage.removeItem('userRecordId');
+            localStorage.removeItem('habitsCountId');
 
             modals.closeLogoutUser();
             router.push({ name: 'login' });
@@ -182,6 +181,7 @@ export const useUser = () => {
             await deleteUserData()
 
             localStorage.removeItem('userId');
+            localStorage.removeItem('currentUser');
             localStorage.removeItem('accessToken');
             localStorage.removeItem('userRecordId');
             localStorage.removeItem('habitsCountId');

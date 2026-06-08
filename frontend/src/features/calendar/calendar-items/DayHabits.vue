@@ -21,7 +21,7 @@ const statusClass = (status) => ({
       Привычка создана в {{ dayHabitRecord.timeCreatedRecord }}
     </span>
     <div class="flex items-center gap-2 py-1">
-      <div class="flex items-center gap-1 bg-orange-100 text-orange-600 px-2 py-1 rounded-lg text-sm">
+      <div v-if="dayHabitRecord.currentSeries > 0" class="flex items-center gap-1 bg-orange-100 text-orange-600 px-2 py-1 rounded-lg text-sm">
         <span>🔥</span>
         <span class="font-semibold">{{ dayHabitRecord.currentSeries }}</span>
       </div>
