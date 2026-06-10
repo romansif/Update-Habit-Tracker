@@ -12,6 +12,7 @@ router.post('/refresh', authController.refresh);
 
 router.get('/users', authMiddleware, authController.getUsers);
 router.get('/users/:id', authMiddleware, authController.getUserById);
+router.patch('/users/:id', authMiddleware, validation.updateValidation, validation.handleValidationErrors, authController.updateUser);
 router.delete('/users/:id', authMiddleware, authController.deleteUser);
 
 export default router;

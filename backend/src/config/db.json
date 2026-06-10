@@ -1,79 +1,74 @@
 {
   "users": [
     {
-      "id": "bc9a5cc4-b912-437d-995d-4d6eb01109d6",
-      "name": "akmal",
+      "id": "45ef113a-e851-4945-ba57-9c2db639c0ee",
+      "name": "xddcc",
       "email": "akmalmavlonov25@gmail.com",
-      "password": "$2b$10$VC/EDi.NoUimECRqj/8l8eMLEGA/6iEWcahM4cD0Vf2Cnq8UbQaiu",
-      "dateCreatedAccount": "08.06.2026",
+      "password": "$2b$10$9qs9PrIEuCcQ.p/RhEXDZ.F9l1SMHYc6p.bY2lMJNlHd7/LTC7.r6",
+      "dateCreatedAccount": "11.06.2026",
       "refreshTokens": [
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJiYzlhNWNjNC1iOTEyLTQzN2QtOTk1ZC00ZDZlYjAxMTA5ZDYiLCJpYXQiOjE3ODA5MjExOTQsImV4cCI6MTc4MTUyNTk5NH0.EAD67BH-6fOPK6fveI-UB0XdgNFgZ0cNnPuDLzLMSAs",
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJiYzlhNWNjNC1iOTEyLTQzN2QtOTk1ZC00ZDZlYjAxMTA5ZDYiLCJpYXQiOjE3ODA5MjEyMjMsImV4cCI6MTc4MTUyNjAyM30.c37P4wTfTWR4snSkIPlUOpyJ3r_ZVz8EFBwfvREPaxk",
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJiYzlhNWNjNC1iOTEyLTQzN2QtOTk1ZC00ZDZlYjAxMTA5ZDYiLCJpYXQiOjE3ODA5MjEyNDMsImV4cCI6MTc4MTUyNjA0M30.IP8ZfHbpBav7qJ8Uwnqb9pQM3PbBztifEDJ1F7rI3HU"
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0NWVmMTEzYS1lODUxLTQ5NDUtYmE1Ny05YzJkYjYzOWMwZWUiLCJpYXQiOjE3ODExMjE0NjQsImV4cCI6MTc4MTcyNjI2NH0.aiBYViJQvn-Ln407pSlM26UKMDre6BoHRZ9v7hrNnoU",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0NWVmMTEzYS1lODUxLTQ5NDUtYmE1Ny05YzJkYjYzOWMwZWUiLCJpYXQiOjE3ODExMjE2NDIsImV4cCI6MTc4MTcyNjQ0Mn0.1CaeTB7rX64vpCjQWqEtSc4l-IB3wg9tL6vgnHuLEVQ",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0NWVmMTEzYS1lODUxLTQ5NDUtYmE1Ny05YzJkYjYzOWMwZWUiLCJpYXQiOjE3ODExMjE4MzgsImV4cCI6MTc4MTcyNjYzOH0.imDcmVxKB6UrX0N0YA9hOskFJoPsvz6R5kIocr6m_Ek",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0NWVmMTEzYS1lODUxLTQ5NDUtYmE1Ny05YzJkYjYzOWMwZWUiLCJpYXQiOjE3ODExMjIwMjAsImV4cCI6MTc4MTcyNjgyMH0.tweOKyh0xAtJSFApNExihBcUlr7RFj5M85H3Ry__F7k",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0NWVmMTEzYS1lODUxLTQ5NDUtYmE1Ny05YzJkYjYzOWMwZWUiLCJpYXQiOjE3ODExMjIyMzEsImV4cCI6MTc4MTcyNzAzMX0.Ihk6FxptarKIdHGQht3GZpeoY6B_jTKdQAm5pSFJVgk",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0NWVmMTEzYS1lODUxLTQ5NDUtYmE1Ny05YzJkYjYzOWMwZWUiLCJpYXQiOjE3ODExMjI1OTksImV4cCI6MTc4MTcyNzM5OX0.kwLc4QoaNaWO93MQzqxSRAKb4UZQk5Q-vAt99eBeHKs",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0NWVmMTEzYS1lODUxLTQ5NDUtYmE1Ny05YzJkYjYzOWMwZWUiLCJpYXQiOjE3ODExMjI3MzEsImV4cCI6MTc4MTcyNzUzMX0.FPWMBIObNTMXj9qTjsRiQUniDU-d8FLObTKv4tN8yaM",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0NWVmMTEzYS1lODUxLTQ5NDUtYmE1Ny05YzJkYjYzOWMwZWUiLCJpYXQiOjE3ODExMjMwNjgsImV4cCI6MTc4MTcyNzg2OH0.6XStplA068D8XIOBwKo1D-5_cLXwk4D-pgkGXL2gMJo",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0NWVmMTEzYS1lODUxLTQ5NDUtYmE1Ny05YzJkYjYzOWMwZWUiLCJpYXQiOjE3ODExMjM0MTUsImV4cCI6MTc4MTcyODIxNX0.X9jF0Ko9FMo3vQRRmG3BWJ2hOxUJ8l0XWoBj2j0yyCk",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0NWVmMTEzYS1lODUxLTQ5NDUtYmE1Ny05YzJkYjYzOWMwZWUiLCJpYXQiOjE3ODExMjM2MjQsImV4cCI6MTc4MTcyODQyNH0.KPWpnBOzeKMVHcUdVcNe-1bvP5iQAB9e6vHfmt5MXBs",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0NWVmMTEzYS1lODUxLTQ5NDUtYmE1Ny05YzJkYjYzOWMwZWUiLCJpYXQiOjE3ODExMjM3OTEsImV4cCI6MTc4MTcyODU5MX0.4EC7fpKBcilIhh_fyZp_SxULec73dNj9irrmZmtK5fw"
       ],
-      "habitsCountId": "59296e53-b441-4092-ac28-da350f8b3b40"
-    },
-    {
-      "id": "8d750417-99c9-4784-a460-6d4195bd05a4",
-      "name": "lamka",
-      "email": "akmalmavlono25@gmail.com",
-      "password": "$2b$10$yXNJSidQcB.xRWKmYaLTLe/wfVXPzZupJp7GWzdQh/7tRjijz5Gra",
-      "dateCreatedAccount": "08.06.2026",
-      "refreshTokens": [
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4ZDc1MDQxNy05OWM5LTQ3ODQtYTQ2MC02ZDQxOTViZDA1YTQiLCJpYXQiOjE3ODA5MjEyMTYsImV4cCI6MTc4MTUyNjAxNn0.Hnk7ShZpwSBxCfdGDzS4z9wKAmjoZAKfs5dVu8fmT6E",
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI4ZDc1MDQxNy05OWM5LTQ3ODQtYTQ2MC02ZDQxOTViZDA1YTQiLCJpYXQiOjE3ODA5MjEyMzIsImV4cCI6MTc4MTUyNjAzMn0.cK1rBDO7OogIcbBASU5ZuGQ0zPvByKFCGedmOHaM0cs"
-      ],
-      "habitsCountId": "4eb52755-3b86-4b16-a6a5-8166fb381805"
+      "habitsCountId": "e506e356-a784-4b8e-a681-fbf2028dfaed"
     }
   ],
   "habits": [
     {
-      "id": "e1813418-4c0a-435c-ac63-1bd09bb7a009",
-      "userId": "bc9a5cc4-b912-437d-995d-4d6eb01109d6",
+      "id": "27d45ba3-220a-474f-85a5-ce3465073095",
+      "userId": "45ef113a-e851-4945-ba57-9c2db639c0ee",
       "category": "😴Сон",
-      "habit": "1",
+      "habit": "111",
       "frequency": "Ежедневно",
       "time": "1 мин в день",
-      "totalSeries": 0,
-      "currentSeries": 0,
-      "status": "Не выполнено",
+      "totalSeries": 1,
+      "currentSeries": 1,
+      "status": "Выполнено",
       "term": "1 месяц",
-      "date": "2026-06-08T12:20:01.275Z",
-      "dateCreatedHabit": "08.06.2026",
+      "date": "2026-06-10T20:10:13.443Z",
+      "dateCreatedHabit": "11.06.2026",
       "monthCreatedRecord": 6.2026,
-      "timeCreatedHabit": "17:20",
-      "endDateHabit": "08.07.2026",
-      "progress": 0
+      "timeCreatedHabit": "01:10",
+      "endDateHabit": "11.07.2026",
+      "progress": 3.33,
+      "lastDate": "11.06.2026",
+      "lastTime": "01:10"
     }
   ],
   "habits-count": [
     {
-      "id": "59296e53-b441-4092-ac28-da350f8b3b40",
-      "allHabits": 1,
-      "dayCompletedHabits": 0,
-      "allCompletedHabits": 0,
-      "lastDate": "08.06.2026"
-    },
-    {
-      "id": "4eb52755-3b86-4b16-a6a5-8166fb381805",
-      "allHabits": 0,
-      "dayCompletedHabits": 0,
-      "allCompletedHabits": 0,
-      "lastDate": "08.06.2026"
+      "id": "e506e356-a784-4b8e-a681-fbf2028dfaed",
+      "allHabits": 3,
+      "dayCompletedHabits": 1,
+      "allCompletedHabits": 1,
+      "lastDate": "11.06.2026"
     }
   ],
   "records": [
     {
-      "id": "b874db39-7df1-4692-84e6-4d9c567e1c0b",
-      "habitsCountId": "59296e53-b441-4092-ac28-da350f8b3b40",
-      "recordId": "e1813418-4c0a-435c-ac63-1bd09bb7a009",
-      "date": "2026-06-08T12:20:01.301Z",
-      "dateCreatedRecord": "08.06.2026",
+      "id": "9c2bed1a-35d8-416f-8cde-ce9c0d069157",
+      "habitsCountId": "e506e356-a784-4b8e-a681-fbf2028dfaed",
+      "recordId": "27d45ba3-220a-474f-85a5-ce3465073095",
+      "date": "2026-06-10T20:10:13.519Z",
+      "dateCreatedRecord": "11.06.2026",
       "monthCreatedRecord": 6.2026,
-      "timeCreatedRecord": "17:20",
-      "habit": "1",
-      "currentSeries": 0,
-      "firstStatus": "Не выполнено"
+      "timeCreatedRecord": "01:10",
+      "habit": "111",
+      "currentSeries": 1,
+      "firstStatus": "Не выполнено",
+      "secondStatus": "В процессе",
+      "timeUpdatedStatus": "01:10",
+      "thirdStatus": "Выполнено",
+      "newTimeUpdatedStatus": "01:10"
     }
   ]
 }

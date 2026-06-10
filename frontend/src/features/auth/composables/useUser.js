@@ -61,13 +61,16 @@ export const useUser = () => {
             clearRegisterForm();
             router.push({ path: 'profile' });
         }catch(err){
-           const errors = err.response.data.error;
-           if(errors){
-               userErrors.value.emailMessage = errors.email || '1';
-               userErrors.value.passwordMessage = errors.password || '2';
-               userErrors.value.nameMessage = errors.name || '3';
-           }
-           console.log(err.response?.data);
+           const errors = err.response?.data?.errors;
+            if (errors) {
+                userErrors.value.nameError = !!errors.name;
+                userErrors.value.emailError = !!errors.email;
+                userErrors.value.passwordError = !!errors.password;
+
+                userErrors.value.nameMessage = errors.name || '';
+                userErrors.value.emailMessage = errors.email || '';
+                userErrors.value.passwordMessage = errors.password || '';
+            }
         }
     };
 
@@ -95,12 +98,14 @@ export const useUser = () => {
             clearLoginForm();
             router.push({ path: 'profile' });
         }catch(err){
-            const errors = err.response?.data.error;
-            if(errors){
+            const errors = err.response?.data?.errors;
+            if (errors) {
+                userErrors.value.emailError = !!errors.email;
+                userErrors.value.passwordError = !!errors.password;
+
                 userErrors.value.emailMessage = errors.email || '';
                 userErrors.value.passwordMessage = errors.password || '';
             }
-            console.log(err.response?.data);
         }
     }
 
@@ -118,8 +123,12 @@ export const useUser = () => {
 
             updateForm.value.name = '';
         }catch(err){
-            console.log('Не удалось авторизовать пользователя');
-            throw err;
+            const errors = err.response?.data?.errors;
+            if (errors) {
+                userErrors.value.newNameError = !!errors.name;
+
+                userErrors.value.newNameMessage = errors.name || '';
+            }
         }
     }
 
@@ -128,7 +137,6 @@ export const useUser = () => {
             await handler(`/users/logout`, {
                 method: 'POST',
             })
-
             user.value = null;
 
             localStorage.removeItem('userId');

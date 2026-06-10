@@ -1,6 +1,6 @@
 const BASE_URL = `http://localhost:3000/api`;
 
-export const handler = async (endpoints, options) => {
+export const handler = async (endpoints, options, retry = false) => {
     options.credentials = 'include'
 
     const res = await fetch(`${BASE_URL}${endpoints}`, {
@@ -12,28 +12,21 @@ export const handler = async (endpoints, options) => {
         ...options
     })
 
-    if(res.status === 401){
-        localStorage.removeItem('userId')
-        localStorage.removeItem('accessToken')
+    if(res.status === 401 && !retry){
         try{
             const refreshRes = await fetch(`${BASE_URL}/refresh`, {
                 method: 'POST',
                 credentials: 'include'
             })
-            if(refreshRes.ok){
-                await fetch(`${BASE_URL}${endpoints}`, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
-                    },
-                    ...options
-                })
-            }else {
-                localStorage.removeItem('userId')
-                localStorage.removeItem('accessToken')
-
+            if(!refreshRes.ok){
                 throw new Error('Сессия истекла, авторизуйтесь заново');
             }
+
+            const data = await refreshRes.json();
+            localStorage.setItem('accessToken', data.accessToken);
+
+            return handler(endpoints, options, true);
+
         }catch(err){
             console.log('Не удалось востановить ссесию');
             throw err;

@@ -1,37 +1,29 @@
 import { ref } from 'vue';
-import { useRoute } from 'vue-router';
 import { useDebounceFn } from "@vueuse/core";
 
 import { handler } from '../../../shared/api/http.js';
-import { useHabitsFilter } from "../../../shared/composables/filter/HabitsFilter.js";
 import { useHabitsStore } from "../../../shared/composables/store/habitsStore.js";
 
 export const useSearchingHabits = () => {
-    const { allHabits } = useHabitsStore();
-    const { filteredCurrentHabits } = useHabitsFilter();
-
-    const route = useRoute();
+    const { allHabits, currentPage, totalPages } = useHabitsStore();
 
     const searchForm = ref({
         search: ''
     })
 
     const getSearchedHabits = async () => {
-        const userId = localStorage.getItem('userId');
-
-        const res = await handler(`/habits?userId=${userId}`, {
+        const res = await handler(`/habits/pagination?page=${currentPage.value}&limit=8`, {
             method: 'GET',
         });
 
-        allHabits.value = filteredCurrentHabits(
-            res.filter(habit =>
+        allHabits.value = res.data.filter(habit =>
                 habit.category?.toLowerCase().includes(searchForm.value.search.toLowerCase()) ||
                 habit.habit?.toLowerCase().includes(searchForm.value.search.toLowerCase()) ||
                 habit.dateCreatedHabit?.toLowerCase().includes(searchForm.value.search.toLowerCase()) ||
                 habit.timeCreatedHabit?.toLowerCase().includes(searchForm.value.search.toLowerCase())
-            ).sort((a, b) => new Date(b.date) - new Date(a.date)),
-            route.name
-        );
+        ).sort((a, b) => new Date(b.date) - new Date(a.date))
+
+        totalPages.value = res.totalPages
 
         return allHabits.value
     }

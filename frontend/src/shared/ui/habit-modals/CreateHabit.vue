@@ -67,10 +67,10 @@ watch(() => [
             </span>
           </div>
           <div class="flex flex-col gap-2 min-h-[90px]">
-            <input list="ice-creams" id="ice-cream-choice" name="ice-cream-choice"
+            <input list="time-choice" id="ti-me-choice" name="ti-me-choice" type="text"
                    v-model="habitForm.time" placeholder="Время на выполнение (мин)"
                    class="bg-gray-300 outline-none rounded-[4px] p-4 w-full placeholder:text-black"/>
-            <datalist id="ice-creams">
+            <datalist id="time-choice">
               <option value="от 1 до 5"></option>
               <option value="от 5 до 10"></option>
               <option value="от 10 до 20"></option>

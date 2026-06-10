@@ -6,7 +6,7 @@ import { useSortingHabits } from "./composables/sortHabits.js";
 import { useHabitModals } from "../../shared/composables/modal/useModals.js";
 
 const { openDeleteHabit } = useHabitModals()
-const { sortingByNew, sortingByOld } = useSortingHabits();
+const { sortHabits } = useSortingHabits();
 </script>
 
 <template>
@@ -23,7 +23,7 @@ const { sortingByNew, sortingByOld } = useSortingHabits();
       <MenuItems class="absolute right-6 z-10 mt-2 w-46 origin-top-right divide-y divide-white/40 rounded-md bg-indigo-400 outline-1 -outline-offset-1 outline-white/10">
         <div class="py-1">
           <MenuItem v-slot="{ active }">
-            <button @click="sortingByNew" class="w-full text-start">
+            <button @click="sortHabits('desc')" class="w-full text-start">
               <span :class="[
                       active ? `bg-white/25 text-white outline-hidden` :
                       'text-white', 'block px-4 py-2 text-sm'
@@ -33,7 +33,7 @@ const { sortingByNew, sortingByOld } = useSortingHabits();
             </button>
           </MenuItem>
           <MenuItem v-slot="{ active }">
-            <button @click="sortingByOld" class="w-full text-start">
+            <button @click="sortHabits('asc')" class="w-full text-start">
                 <span :class="[
                         active ? 'bg-white/25 text-white outline-hidden' :
                         'text-white', 'block px-4 py-2 text-sm'

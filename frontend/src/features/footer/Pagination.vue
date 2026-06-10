@@ -1,18 +1,27 @@
 <script setup>
-import { usePagination } from "./composable/usePagination.js";
+import { watch } from 'vue'
+import { usePagination } from "./composable/pagination.js";
+import { useGetHabits } from "../habits/composables/getHabits.js";
+import { useHabitsStore } from "../../shared/composables/store/habitsStore.js";
 
 import BaseButton from "../../shared/ui/button/BaseButton.vue";
 
-const { currentPage, totalPages, nextPage, prevPage } = usePagination();
+const { prevPage, nextPage } = usePagination();
+const { getFilteredCurrentHabits } = useGetHabits()
+const { currentPage, totalPages } = useHabitsStore();
+
+watch(currentPage, async () => {
+  await getFilteredCurrentHabits()
+})
 </script>
 
 <template>
     <div class="flex justify-center">
       <div class="fixed bottom-6">
         <div class="flex gap-26 items-center">
-          <BaseButton @click="prevPage" button-type="Назад" variant="prevPage"/>
+          <BaseButton v-if="totalPages > 1" @click="prevPage" button-type="Назад" variant="prevPage"/>
           <span class="text-lg text-gray-100 mt-5">Страница {{ currentPage }} из {{ totalPages }}</span>
-          <BaseButton @click="nextPage" button-type="Вперед" variant="nextPage"/>
+          <BaseButton v-if="totalPages > 1" @click="nextPage" button-type="Вперед" variant="nextPage"/>
         </div>
       </div>
     </div>

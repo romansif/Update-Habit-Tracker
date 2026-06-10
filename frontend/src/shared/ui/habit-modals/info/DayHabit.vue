@@ -15,7 +15,7 @@ const { dayHabitRecords, resetDate } = useRecordsStore();
     <div class="bg-white rounded-lg p-6 w-[600px]">
       <div class="flex flex-col">
         <div class="flex items-center justify-between mb-4">
-          <h3 class="text-xl italic mt-1">Прогресс привычек за {{ resetDate }}</h3>
+          <h3 class="text-xl italic mt-1">Прогресс привычки за {{ resetDate }}</h3>
           <img :src="close" alt="" class="w-[25px] h-[25px]" @click=closeHabitRecords />
         </div>
         <transition-group name="list" tag="ul" class="flex flex-col max-h-[505px] overflow-y-auto no-scrollbar">

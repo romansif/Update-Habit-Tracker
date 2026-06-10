@@ -1,40 +1,26 @@
-import { useRoute } from "vue-router";
+import { useRoute } from 'vue-router'
 
 import { handler } from "../../../shared/api/http.js";
-import { useHabitsStore } from "../../../shared/composables/store/habitsStore.js";
-import { useHabitsFilter } from "../../../shared/composables/filter/HabitsFilter.js";
+import { useHabitsStore } from "../../../shared/composables/store/habitsStore.js"
+import { useHabitsFilter } from "../../../shared/composables/filter/HabitsFilter.js"
 
 export const useSortingHabits = () => {
-    const { habits } = useHabitsStore();
-    const { filteredCurrentHabits } = useHabitsFilter();
-
     const route = useRoute();
 
-    const getHabits = async () => {
-        const userId = localStorage.getItem('userId');
+    const { filteredCurrentHabits } = useHabitsFilter()
+    const { habits, currentPage, totalPages } = useHabitsStore();
 
-        const res = await handler(`/habits?userId=${userId}`, {
-            method: 'GET',
-        });
+    const sortHabits = async (order) => {
+        const res = await handler(`/habits/filtered?page=${currentPage.value}&limit=8&sort=date&order=${order}`, {
+                method: 'GET'
+            }
+        )
 
-        return filteredCurrentHabits(res, route.name)
-    }
+        habits.value = await filteredCurrentHabits(res.data, route.name);
+        totalPages.value = res.totalPages;
+    };
 
-    const sortingByNew = async () => {
-        const data = await getHabits();
-
-        habits.value = data.sort((a, b) => new Date(b.date) - new Date(a.date))
-    }
-
-    const sortingByOld = async () => {
-        const data = await getHabits();
-
-        habits.value = data.sort((a, b) => new Date(a.date) - new Date(b.date))
-    }
-
-    return{
-        sortingByNew,
-        sortingByOld,
-        filteredCurrentHabits
-    }
-}
+    return {
+        sortHabits
+    };
+};

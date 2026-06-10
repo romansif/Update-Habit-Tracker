@@ -12,11 +12,13 @@ export const recordsController = {
         if (recordId) result = result.filter(r => r.recordId === recordId);
         res.json(result);
     },
+
     getRecordsById (req, res) {
         const db = dbService.readDB()
         const records = db.records.find(h => h.id === req.params.id);
         res.json(records || {});
     },
+
     createRecord (req, res) {
         const db = dbService.readDB()
         const newRecord = { id: uuidv4(), ...req.body };
@@ -24,6 +26,7 @@ export const recordsController = {
         dbService.writeDB(db);
         res.status(201).json(newRecord);
     },
+
     updateRecord (req, res) {
         const db = dbService.readDB()
         const index = db.records.findIndex(h => h.id === req.params.id);
@@ -31,6 +34,7 @@ export const recordsController = {
         dbService.writeDB(db);
         res.json(db.records[index] || {});
     },
+
     deleteRecord (req, res) {
         const db = dbService.readDB();
         const index = db.records.findIndex(r => r.id === req.params.id);

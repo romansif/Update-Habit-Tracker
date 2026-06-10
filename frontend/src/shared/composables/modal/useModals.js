@@ -114,6 +114,7 @@ export const useRecordsModals = () => {
         const getRecords = useGetRecords()
 
         recordsStore.recordId.value = id;
+        console.log(recordsStore.recordId.value)
 
         modalsStore.calendarVisible.value = true;
         await getRecords.getHabitRecords();

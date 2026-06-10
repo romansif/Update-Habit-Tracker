@@ -49,6 +49,8 @@ const seriesCount = ref(0);
 const selectedDeleteType = ref(null);
 const restoreMessage = ref('')
 const deleteHabitMessage = ref('')
+const currentPage = ref(1)
+const totalPages = ref(1)
 
 export const useHabitsStore = () => {
     return{
@@ -66,5 +68,7 @@ export const useHabitsStore = () => {
         selectedDeleteType,
         restoreMessage,
         deleteHabitMessage,
+        currentPage,
+        totalPages
     }
 }

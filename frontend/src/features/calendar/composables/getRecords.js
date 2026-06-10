@@ -69,7 +69,7 @@ export const useGetRecords = () => {
 
     const getHabitRecords = async () => {
         try{
-            const res = await handler(`/records?recordId=${recordId.value}`, {
+            const res = await handler(`/records?habitsCountId=${habitsCountId}&recordId=${recordId.value}`, {
                 method: 'GET'
             })
             habitRecords.value = res

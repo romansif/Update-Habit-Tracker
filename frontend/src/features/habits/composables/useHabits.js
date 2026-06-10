@@ -12,9 +12,9 @@ import { useRecordsStore } from "../../../shared/composables/store/recordsStore.
 export const useHabits = () => {
     const modals = useHabitModals();
 
-    const { habitForm } = useForms()
+    const { habitForm, habitErrors } = useForms()
     const { recordId } = useRecordsStore()
-    const { getCurrentHabits } = useGetHabits();
+    const { getHabits, getFilteredHabits } = useGetHabits();
     const { getRecords, getRecordsCurrent } = useGetRecords();
     const { createRecord, updateHabitsCurrentCount, updateRecordStatus } = useRecords();
     const { habits, habitId, selectedDeleteType, seriesCount, termsValue } = useHabitsStore();
@@ -77,13 +77,26 @@ export const useHabits = () => {
                 })
             });
             await getRecords();
-            await getCurrentHabits()
+            await getFilteredHabits()
             await createRecord(newHabit.habit, newHabit.currentSeries, newHabit.status, newHabit.id);
 
             modals.closeCreateHabit();
         }catch(err){
-            console.log('Не удалось создать привычку пользователя пользователя');
-            throw err;
+            const errors = err.response?.data?.errors;
+            console.log(err);
+            if(errors){
+                habitErrors.value.categoryError = !!errors.category
+                habitErrors.value.habitError = !!errors.habit
+                habitErrors.value.timeError = !!errors.time
+                habitErrors.value.frequencyError = !!errors.frequency
+                habitErrors.value.termError = !!errors.term
+
+                habitErrors.value.categoryMessage = errors.category || '';
+                habitErrors.value.habitMessage =  errors.habit || '';
+                habitErrors.value.timeMessage =  errors.time || '';
+                habitErrors.value.frequencyMessage =  errors.frequency || '';
+                habitErrors.value.termMessage =  errors.term || '';
+            }
         }
     };
 
@@ -102,7 +115,7 @@ export const useHabits = () => {
                 })
             })
         }catch(err){
-            console.log('Не удалось обновить прогресс привчки пользователя');
+            console.log('Не удалось обновить прогресс привычки пользователя');
             throw err;
         }
     }
@@ -145,7 +158,7 @@ export const useHabits = () => {
                     })
                 })
             )
-            await getCurrentHabits()
+            await getFilteredHabits()
             await updateHabitsCurrentCount(newStatus)
             await updateRecordStatus(seriesCount.value, newStatus)
         }catch(err){
@@ -201,16 +214,16 @@ export const useHabits = () => {
             await deleteHabitById(habitId.value);
             await updateHabitCount(habitsCountId);
 
-            await getCurrentHabits();
+            await getFilteredHabits();
             await getRecordsCurrent();
         },
         'ALL': async () => {
-            const allHabits = await getCurrentHabits();
+            const allHabits = await getHabits();
 
             for(let habit of allHabits){
                 await deleteHabitById(habit.id);
             }
-            await getCurrentHabits();
+            await getHabits();
         }
     }
 

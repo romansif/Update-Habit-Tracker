@@ -1,7 +1,6 @@
 <script setup>
 import { useQuery } from "@tanstack/vue-query";
 import { useGetHabits } from "./composables/getHabits.js";
-import { usePagination } from "../footer/composable/usePagination.js"
 import { useModalsStore } from "../../shared/composables/store/modalsStore.js";
 import { useHabitsStore } from "../../shared/composables/store/habitsStore.js";
 
@@ -16,8 +15,7 @@ import RollbackSeries from "../../shared/ui/habit-modals/restore/RollbackSeries.
 import RestoreSeries from "../../shared/ui/habit-modals/restore/RestoreSeries.vue";
 
 const { habits } = useHabitsStore()
-const { paginatedItems } = usePagination()
-const { getCurrentHabits } = useGetHabits()
+const { getFilteredCurrentHabits } = useGetHabits()
 const { habitInfoVisible, deleteHabitVisible, calendarVisible, habitRecordsVisible,
   resetRecordsVisible, rollbackSeriesVisible, restoreSeriesVisible
 } = useModalsStore()
@@ -25,7 +23,7 @@ const { habitInfoVisible, deleteHabitVisible, calendarVisible, habitRecordsVisib
 const { isPending, isError, error } = useQuery({
   queryKey: ['current-habits'],
   queryFn: async () => {
-    const res = await getCurrentHabits()
+    const res = await getFilteredCurrentHabits()
     return res
   }
 })
@@ -41,9 +39,9 @@ const { isPending, isError, error } = useQuery({
   <div v-else-if="habits && habits.length === 0" class="flex justify-center items-center">
       <span class="text-2xl text-gray-200 italic pt-15">Нет привычек для отображения</span>
   </div>
-  <div v-else class="flex justify-center pt-10">
+  <div v-else class="flex justify-center pt-20">
     <transition-group name="list" tag="ul" class="grid grid-cols-4 gap-9">
-        <HabitCard v-for="habit in paginatedItems" :key="habit.id" :habit="habit" />
+        <HabitCard v-for="habit in habits" :key="habit.id" :habit="habit" />
     </transition-group>
   </div>
   <Pagination v-if="habits && habits.length > 0"/>

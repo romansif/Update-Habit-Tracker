@@ -50,6 +50,7 @@ export const useClearForms = () => {
     }
 
     const clearLoginValidation = () => {
+        userErrors.value.nameMessage = '';
         userErrors.value.emailMessage = '';
         userErrors.value.passwordMessage = '';
     }

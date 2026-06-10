@@ -23,7 +23,6 @@ const { logoutUserVisible, deleteUserVisible, createHabitVisible } = useModalsSt
 onMounted(async () => {
   await getUser();
 })
-
 const toLower = () => {
   updateForm.value.name = updateForm.value.name.toLowerCase()
 }
@@ -48,17 +47,17 @@ watch(() => updateForm.value.name, (newValue) => {
     <div class="flex justify-center py-13">
       <div class="w-[850px]">
           <ProfileCards />
-        <div class="flex flex-col gap-3 justify-center items-center mt-30">
-          <div>
+        <div class="flex flex-col gap-3 items-center mt-30">
+          <div class="flex">
             <h1 class="text-xl">Текущее имя пользователя: {{ user?.name }}</h1>
-            <input type="text" v-model="updateForm.name" @input="toLower" placeholder="Имя пользователя"
-                   class="bg-white shadow-xl w-[600px] placeholder:text-sm outline-none rounded-[4px] p-5 mt-6">
           </div>
-          <div>
-            <span v-if="userErrors.newNameError" class="text-sm text-red-500 mt-3">{{ userErrors?.newNameMessage }}</span>
+          <div class="flex flex-col gap-3">
+            <input type="text" v-model="updateForm.name" @input="toLower" placeholder="Имя пользователя"
+                   class="bg-white shadow-xl w-[850px] placeholder:text-sm outline-none rounded-[4px] p-5 mt-6">
+            <span v-if="userErrors.newNameError" class="text-sm text-red-500">{{ userErrors?.newNameMessage }}</span>
           </div>
         </div>
-        <div class="flex justify-center mt-3">
+        <div class="flex justify-end mt-6">
             <BaseButton button-type="Применить" variant="confirmEditUser" @click="updateUser" />
         </div>
       </div>

@@ -7,7 +7,7 @@ const ACCESS_SECRET = 'your_access_secret_key_123'
 const REFRESH_SECRET = 'your_refresh_secret_key_123'
 
 const generateAccessToken = (user) => {
-    return jwt.sign({ userId: user.id, email: user.email }, ACCESS_SECRET, { expiresIn: '15m' });
+    return jwt.sign({ userId: user.id, email: user.email }, ACCESS_SECRET, { expiresIn: '1m' });
 }
 
 const generateRefreshToken = (user) => {
@@ -68,6 +68,7 @@ export const authController = {
             res.status(500).json({ message: 'Ошибка при регистрации' });
         }
     },
+
     async login (req, res) {
         const db = dbService.readDB();
         const { email, password } = req.body;
@@ -122,6 +123,7 @@ export const authController = {
             res.status(500).json({ message: 'Ошибка при авторизации' });
         }
     },
+
     async logout (req, res) {
         const refreshToken = req.cookies.accessToken;
 
@@ -143,6 +145,7 @@ export const authController = {
 
         return res.json({ success: true, message: 'Успешный выход из системы' });
     },
+
     async refresh (req, res) {
         const refreshToken = req.cookies.refreshToken;
         if (!refreshToken) return res.status(401).json({ message: 'Нет refresh токена' });
@@ -189,6 +192,7 @@ export const authController = {
         const cleanUsers = db.users.map(({ password, refreshTokens, ...u }) => u);
         res.json(cleanUsers);
     },
+
     async getUserById (req, res) {
         const db = dbService.readDB()
         const user = db.users.find(u => u.id === req.params.id);
@@ -197,9 +201,15 @@ export const authController = {
         const { password: _, refreshTokens: __, ...userWithoutPassword } = user;
         res.json(userWithoutPassword);
     },
-    async updateUser (req, res) {
 
+    async updateUser (req, res) {
+        const db = dbService.readDB()
+        const index = db.users.findIndex(h => h.id === req.params.id);
+        if (index !== -1) db.users[index] = { ...db.users[index], ...req.body };
+        dbService.writeDB(db);
+        res.json(db.users[index] || {});
     },
+
     async deleteUser (req, res) {
         const db = dbService.readDB();
         const userId = req.params.id;
