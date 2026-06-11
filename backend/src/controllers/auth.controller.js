@@ -7,7 +7,7 @@ const ACCESS_SECRET = 'your_access_secret_key_123'
 const REFRESH_SECRET = 'your_refresh_secret_key_123'
 
 const generateAccessToken = (user) => {
-    return jwt.sign({ userId: user.id, email: user.email }, ACCESS_SECRET, { expiresIn: '1m' });
+    return jwt.sign({ userId: user.id, email: user.email }, ACCESS_SECRET, { expiresIn: '15m' });
 }
 
 const generateRefreshToken = (user) => {

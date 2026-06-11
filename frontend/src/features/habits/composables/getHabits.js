@@ -1,16 +1,10 @@
-import { useRoute } from "vue-router";
-
 import { handler } from "../../../shared/api/http.js";
 import { useHabitsStore } from "../../../shared/composables/store/habitsStore.js";
-import { useHabitsFilter } from "../../../shared/composables/filter/HabitsFilter.js";
 
 export const useGetHabits = () => {
-    const route = useRoute();
-
     const { habits, habit, currentPage, totalPages } = useHabitsStore();
-    const { filteredCurrentHabits } = useHabitsFilter();
 
-    const getHabits = async () => {
+    const getAllHabits = async () => {
         const res = await handler(`/habits`, {
             method: 'GET',
         });
@@ -19,30 +13,18 @@ export const useGetHabits = () => {
         return habits.value;
     }
 
-    const getFilteredHabits = async () => {
+    const getFilteredHabits = async (type) => {
         try{
-            const res = await handler(`/habits/filtered?page=${currentPage.value}&limit=8&sort=date&order=desc`, {
+            const res = await handler(`/habits/filtered?type=${type}&sort=date&order=desc&page=${currentPage.value}&limit=8`, {
                 method: 'GET',
             });
             habits.value = res.data
             totalPages.value = res.totalPages
-
-            return habits.value;
-        }catch(err){
-            console.log('Ошибка при получении привычек пользователя');
-            throw err;
-        }
-    }
-
-    const getFilteredCurrentHabits = async () => {
-        try{
-            const res = await handler(`/habits/filtered?page=${currentPage.value}&limit=8&sort=date&order=desc`, {
-                method: 'GET',
-            });
-            habits.value = await filteredCurrentHabits(res.data, route.name)
-            totalPages.value = res.totalPages
-
-            return habits.value;
+            return{
+                data: res?.data || [],
+                totalPages: res?.totalPages || 1,
+                rollBack: res?.rollBack || []
+            }
         }catch(err){
             console.log('Ошибка при получении привычек пользователя');
             throw err;
@@ -63,8 +45,7 @@ export const useGetHabits = () => {
 
     return{
         getHabit,
-        getHabits,
+        getAllHabits,
         getFilteredHabits,
-        getFilteredCurrentHabits,
     }
 }

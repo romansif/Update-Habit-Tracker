@@ -1,5 +1,5 @@
 <script setup>
-import { watch } from 'vue';
+import {computed, watch} from 'vue';
 
 import { useForms } from "../../composables/forms/useForms.js";
 import { useHabitModals } from "../../composables/modal/useModals.js";
@@ -12,6 +12,10 @@ const { categoriesForm, frequenciesForm, termsForm, habits } = useHabitsStore();
 const { createHabit } = useHabits();
 const { habitForm, habitErrors } = useForms();
 const { closeCreateHabit } = useHabitModals();
+
+const unCompletedHabits = computed(() => {
+  return habits.value.filter(habit => habit.status !== 'Выполнено')
+})
 
 watch(() => [
       habitForm.value.habit, habitForm.value.time,
@@ -109,7 +113,7 @@ watch(() => [
               <option value="">
                 Без связи
               </option>
-              <option v-for="habit in habits" :key="habit">{{ habit.habit }}</option>
+              <option v-for="habit in unCompletedHabits" :key="habit">{{ habit.habit }}</option>
             </select>
             <span class="text-sm text-gray-500">
               Не обязательно

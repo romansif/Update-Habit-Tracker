@@ -7,11 +7,11 @@ import { useHabitsStore } from "../../shared/composables/store/habitsStore.js";
 import BaseButton from "../../shared/ui/button/BaseButton.vue";
 
 const { prevPage, nextPage } = usePagination();
-const { getFilteredCurrentHabits } = useGetHabits()
+const { getFilteredHabits } = useGetHabits()
 const { currentPage, totalPages } = useHabitsStore();
 
 watch(currentPage, async () => {
-  await getFilteredCurrentHabits()
+  await getFilteredHabits()
 })
 </script>
 

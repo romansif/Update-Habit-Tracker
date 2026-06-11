@@ -13,6 +13,8 @@ export const handler = async (endpoints, options, retry = false) => {
     })
 
     if(res.status === 401 && !retry){
+        localStorage.removeItem('accessToken')
+        localStorage.removeItem('userId')
         try{
             const refreshRes = await fetch(`${BASE_URL}/refresh`, {
                 method: 'POST',

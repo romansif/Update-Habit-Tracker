@@ -1,5 +1,4 @@
 <script setup>
-import { useHabitsFilter } from "../../../composables/filter/HabitsFilter.js";
 import { useHabitsStore } from "../../../composables/store/habitsStore.js";
 import { useRecordsModals, useHabitModals } from "../../../composables/modal/useModals.js";
 
@@ -8,7 +7,6 @@ import close from '../../../../app/assets/icons/close.png'
 
 const { habit } = useHabitsStore();
 const { openCalendar } = useRecordsModals();
-const { shouldResetHabit } = useHabitsFilter();
 const { closeHabitInfo, openRestoreSeries } = useHabitModals();
 
 const statusClass = (status) => ({
@@ -60,7 +58,7 @@ const statusClass = (status) => ({
               <span class="font-semibold">{{ habit?.currentSeries }} дней подряд</span>
             </div>
           </div>
-          <div v-if="habit?.currentSeries === 0 & shouldResetHabit(habit)" class="flex gap-2">
+          <div v-if="habit?.currentSeries === 0 && habit?.status === 'Не выполнено'" class="flex gap-2">
             <span>Ваша серия была потеряна</span>
             <span @click="openRestoreSeries(habit.id)" class="text-violet-600 hover:text-violet-700 focus:outline-none cursor-pointer">"Восстановить серию"</span>
           </div>

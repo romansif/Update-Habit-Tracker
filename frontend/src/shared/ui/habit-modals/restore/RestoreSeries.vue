@@ -1,11 +1,11 @@
 <script setup>
-import { useRecordsModals } from "../../../composables/modal/useModals.js";
+import { useHabitModals } from "../../../composables/modal/useModals.js";
 import { useHabits } from "../../../../features/habits/composables/useHabits.js";
 
 import BaseButton from '../../button/BaseButton.vue';
 
 const { restoreSeries } = useHabits()
-const { closeRestoreSeries } = useRecordsModals();
+const { closeRestoreSeries } = useHabitModals();
 </script>
 
 <template>

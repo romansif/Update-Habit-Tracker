@@ -15,7 +15,7 @@ export const recordsController = {
 
     getRecordsById (req, res) {
         const db = dbService.readDB()
-        const records = db.records.find(h => h.id === req.params.id);
+        const records = db.records.find(r => r.id === req.params.id);
         res.json(records || {});
     },
 
@@ -29,7 +29,7 @@ export const recordsController = {
 
     updateRecord (req, res) {
         const db = dbService.readDB()
-        const index = db.records.findIndex(h => h.id === req.params.id);
+        const index = db.records.findIndex(r => r.id === req.params.id);
         if (index !== -1) db.records[index] = { ...db.records[index], ...req.body };
         dbService.writeDB(db);
         res.json(db.records[index] || {});

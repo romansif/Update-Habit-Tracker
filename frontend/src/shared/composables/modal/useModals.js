@@ -86,6 +86,7 @@ export const useHabitModals = () => {
         habitsStore.habitId.value = id
 
         modalsStore.restoreSeriesVisible.value = true
+
     }
     const closeRestoreSeries = () => {
         modalsStore.restoreSeriesVisible.value = false
@@ -114,7 +115,6 @@ export const useRecordsModals = () => {
         const getRecords = useGetRecords()
 
         recordsStore.recordId.value = id;
-        console.log(recordsStore.recordId.value)
 
         modalsStore.calendarVisible.value = true;
         await getRecords.getHabitRecords();

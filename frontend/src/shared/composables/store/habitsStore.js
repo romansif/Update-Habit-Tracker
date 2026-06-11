@@ -42,6 +42,9 @@ const habitsCountForm = {
     allCompletedHabits: 0,
     incompletedHabits: 0,
 }
+const searchForm = ref({
+    search: ''
+})
 const habit = ref({})
 const habitsCount = ref(null);
 const habitId = ref(null);
@@ -62,6 +65,7 @@ export const useHabitsStore = () => {
         termsValue,
         habitsCount,
         habitsCountForm,
+        searchForm,
         habitId,
         habit,
         seriesCount,
@@ -69,6 +73,6 @@ export const useHabitsStore = () => {
         restoreMessage,
         deleteHabitMessage,
         currentPage,
-        totalPages
+        totalPages,
     }
 }

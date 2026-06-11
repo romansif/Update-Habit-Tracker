@@ -1,4 +1,5 @@
 import { computed } from 'vue';
+import { useRoute } from "vue-router";
 
 import { useGetHabits } from "./getHabits.js";
 import { handler } from '../../../shared/api/http.js';
@@ -10,11 +11,11 @@ import { useHabitsStore } from "../../../shared/composables/store/habitsStore.js
 import { useRecordsStore } from "../../../shared/composables/store/recordsStore.js";
 
 export const useHabits = () => {
+    const route = useRoute();
     const modals = useHabitModals();
 
     const { habitForm, habitErrors } = useForms()
-    const { recordId } = useRecordsStore()
-    const { getHabits, getFilteredHabits } = useGetHabits();
+    const { getAllHabits, getFilteredHabits } = useGetHabits();
     const { getRecords, getRecordsCurrent } = useGetRecords();
     const { createRecord, updateHabitsCurrentCount, updateRecordStatus } = useRecords();
     const { habits, habitId, selectedDeleteType, seriesCount, termsValue } = useHabitsStore();
@@ -77,7 +78,8 @@ export const useHabits = () => {
                 })
             });
             await getRecords();
-            await getFilteredHabits()
+            await getAllHabits()
+            await getFilteredHabits(route.name)
             await createRecord(newHabit.habit, newHabit.currentSeries, newHabit.status, newHabit.id);
 
             modals.closeCreateHabit();
@@ -158,7 +160,8 @@ export const useHabits = () => {
                     })
                 })
             )
-            await getFilteredHabits()
+            await getAllHabits()
+            await getFilteredHabits(route.name)
             await updateHabitsCurrentCount(newStatus)
             await updateRecordStatus(seriesCount.value, newStatus)
         }catch(err){
@@ -168,6 +171,8 @@ export const useHabits = () => {
     }
 
     const restoreSeries = async () => {
+        const habitsCountId = localStorage.getItem('habitsCountId');
+
         const habit = habits.value.find(habit => habit.id === habitId.value);
         if(!habit) return null
 
@@ -179,7 +184,7 @@ export const useHabits = () => {
                     currentSeries: seriesCount.value
                 })
             });
-            await handler(`/records?recordId=${recordId}`, {
+            await handler(`/records?habitsCountId=${habitsCountId}&recordId=${habit.id}`, {
                 method: 'PATCH',
                 body: JSON.stringify({
                     currentSeries: seriesCount.value,
@@ -214,16 +219,17 @@ export const useHabits = () => {
             await deleteHabitById(habitId.value);
             await updateHabitCount(habitsCountId);
 
-            await getFilteredHabits();
+            await getAllHabits()
             await getRecordsCurrent();
+            await getFilteredHabits(route.name)
         },
         'ALL': async () => {
-            const allHabits = await getHabits();
+            const allHabits = await getAllHabits()
 
             for(let habit of allHabits){
                 await deleteHabitById(habit.id);
             }
-            await getHabits();
+            await getAllHabits()
         }
     }
 

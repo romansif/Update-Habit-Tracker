@@ -11,8 +11,6 @@ router.patch('/habits-count/:id', authMiddleware, habitsController.updateCount);
 router.delete('/habits-count/:id', authMiddleware, habitsController.deleteCount);
 
 router.get('/habits', authMiddleware, habitsController.getHabits);
-router.get('/habits', authMiddleware, habitsController.getFilteredHabits);
-router.get('/habits', authMiddleware, habitsController.getSearchedHabits);
 router.get('/habits/filtered', authMiddleware, habitsController.getFilteredHabits);
 router.get('/habits/:id', authMiddleware, habitsController.getHabitById);
 

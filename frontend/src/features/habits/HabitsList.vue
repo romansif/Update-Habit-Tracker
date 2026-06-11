@@ -1,6 +1,10 @@
 <script setup>
+import { useRoute } from "vue-router";
+import { computed, watchEffect } from "vue";
 import { useQuery } from "@tanstack/vue-query";
+
 import { useGetHabits } from "./composables/getHabits.js";
+import { useHabitModals } from "../../shared/composables/modal/useModals.js";
 import { useModalsStore } from "../../shared/composables/store/modalsStore.js";
 import { useHabitsStore } from "../../shared/composables/store/habitsStore.js";
 
@@ -14,19 +18,37 @@ import DeleteRecords from "../../shared/ui/records-modals/DeleteRecords.vue";
 import RollbackSeries from "../../shared/ui/habit-modals/restore/RollbackSeries.vue";
 import RestoreSeries from "../../shared/ui/habit-modals/restore/RestoreSeries.vue";
 
-const { habits } = useHabitsStore()
-const { getFilteredCurrentHabits } = useGetHabits()
+const modal = useHabitModals()
+const route = useRoute();
+
+const { getFilteredHabits } = useGetHabits()
+const { habits, totalPages } = useHabitsStore()
 const { habitInfoVisible, deleteHabitVisible, calendarVisible, habitRecordsVisible,
   resetRecordsVisible, rollbackSeriesVisible, restoreSeriesVisible
 } = useModalsStore()
 
-const { isPending, isError, error } = useQuery({
-  queryKey: ['current-habits'],
+const { data: serverResponse, isPending, isError, error } = useQuery({
+  queryKey: computed(() => [
+      route.name
+  ]),
+
   queryFn: async () => {
-    const res = await getFilteredCurrentHabits()
-    return res
+    const res = await getFilteredHabits(route.name);
+    if (res?.rolledBackHabits?.length > 0) {
+          res.rolledBackHabits.forEach(habitName => {
+          modal.openRollBackSeries(habitName);
+      });
+    }
+    return res || { data: [], totalPages: 1 };
   }
-})
+});
+
+watchEffect(() => {
+  if (serverResponse.value) {
+    habits.value = serverResponse.value.data || [];
+    totalPages.value = serverResponse.value.totalPages || 1;
+  }
+});
 </script>
 
 <template>
