@@ -1,8 +1,8 @@
-<script setup>
-import { useRecordsModals } from "../../../composables/modal/useModals.js";
-import { useRecordsStore } from "../../../composables/store/recordsStore.js";
+<script setup lang="ts">
+import { useRecordsModals } from "../../../composables/modal/recordModals";
+import { useRecordsStore } from "../../../composables/store/recordsStore";
 
-
+//@ts-ignore
 import close from "../../../../app/assets/icons/close.png";
 import DayHabit from "../../../../features/habits/habit-calendar/DayHabit.vue";
 

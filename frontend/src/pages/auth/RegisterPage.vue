@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 
 import Register from "../../features/auth/Register.vue";
 </script>

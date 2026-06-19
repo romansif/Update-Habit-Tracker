@@ -1,7 +1,7 @@
 <script setup>
-import { useCalendar } from '../composables/useCalendar.js';
-import { useRecordsModals } from "../../../shared/composables/modal/useModals.js";
-import { useRecordsStore } from "../../../shared/composables/store/recordsStore.js";
+import { useCalendar } from '../composables/useCalendar.ts';
+import { useRecordsModals } from "../../../shared/composables/modal/recordModals.ts";
+import { useRecordsStore } from "../../../shared/composables/store/recordsStore.ts";
 
 import arrow from '../../../app/assets/icons/arrow.png'
 import close from '../../../app/assets/icons/close.png'
@@ -20,17 +20,17 @@ const { openHabitRecords, openResetRecords, closeCalendar } = useRecordsModals()
 <template>
   <div class="fixed inset-0 z-50 bg-[rgba(0,0,0,0.5)]
                               flex justify-center items-center">
-    <div class="w-[600px] bg-white rounded-3xl shadow-xl p-6">
+    <div class="w-[600px] bg-white rounded-lg shadow-xl p-6">
       <div class="flex justify-end gap-5 items-center">
-        <img :src="options" alt="" class="w-[20px] h-[20px]"
+        <img :src="options" alt="" class="w-[19px] h-[19px]"
              @click="openResetRecords
                        (
                          recordId?.value,'всю историю выполнения этой привычки?', 'ALL_BY_ID'
                        )">
-        <img :src="close" alt="" class="w-[27px] h-[27px] " @click="closeCalendar">
+        <img :src="close" alt="" class="w-[25px] h-[25px] " @click="closeCalendar">
       </div>
         <div class="flex flex-col">
-          <div class="flex justify-between items-center mt-5">
+          <div class="flex justify-between items-center mt-4">
             <button @click="lastMonth" class="hover:bg-slate-100 rounded-xl transition">
               <img :src="arrow" class="w-[20px] rotate-180">
             </button>
@@ -39,7 +39,7 @@ const { openHabitRecords, openResetRecords, closeCalendar } = useRecordsModals()
               <img :src="arrow" class="w-[20px]">
             </button>
           </div>
-          <div class="grid grid-cols-7 text-center text-sm font-semibold text-black uppercase tracking-widest mt-12">
+          <div class="grid grid-cols-7 text-center text-sm font-semibold text-black uppercase tracking-widest mt-10">
             <div>Пн</div>
             <div>Вт</div>
             <div>Ср</div>
@@ -49,7 +49,7 @@ const { openHabitRecords, openResetRecords, closeCalendar } = useRecordsModals()
             <div>Вс</div>
           </div>
         </div>
-        <div class="grid grid-cols-7 mt-4">
+        <div class="grid grid-cols-7 mt-2">
           <div v-for="(day, index) in calendarDays" :key="index" @click="day && openHabitRecords(day)"
                :class="[ 'h-20 flex flex-col items-center justify-between py-4 rounded-2xl transition-all duration-300',
                day ? 'cursor-pointer' : 'border-transparent',

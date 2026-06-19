@@ -1,7 +1,7 @@
-<script setup>
-import { useRecordsModals } from "../../composables/modal/useModals.js";
-import { useRecordsStore } from "../../composables/store/recordsStore.js";
-import { useRecords } from "../../../features/calendar/composables/useRecords.js";
+<script setup lang="ts">
+import { useRecordsModals } from "../../composables/modal/recordModals";
+import { useRecordsStore } from "../../composables/store/recordsStore";
+import { useRecords } from "../../../features/calendar/composables/useRecords";
 
 import BaseButton from '../button/BaseButton.vue';
 

@@ -1,15 +1,18 @@
-<script setup>
-import { useHabitsStore } from "../../../composables/store/habitsStore.js";
-import { useRecordsModals, useHabitModals } from "../../../composables/modal/useModals.js";
+<script setup lang="ts">
+import { useHabitsStore } from "../../../composables/store/habitsStore";
+import { useRecordsModals } from "../../../composables/modal/recordModals";
+import { useHabitModals } from "../../../composables/modal/habitModals";
 
 import BaseButton from "../../button/BaseButton.vue";
+
+//@ts-ignore
 import close from '../../../../app/assets/icons/close.png'
 
 const { habit } = useHabitsStore();
 const { openCalendar } = useRecordsModals();
 const { closeHabitInfo, openRestoreSeries } = useHabitModals();
 
-const statusClass = (status) => ({
+const statusClass = (status: string) => ({
   'bg-green-500 italic text-sm text-white px-2 py-1 rounded': status === 'Выполнено',
   'bg-purple-500 italic text-sm text-white px-2 py-1 rounded': status === 'В процессе',
   'bg-rose-500 italic text-sm text-white px-2 py-1 rounded': status === 'Не выполнено'

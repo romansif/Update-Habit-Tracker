@@ -1,5 +1,5 @@
-<script setup>
-import { useModalsStore } from "../../shared/composables/store/modalsStore.js";
+<script setup lang="ts">
+import { useModalsStore } from "../../shared/composables/store/modalsStore";
 
 import NavMenu from "../navigation/NavMenu.vue";
 import HabitsCalendar from "./calendar-items/HabitsCalendar.vue";

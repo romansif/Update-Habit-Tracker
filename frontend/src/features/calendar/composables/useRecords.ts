@@ -1,8 +1,8 @@
-import { useGetRecords } from "./getRecords.js"
-import { handler } from '../../../shared/api/http.js';
-import { useRecordsModals } from "../../../shared/composables/modal/useModals.js";
-import { useRecordsStore } from "../../../shared/composables/store/recordsStore.js";
-import { useHabitsStore } from "../../../shared/composables/store/habitsStore.js";
+import { useGetRecords } from "./getRecords"
+import { handler } from '../../../shared/api/http';
+import { useRecordsModals } from "../../../shared/composables/modal/recordModals";
+import { useRecordsStore } from "../../../shared/composables/store/recordsStore";
+import { useHabitsStore } from "../../../shared/composables/store/habitsStore";
 
 export const useRecords = () => {
     const modals = useRecordsModals();
@@ -14,7 +14,7 @@ export const useRecords = () => {
     const habitsCountId = localStorage.getItem('habitsCountId');
     const userRecordId = localStorage.getItem('userRecordId');
 
-    const createRecord = async (habit, series, status, id) => {
+    const createRecord = async (habit: object, series: number, status: string, id: string) => {
         const currentAllCount = habitsCount.value?.allHabits || 0;
 
         try{
@@ -62,7 +62,7 @@ export const useRecords = () => {
         }
     }
 
-    const updateHabitsCurrentCount = async (newStatus) => {
+    const updateHabitsCurrentCount = async (newStatus: string) => {
         const currentDayCompleted = habitsCount.value?.dayCompletedHabits || 0;
         const currentAllCompleted = habitsCount.value?.allCompletedHabits || 0;
 
@@ -109,7 +109,7 @@ export const useRecords = () => {
         }
     }
 
-    const updateRecordStatus = async (series, newStatus) => {
+    const updateRecordStatus = async (series: number, newStatus: string) => {
         const now = new Date();
         const time = now.toLocaleTimeString("ru-RU", {
             hour: "2-digit",
@@ -142,13 +142,13 @@ export const useRecords = () => {
         }
     }
 
-    const deleteRecordById = async (id) => {
+    const deleteRecordById = async (id: string | Date) => {
         await handler(`/records/${id}`, {
             method: 'DELETE'
         })
     }
 
-    const methods = {
+    const methods: Record<string, () => Promise<void>> = {
         'ONE': async () => {
             await deleteRecordById(recordId.value);
 
@@ -177,7 +177,7 @@ export const useRecords = () => {
         'ALL': async () => {
             const allRecords = await getRecords()
 
-            for(let record of allRecords.value){
+            for(let record of allRecords?.value ?? []){
                 await deleteRecordById(record.id)
             }
             await getRecords();
@@ -185,15 +185,16 @@ export const useRecords = () => {
         'ALL_BY_ID': async () => {
             const allById = await getHabitRecords()
 
-            for(let record of allById.value){
+            for (let record of allById?.value) {
                 await deleteRecordById(record.id)
             }
+            await getRecords();
         }
     }
 
     const resetRecords = async () => {
         try{
-            methods[selectedResetType?.value]?.()
+            methods[selectedResetType.value]?.()
 
             modals.closeResetRecords();
         }catch(err){

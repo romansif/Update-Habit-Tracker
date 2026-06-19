@@ -1,6 +1,6 @@
-<script setup>
+<script setup lang="ts">
 import { onMounted } from 'vue';
-import { useRecords } from "../../../features/calendar/composables/useRecords.js";
+import { useRecords } from "../../../features/calendar/composables/useRecords";
 
 const { resetHabitsCurrentCount } = useRecords();
 

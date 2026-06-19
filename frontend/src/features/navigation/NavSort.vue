@@ -1,11 +1,9 @@
-<script setup>
+<script setup lang="ts">
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { ChevronDownIcon } from '@heroicons/vue/20/solid'
 
-import { useSortingHabits } from "./composables/sortHabits.js";
-import { useHabitModals } from "../../shared/composables/modal/useModals.js";
+import { useSortingHabits } from "./composables/sortHabits";
 
-const { openDeleteHabit } = useHabitModals()
 const { sortHabits } = useSortingHabits();
 </script>
 
@@ -43,16 +41,6 @@ const { sortHabits } = useSortingHabits();
             </button>
           </MenuItem>
         </div>
-          <MenuItem v-slot="{ active }">
-            <button @click="openDeleteHabit('All', 'Хотите удалить все ранее созданные привычки?', 'ALL')" class="w-full text-start">
-                <span :class="[
-                        active ? 'bg-white/25 text-white outline-hidden' :
-                        'text-white', 'block px-4 py-2 text-sm'
-                    ]">
-                    Удалить все привычки
-                </span>
-            </button>
-          </MenuItem>
       </MenuItems>
     </transition>
   </Menu>

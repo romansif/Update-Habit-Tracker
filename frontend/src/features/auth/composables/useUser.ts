@@ -1,11 +1,11 @@
 import { useRouter } from "vue-router";
-import { handler } from '../../../shared/api/http.js';
+import { handler, ApiError } from '../../../shared/api/http';
 import { useUserStore } from '../../../shared/composables/store/userStore';
-import { useHabitsStore } from "../../../shared/composables/store/habitsStore.js";
+import { useHabitsStore } from "../../../shared/composables/store/habitsStore";
 
-import { useForms } from "../../../shared/composables/forms/useForms.js";
-import { useClearForms } from "../../../shared/composables/forms/clearForms.js";
-import { useUserModals } from "../../../shared/composables/modal/useModals.js";
+import { useForms } from "../../../shared/composables/forms/useForms";
+import { useClearForms } from "../../../shared/composables/forms/clearForms";
+import { useUserModals } from "../../../shared/composables/modal/userModals";
 
 export const useUser = () => {
     const router = useRouter();
@@ -59,17 +59,19 @@ export const useUser = () => {
             localStorage.setItem('habitsCountId', newHabitsCount.id);
 
             clearRegisterForm();
-            router.push({ path: 'profile' });
-        }catch(err){
-           const errors = err.response?.data?.errors;
-            if (errors) {
-                userErrors.value.nameError = !!errors.name;
-                userErrors.value.emailError = !!errors.email;
-                userErrors.value.passwordError = !!errors.password;
+            await router.push({ path: 'profile' });
+        }catch(err) {
+            if(err instanceof ApiError) {
+                const errors = err.response?.data?.errors;
+                if (errors) {
+                    userErrors.value.nameError = !!errors.name;
+                    userErrors.value.emailError = !!errors.email;
+                    userErrors.value.passwordError = !!errors.password;
 
-                userErrors.value.nameMessage = errors.name || '';
-                userErrors.value.emailMessage = errors.email || '';
-                userErrors.value.passwordMessage = errors.password || '';
+                    userErrors.value.nameMessage = errors.name || '';
+                    userErrors.value.emailMessage = errors.email || '';
+                    userErrors.value.passwordMessage = errors.password || '';
+                }
             }
         }
     };
@@ -96,15 +98,17 @@ export const useUser = () => {
             user.value = foundUser;
 
             clearLoginForm();
-            router.push({ path: 'profile' });
+            await router.push({ path: 'profile' });
         }catch(err){
-            const errors = err.response?.data?.errors;
-            if (errors) {
-                userErrors.value.emailError = !!errors.email;
-                userErrors.value.passwordError = !!errors.password;
+            if(err instanceof ApiError) {
+                const errors = err.response?.data?.errors;
+                if (errors) {
+                    userErrors.value.emailError = !!errors.email;
+                    userErrors.value.passwordError = !!errors.password;
 
-                userErrors.value.emailMessage = errors.email || '';
-                userErrors.value.passwordMessage = errors.password || '';
+                    userErrors.value.emailMessage = errors.email || '';
+                    userErrors.value.passwordMessage = errors.password || '';
+                }
             }
         }
     }
@@ -123,21 +127,23 @@ export const useUser = () => {
 
             updateForm.value.name = '';
         }catch(err){
-            const errors = err.response?.data?.errors;
-            if (errors) {
-                userErrors.value.newNameError = !!errors.name;
+            if(err instanceof ApiError) {
+                const errors = err.response?.data?.errors;
+                if (errors) {
+                    userErrors.value.newNameError = !!errors.name;
 
-                userErrors.value.newNameMessage = errors.name || '';
+                    userErrors.value.newNameMessage = errors.name || '';
+                }
             }
         }
     }
 
     const logoutUser = async () => {
         try{
-            await handler(`/users/logout`, {
+            const logoutUser = await handler(`/users/logout`, {
                 method: 'POST',
             })
-            user.value = null;
+            user.value = logoutUser;
 
             localStorage.removeItem('userId');
             localStorage.removeItem('accessToken');
@@ -146,7 +152,7 @@ export const useUser = () => {
             localStorage.removeItem('habitsCountId');
 
             modals.closeLogoutUser();
-            router.push({ name: 'login' });
+            await router.push({ name: 'login' });
         }catch(err){
             console.log('Не удалось выйти из аккаунта');
             throw err;
@@ -196,7 +202,7 @@ export const useUser = () => {
 
             modals.closeDeleteUser();
 
-            router.push({ name: 'login' });
+            await router.push({ name: 'login' });
         }catch(err){
             console.log('Ошибка при удалении данный пользователя');
             throw err;

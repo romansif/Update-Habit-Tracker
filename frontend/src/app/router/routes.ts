@@ -1,4 +1,6 @@
-const routes = [
+import { RouteRecordRaw } from 'vue-router'
+
+const routes: RouteRecordRaw[] = [
     {
         path: '/',
         component: () => import('../../app/layouts/auth-layout/AuthLayout.vue'),
@@ -42,37 +44,37 @@ const routes = [
             {
                 path: 'all-habits',
                 name: 'all-habits',
-                component: () => import('../../pages/habits/AllHabitsPage.vue'),
+                component: () => import('../../pages/habits/HabitsPage.vue'),
                 meta: { requireAuth: true },
             },
             {
                 path: 'current-habits',
                 name: 'current-habits',
-                component: () => import('../../pages/habits/CurrentHabitsPage.vue'),
+                component: () => import('../../pages/habits/HabitsPage.vue'),
                 meta: { requireAuth: true },
             },
             {
                 path: 'day-completed-habits',
                 name: 'day-completed-habits',
-                component: () => import('../../pages/habits/completed/dayCompletedHabits.vue'),
+                component: () => import('../../pages/habits/HabitsPage.vue'),
                 meta: { requireAuth: true },
             },
             {
                 path: 'all-completed-habits',
                 name: 'all-completed-habits',
-                component: () => import('../../pages/habits/completed/allCompletedHabits.vue'),
+                component: () => import('../../pages/habits/HabitsPage.vue'),
                 meta: { requireAuth: true },
             },
             {
                 path: 'in-progress-habits',
                 name: 'in-progress-habits',
-                component: () => import('../../pages/habits/IncompletedHabitsPage.vue'),
+                component: () => import('../../pages/habits/HabitsPage.vue'),
                 meta: { requireAuth: true },
             },
             {
                 path: 'incompleted-habits',
                 name: 'incompleted-habits',
-                component: () => import('../../pages/habits/IncompletedHabitsPage.vue'),
+                component: () => import('../../pages/habits/HabitsPage.vue'),
                 meta: { requireAuth: true },
             },
         ]

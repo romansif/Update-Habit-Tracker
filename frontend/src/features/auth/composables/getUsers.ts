@@ -1,5 +1,5 @@
-import {handler} from "../../../shared/api/http.js";
-import {useUserStore} from "../../../shared/composables/store/userStore.js";
+import {handler} from "../../../shared/api/http";
+import {useUserStore} from "../../../shared/composables/store/userStore";
 
 const { user, users } = useUserStore()
 

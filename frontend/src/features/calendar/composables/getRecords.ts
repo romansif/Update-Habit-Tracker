@@ -1,12 +1,12 @@
-import { handler } from "../../../shared/api/http.js";
-import { useHabitsStore } from "../../../shared/composables/store/habitsStore.js";
-import { useRecordsStore } from "../../../shared/composables/store/recordsStore.js";
+import { handler } from "../../../shared/api/http";
+import { useHabitsStore } from "../../../shared/composables/store/habitsStore";
+import { useRecordsStore } from "../../../shared/composables/store/recordsStore";
 
 export const useGetRecords = () => {
     const { habitsCount } = useHabitsStore();
     const { resetDate, records, monthRecords, dayHabitsRecords, habitRecords, dayHabitRecords, recordId } = useRecordsStore();
 
-    const habitsCountId = localStorage.getItem('habitsCountId');
+    const habitsCountId = localStorage.getItem('habitsCountId') as string;
 
     const getRecordsCurrent = async () => {
         if(!habitsCountId) return null;
@@ -73,6 +73,8 @@ export const useGetRecords = () => {
                 method: 'GET'
             })
             habitRecords.value = res
+
+            return habitRecords;
         }catch(err){
             console.log('Ошибка при получении рекордов одной привычки пользователя');
             throw err;
@@ -85,6 +87,8 @@ export const useGetRecords = () => {
                 method: 'GET'
             })
             dayHabitRecords.value = res
+
+            return dayHabitRecords;
         }catch(err){
             console.log('Ошибка при получении дневных рекордов одной привычки пользователя');
             throw err;

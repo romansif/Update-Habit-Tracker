@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import HabitMenu from "./HabitMenu.vue";
 import HabitStatus from "./HabitStatus.vue";
 
@@ -42,7 +42,7 @@ const props = defineProps({
           <HabitStatus :status="habit?.status" />
         </div>
       </div>
-    <div v-if="habit.isLocked" class="absolute inset-0 bg-black/45 backdrop-blur flex flex-col gap-5
+    <div v-if="habit?.isLocked" class="absolute inset-0 bg-black/45 backdrop-blur flex flex-col gap-5
            items-center justify-center rounded-2xl">
       <div class="bg-white/90 px-5 py-3 rounded-xl
              shadow-lg flex items-center gap-2">

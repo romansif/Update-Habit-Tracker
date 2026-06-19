@@ -1,13 +1,14 @@
-<script setup>
-import { useRecordsModals } from "../../../shared/composables/modal/useModals.js";
-import { useRecordsStore } from "../../../shared/composables/store/recordsStore.js";
+<script setup lang="ts">
+import { useRecordsModals } from "../../../shared/composables/modal/recordModals";
+import { useRecordsStore } from "../../../shared/composables/store/recordsStore";
 
+// @ts-ignore
 import reset_record from "../../../app/assets/icons/reset-record.png"
 
 const { dayHabitsRecords } = useRecordsStore();
 const { openResetRecords } = useRecordsModals();
 
-const statusClass = (status) => ({
+const statusClass = (status: string) => ({
   'bg-green-500 italic text-white px-2 py-1 rounded': status === 'Выполнено',
   'bg-purple-500 italic text-white px-2 py-1 rounded': status === 'В процессе',
   'bg-rose-500 italic text-white px-2 py-1 rounded': status === 'Не выполнено'
@@ -29,7 +30,7 @@ const statusClass = (status) => ({
           {{ dayHabitRecord.habit }}
       </span>
       <img :src="reset_record" class="w-5 h-6 opacity-70 hover:opacity-100 ml-auto"
-             @click="openResetRecords(dayHabitRecord.id, 'историю выполенния этой привычки?', 'ONE')" />
+             @click="openResetRecords(dayHabitRecord.id, 'историю выполенния этой привычки?', 'ONE', '')" />
     </div>
     <div class="flex flex-col gap-4">
       <span v-if="dayHabitRecord.firstStatus" class="text-sm">

@@ -1,8 +1,8 @@
-<script setup>
+<script setup lang="ts">
 import { watch } from 'vue'
-import { usePagination } from "./composable/pagination.js";
-import { useGetHabits } from "../habits/composables/getHabits.js";
-import { useHabitsStore } from "../../shared/composables/store/habitsStore.js";
+import { usePagination } from "./composable/pagination";
+import { useGetHabits } from "../habits/composables/getHabits";
+import { useHabitsStore } from "../../shared/composables/store/habitsStore";
 
 import BaseButton from "../../shared/ui/button/BaseButton.vue";
 

@@ -1,7 +1,7 @@
-<script setup>
-import { useHabitModals } from "../../composables/modal/useModals.js";
-import { useHabitsStore } from "../../composables/store/habitsStore.js";
-import { useHabits } from "../../../features/habits/composables/useHabits.js";
+<script setup lang="ts">
+import { useHabitModals } from "../../composables/modal/habitModals";
+import { useHabitsStore } from "../../composables/store/habitsStore";
+import { useHabits } from "../../../features/habits/composables/useHabits";
 
 import BaseButton from '../button/BaseButton.vue';
 

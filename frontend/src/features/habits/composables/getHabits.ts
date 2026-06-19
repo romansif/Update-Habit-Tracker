@@ -1,5 +1,5 @@
-import { handler } from "../../../shared/api/http.js";
-import { useHabitsStore } from "../../../shared/composables/store/habitsStore.js";
+import { handler } from "../../../shared/api/http";
+import { useHabitsStore } from "../../../shared/composables/store/habitsStore";
 
 export const useGetHabits = () => {
     const { habits, habit, currentPage, totalPages } = useHabitsStore();
@@ -13,7 +13,7 @@ export const useGetHabits = () => {
         return habits.value;
     }
 
-    const getFilteredHabits = async (type) => {
+    const getFilteredHabits = async (type: string) => {
         try{
             const res = await handler(`/habits/filtered?type=${type}&sort=date&order=desc&page=${currentPage.value}&limit=8`, {
                 method: 'GET',
@@ -31,7 +31,7 @@ export const useGetHabits = () => {
         }
     }
 
-    const getHabit = async (id) => {
+    const getHabit = async (id: string) => {
         try{
             const res = await handler(`/habits/${id}`, {
                 method: 'GET',

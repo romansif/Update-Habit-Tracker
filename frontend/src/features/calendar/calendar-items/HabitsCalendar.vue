@@ -1,9 +1,10 @@
-<script setup>
+<script setup lang="ts">
 import { useQuery } from "@tanstack/vue-query";
-import { useCalendar } from '../composables/useCalendar.js';
-import { useGetRecords } from "../composables/getRecords.js";
-import { useRecordsModals } from "../../../shared/composables/modal/useModals.js";
+import { useCalendar } from '../composables/useCalendar';
+import { useGetRecords } from "../composables/getRecords";
+import { useRecordsModals } from "../../../shared/composables/modal/recordModals";
 
+// @ts-ignore
 import arrow from '../../../app/assets/icons/arrow.png'
 
 const {
@@ -25,10 +26,10 @@ const { isPending, isError, error} = useQuery({
     <img src="../../../app/assets/icons/loading.svg" alt="" class="w-[120px] h-[120px]">
   </div>
   <div v-else-if="isError" class="flex justify-center items-center h-[700px]">
-    <span class="text-2xl text-gray-200 italic">Error {{ error.message }}</span>
+    <span class="text-2xl text-gray-200 italic">Error {{ error.value?.message }}</span>
   </div>
   <div v-else class="flex justify-center items-center pt-22">
-    <div class="w-[600px] bg-white rounded-3xl shadow-xl p-8">
+    <div class="w-[600px] bg-white rounded-lg shadow-xl p-8">
       <div class="flex justify-between items-center mb-12">
         <button @click="lastMonth" class="hover:bg-slate-100 rounded-xl transition">
           <img :src="arrow" class="w-[20px] rotate-180">

@@ -1,6 +1,6 @@
 import { ref, computed } from 'vue';
 
-import { useRecordsStore } from "../../../shared/composables/store/recordsStore.js";
+import { useRecordsStore } from "../../../shared/composables/store/recordsStore";
 
 const currentDate = ref(new Date());
 
@@ -10,7 +10,7 @@ const monthNames = [
 ];
 
 export const useCalendar = () => {
-    const { records } = useRecordsStore();
+    const { habitRecords } = useRecordsStore();
 
     const currentMonth = computed(() => currentDate.value.getMonth());
     const currentYear = computed(() => currentDate.value.getFullYear());
@@ -32,7 +32,7 @@ export const useCalendar = () => {
         return [...emptyCeils, ...daysArray]
     });
 
-    const isSameDay = (d1, d2) => {
+    const isSameDay = (d1: Date, d2: Date) => {
         return(
             d1.getDate() === d2.getDate() &&
             d1.getMonth() === d2.getMonth() &&
@@ -56,7 +56,7 @@ export const useCalendar = () => {
         )
     }
 
-    const isToday = (day) => {
+    const isToday = (day: number | null) => {
         if(!day) return false
 
         const dateToCheck = new Date(currentYear.value, currentMonth.value, day)
@@ -66,7 +66,7 @@ export const useCalendar = () => {
         return isSameDay(dateToCheck, today)
     }
 
-    const isTodayWeekend = (day) => {
+    const isTodayWeekend = (day: number | null) => {
         if(!day) return false
         const dateToCheck = new Date(currentYear.value, currentMonth.value, day)
 
@@ -77,7 +77,7 @@ export const useCalendar = () => {
         return isSameDay(dateToCheck, today) && isWeekend
     }
 
-    const isWeekend = (day) => {
+    const isWeekend = (day: number | null) => {
         if(!day) return false
 
         const dateToCheck = new Date(currentYear.value, currentMonth.value, day)
@@ -87,7 +87,7 @@ export const useCalendar = () => {
         return dayOfWeek === 0 || dayOfWeek === 7
     }
 
-    const isPastDay = (day) => {
+    const isPastDay = (day: number | null) => {
         if(!day) return false
 
         const dateToCheck = new Date(currentYear.value, currentMonth.value, day)
@@ -99,8 +99,8 @@ export const useCalendar = () => {
         return dateToCheck < today
     }
 
-    const hasStatus = (day, status) => {
-        return records.value?.some(record => {
+    const hasStatus = (day: number | null, status: string) => {
+        return habitRecords.value?.some(record => {
             const date = new Date(record.date);
 
             return(

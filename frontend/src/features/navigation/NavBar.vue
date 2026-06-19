@@ -1,17 +1,19 @@
-<script setup>
+<script setup lang="ts">
 import { watch } from "vue";
 import { useRoute } from "vue-router";
 
-import { useSearchingHabits } from "./composables/searchHabits.js";
-import { useGetHabits } from "../habits/composables/getHabits.js";
-import { useHabitsStore } from "../../shared/composables/store/habitsStore.js";
+import { useSearchingHabits } from "./composables/searchHabits";
+import { useGetHabits } from "../habits/composables/getHabits";
+import { useHabitsStore } from "../../shared/composables/store/habitsStore";
 
 import NavMenu from "./NavMenu.vue";
 import NavSort from "./NavSort.vue";
 
+//@ts-ignore
 import reset from '../../app/assets/icons/reset-search.png'
 
 const route = useRoute();
+const routeName = route.name ? String(route.name) : ''
 
 const { searchForm } = useHabitsStore();
 const { getFilteredHabits } = useGetHabits();
@@ -21,7 +23,7 @@ watch(() => searchForm.value.search, async (newValue) => {
   if(newValue) {
     await debouncedSearch();
   }else{
-    await getFilteredHabits(route.name)
+    await getFilteredHabits(routeName)
   }
 })
 </script>

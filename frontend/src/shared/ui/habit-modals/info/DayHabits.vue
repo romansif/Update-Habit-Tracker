@@ -1,9 +1,12 @@
-<script setup>
-import { useRecordsModals } from "../../../composables/modal/useModals.js";
-import { useRecordsStore } from "../../../composables/store/recordsStore.js";
+<script setup lang="ts">
+import { useRecordsModals } from "../../../composables/modal/recordModals";
+import { useRecordsStore } from "../../../composables/store/recordsStore";
 
 import DayHabits from "../../../../features/calendar/calendar-items/DayHabits.vue";
+
+//@ts-ignore
 import options from '../../../../app/assets/icons/options.svg'
+//@ts-ignore
 import close from "../../../../app/assets/icons/close.png";
 
 const { dayHabitsRecords, resetDate } = useRecordsStore();
@@ -16,7 +19,7 @@ const { closeHabitsRecords, openResetRecords } = useRecordsModals();
       <div class="flex flex-col">
         <div class="flex gap-4 items-center mb-4">
           <img :src="options" alt="" class="w-[18px]"
-               @click="openResetRecords('DAY','историю выполнения привычек за день?','DAY')" />
+               @click="openResetRecords('DAY','историю выполнения привычек за день?','DAY', '')" />
           <h3 class="text-xl italic">Прогресс привычек за {{ resetDate }}</h3>
           <img :src="close" alt="" class="w-[25px] h-[25px] ml-auto" @click=closeHabitsRecords />
         </div>

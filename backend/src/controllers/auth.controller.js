@@ -125,12 +125,11 @@ export const authController = {
     },
 
     async logout (req, res) {
-        const refreshToken = req.cookies.accessToken;
+        const refreshToken = req.cookies.refreshToken;
 
         if(refreshToken){
             try{
                 const db = dbService.readDB()
-
                 const user = db.users.find(u => u.refreshTokens && u.refreshTokens.includes(refreshToken));
                 if(user){
                     user.refreshTokens = user.refreshTokens.filter(t => t !== refreshToken);

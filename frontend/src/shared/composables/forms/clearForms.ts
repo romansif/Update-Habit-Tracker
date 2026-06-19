@@ -1,4 +1,4 @@
-import { useForms } from "./useForms.js";
+import { useForms } from "./useForms";
 
 const { registerForm, loginForm, userErrors, habitForm, habitErrors } = useForms();
 

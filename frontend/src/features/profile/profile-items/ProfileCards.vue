@@ -1,7 +1,7 @@
-<script setup xmlns="http://www.w3.org/1999/html">
+<script setup lang="ts">
 import { onMounted } from "vue";
-import { useGetRecords } from "../../calendar/composables/getRecords.js";
-import { useHabitsStore } from "../../../shared/composables/store/habitsStore.js";
+import { useGetRecords } from "../../calendar/composables/getRecords";
+import { useHabitsStore } from "../../../shared/composables/store/habitsStore";
 
 const { habitsCount } = useHabitsStore();
 const { getRecordsCurrent } = useGetRecords();

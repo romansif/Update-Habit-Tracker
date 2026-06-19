@@ -1,6 +1,6 @@
-<script setup>
-import { useHabitModals } from "../../../composables/modal/useModals.js";
-import { useHabitsStore } from "../../../composables/store/habitsStore.js";
+<script setup lang="ts">
+import { useHabitModals } from "../../../composables/modal/habitModals";
+import { useHabitsStore } from "../../../composables/store/habitsStore";
 
 const { restoreHabitsSeries, restoreMessage } = useHabitsStore();
 const { closeRestoreSeries } = useHabitModals()

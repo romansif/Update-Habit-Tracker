@@ -1,11 +1,13 @@
-<script setup>
+<script setup lang="ts">
 import { ref, watch } from "vue";
 
-import { useUser } from "./composables/useUser.js"
-import { useForms } from "../../shared/composables/forms/useForms.js"
-import { useClearForms } from "../../shared/composables/forms/clearForms.js";
+import { useUser } from "./composables/useUser"
+import { useForms } from "../../shared/composables/forms/useForms"
+import { useClearForms } from "../../shared/composables/forms/clearForms";
 
+// @ts-ignore
 import opened from '../../app/assets/icons/opened.png'
+// @ts-ignore
 import closed from '../../app/assets/icons/closed.png'
 import BaseButton from "../../shared/ui/button/BaseButton.vue";
 

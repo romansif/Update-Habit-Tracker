@@ -1,11 +1,12 @@
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 
-import { useHabits } from "../composables/useHabits.js";
-import { useHabitModals } from "../../../shared/composables/modal/useModals.js";
+import { useHabits } from "../composables/useHabits";
+import { useHabitModals } from "../../../shared/composables/modal/habitModals";
 
+//@ts-ignore
 import options from "../../../app/assets/icons/options.svg";
 
 const { updateStatus } = useHabits()
@@ -14,12 +15,11 @@ const { openHabitInfo, openDeleteHabit } = useHabitModals()
 const route = useRoute()
 
 const props = defineProps({
-  status: {
-    type: String,
-  },
+  status: String,
   id: {
     type: String,
-  }
+    required: true,
+  },
 })
 
 const isCompletedHabitsPage = computed(() => route.name !== 'completed-habits')
@@ -38,7 +38,7 @@ const canAddInProgressHabits = computed(() => props.status !== 'В процес�
       <MenuItems class="absolute right-0 z-10 w-32 divide-y divide-white/40 rounded-md bg-indigo-400 outline-1 -outline-offset-1 outline-white/10">
         <div class="py-1">
           <MenuItem v-slot="{ active }">
-            <button @click="openHabitInfo(id, 'Выполнено')" class="w-full text-start">
+            <button @click="openHabitInfo(id)" class="w-full text-start">
               <span :class="[
                       active ? `bg-white/25 text-white outline-hidden` :
                       'text-white', 'block px-3 py-1 text-sm'

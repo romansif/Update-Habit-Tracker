@@ -1,7 +1,7 @@
-<script setup>
-import { useUserModals } from "../../composables/modal/useModals.js";
-import { useUserStore } from "../../composables/store/userStore.js";
-import { useUser } from "../../../features/auth/composables/useUser.js";
+<script setup lang="ts">
+import { useUserModals } from "../../composables/modal/userModals";
+import { useUserStore } from "../../composables/store/userStore";
+import { useUser } from "../../../features/auth/composables/useUser";
 
 import BaseButton from '../button/BaseButton.vue';
 

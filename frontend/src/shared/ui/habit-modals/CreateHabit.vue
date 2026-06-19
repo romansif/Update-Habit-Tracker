@@ -1,10 +1,10 @@
-<script setup>
-import {computed, watch} from 'vue';
+<script setup lang="ts">
+import { computed, watch } from 'vue';
 
-import { useForms } from "../../composables/forms/useForms.js";
-import { useHabitModals } from "../../composables/modal/useModals.js";
-import { useHabitsStore } from "../../composables/store/habitsStore.js";
-import { useHabits } from "../../../features/habits/composables/useHabits.js";
+import { useForms } from "../../composables/forms/useForms";
+import { useHabitModals } from "../../composables/modal/habitModals";
+import { useHabitsStore } from "../../composables/store/habitsStore";
+import { useHabits } from "../../../features/habits/composables/useHabits";
 
 import BaseButton from '../button/BaseButton.vue';
 
@@ -55,7 +55,7 @@ watch(() => [
               <option disabled value="">
                 Выберите категорию
               </option>
-              <option v-for="category in categoriesForm" :key="category">
+              <option v-for="category in categoriesForm">
                 {{ category.icon }}{{ category.category }}
               </option>
             </select>
@@ -71,9 +71,9 @@ watch(() => [
             </span>
           </div>
           <div class="flex flex-col gap-2 min-h-[90px]">
-            <input list="time-choice" id="ti-me-choice" name="ti-me-choice" type="text"
-                   v-model="habitForm.time" placeholder="Время на выполнение (мин)"
-                   class="bg-gray-300 outline-none rounded-[4px] p-4 w-full placeholder:text-black"/>
+            <input type="text" list="time-choice" id="ti-me-choice" name="ti-me-choice" v-model="habitForm.time"
+                   class="bg-gray-300 outline-none rounded-[4px] p-4 w-full placeholder:text-black"
+                   placeholder="Время на выполнение (мин)" />
             <datalist id="time-choice">
               <option value="от 1 до 5"></option>
               <option value="от 5 до 10"></option>
@@ -113,7 +113,7 @@ watch(() => [
               <option value="">
                 Без связи
               </option>
-              <option v-for="habit in unCompletedHabits" :key="habit">{{ habit.habit }}</option>
+              <option v-for="habit in unCompletedHabits" :key="habit.id">{{ habit.habit }}</option>
             </select>
             <span class="text-sm text-gray-500">
               Не обязательно

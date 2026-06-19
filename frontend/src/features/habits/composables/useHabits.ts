@@ -1,18 +1,18 @@
 import { computed } from 'vue';
 import { useRoute } from "vue-router";
 
-import { useGetHabits } from "./getHabits.js";
-import { handler } from '../../../shared/api/http.js';
-import { useRecords } from "../../calendar/composables/useRecords.js";
-import { useForms } from "../../../shared/composables/forms/useForms.js";
-import { useGetRecords } from "../../calendar/composables/getRecords.js";
-import { useHabitModals } from "../../../shared/composables/modal/useModals.js";
-import { useHabitsStore } from "../../../shared/composables/store/habitsStore.js";
-import { useRecordsStore } from "../../../shared/composables/store/recordsStore.js";
+import { useGetHabits } from "./getHabits";
+import {ApiError, handler} from '../../../shared/api/http';
+import { useRecords } from "../../calendar/composables/useRecords";
+import { useForms } from "../../../shared/composables/forms/useForms";
+import { useGetRecords } from "../../calendar/composables/getRecords";
+import { useHabitModals } from "../../../shared/composables/modal/habitModals";
+import { useHabitsStore } from "../../../shared/composables/store/habitsStore";
 
 export const useHabits = () => {
     const route = useRoute();
     const modals = useHabitModals();
+    const routeName = route.name ? String(route.name) : ''
 
     const { habitForm, habitErrors } = useForms()
     const { getAllHabits, getFilteredHabits } = useGetHabits();
@@ -20,7 +20,7 @@ export const useHabits = () => {
     const { createRecord, updateHabitsCurrentCount, updateRecordStatus } = useRecords();
     const { habits, habitId, selectedDeleteType, seriesCount, termsValue } = useHabitsStore();
 
-    const createHabit = async (status) => {
+    const createHabit = async (status: string) => {
         const userId = localStorage.getItem('userId');
 
         try{
@@ -79,50 +79,52 @@ export const useHabits = () => {
             });
             await getRecords();
             await getAllHabits()
-            await getFilteredHabits(route.name)
+            await getFilteredHabits(routeName)
             await createRecord(newHabit.habit, newHabit.currentSeries, newHabit.status, newHabit.id);
 
             modals.closeCreateHabit();
         }catch(err){
-            const errors = err.response?.data?.errors;
-            console.log(err);
-            if(errors){
-                habitErrors.value.categoryError = !!errors.category
-                habitErrors.value.habitError = !!errors.habit
-                habitErrors.value.timeError = !!errors.time
-                habitErrors.value.frequencyError = !!errors.frequency
-                habitErrors.value.termError = !!errors.term
+            if(err instanceof ApiError){
+                const errors = err.response?.data?.errors;
+                if(errors){
+                    habitErrors.value.categoryError = !!errors.category
+                    habitErrors.value.habitError = !!errors.habit
+                    habitErrors.value.timeError = !!errors.time
+                    habitErrors.value.frequencyError = !!errors.frequency
+                    habitErrors.value.termError = !!errors.term
 
-                habitErrors.value.categoryMessage = errors.category || '';
-                habitErrors.value.habitMessage =  errors.habit || '';
-                habitErrors.value.timeMessage =  errors.time || '';
-                habitErrors.value.frequencyMessage =  errors.frequency || '';
-                habitErrors.value.termMessage =  errors.term || '';
+                    habitErrors.value.categoryMessage = errors.category || '';
+                    habitErrors.value.habitMessage =  errors.habit || '';
+                    habitErrors.value.timeMessage =  errors.time || '';
+                    habitErrors.value.frequencyMessage =  errors.frequency || '';
+                    habitErrors.value.termMessage =  errors.term || '';
+                }
             }
         }
     };
 
-    const updateProgress = async (id) => {
-        const habit = habits.value.find(habit => habit.id === id);
+    const updateProgress = async (id: string) => {
+        const habit = habits.value.find(habit => habit.id === id)
+        if(habit){
+            const termValue = termsValue[habit.term];
+            const progressRatio = 100 / termValue.days
+            const newProgress = +(habit.progress + progressRatio).toFixed(2)
 
-        const termValue = termsValue[habit.term];
-        const progressRatio = 100 / termValue.days
-        const newProgress = +(habit.progress + progressRatio).toFixed(2)
-
-        try{
-            await handler(`/habits/${habit.id}`, {
-                method: 'PATCH',
-                body: JSON.stringify({
-                    progress: newProgress
+            try{
+                await handler(`/habits/${habit.id}`, {
+                    method: 'PATCH',
+                    body: JSON.stringify({
+                        progress: newProgress
+                    })
                 })
-            })
-        }catch(err){
-            console.log('Не удалось обновить прогресс привычки пользователя');
-            throw err;
+            }catch(err){
+                console.log('Не удалось обновить прогресс привычки пользователя');
+                throw err;
+            }
         }
     }
 
-    const updateStatus = async (id, newStatus) => {
+    const updateStatus = async (id: string, newStatus: string) => {
         try{
             const now = new Date()
             const date = now.toLocaleDateString()
@@ -161,7 +163,7 @@ export const useHabits = () => {
                 })
             )
             await getAllHabits()
-            await getFilteredHabits(route.name)
+            await getFilteredHabits(routeName)
             await updateHabitsCurrentCount(newStatus)
             await updateRecordStatus(seriesCount.value, newStatus)
         }catch(err){
@@ -200,28 +202,28 @@ export const useHabits = () => {
         }
     }
 
-    const deleteHabitById = async (id) => {
+    const deleteHabitById = async (id: string) => {
         await handler(`/habits/${id}`, {
             method: 'DELETE',
         });
     }
 
-    const updateHabitCount = async (id) => {
+    const updateHabitCount = async (id: string) => {
         await handler(`/habits-count/${id}`, {
             method: 'PATCH',
         })
     }
 
-    const methods = {
+    const methods: Record<string, () => Promise<void>> = {
         'ONE': async () => {
-            const habitsCountId = localStorage.getItem('habitsCountId');
+            const habitsCountId = localStorage.getItem('habitsCountId') as string
 
             await deleteHabitById(habitId.value);
             await updateHabitCount(habitsCountId);
 
             await getAllHabits()
             await getRecordsCurrent();
-            await getFilteredHabits(route.name)
+            await getFilteredHabits(routeName)
         },
         'ALL': async () => {
             const allHabits = await getAllHabits()

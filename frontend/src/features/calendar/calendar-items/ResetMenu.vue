@@ -1,10 +1,10 @@
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue'
 import { ChevronDownIcon } from '@heroicons/vue/20/solid'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 
-import { useCalendar } from "../composables/useCalendar.js";
-import { useRecordsModals } from '../../../shared/composables/modal/useModals.js'
+import { useCalendar } from "../composables/useCalendar";
+import { useRecordsModals } from '../../../shared/composables/modal/recordModals'
 
 const { openResetRecords } = useRecordsModals();
 const { currentMonth, currentYear } = useCalendar();
@@ -46,7 +46,8 @@ const month = computed(() => {
           <MenuItem v-slot="{ active }">
             <button @click="openResetRecords
                   (
-                    'All','всю историю выполнения привычек?','ALL'
+                    'All','всю историю выполнения привычек?','ALL',
+                    ''
                   )">
                 <span :class="[
                         active ? 'bg-white/25 text-white outline-hidden' :

@@ -1,6 +1,6 @@
 <script setup>
-import { useRecordsModals } from "../../../shared/composables/modal/useModals.js";
-import { useRecordsStore } from "../../../shared/composables/store/recordsStore.js";
+import { useRecordsModals } from "../../../shared/composables/modal/recordModals.ts";
+import { useRecordsStore } from "../../../shared/composables/store/recordsStore.ts";
 
 import reset_record from "../../../app/assets/icons/reset-record.png"
 
@@ -8,9 +8,9 @@ const { dayHabitRecords } = useRecordsStore();
 const { openResetRecords } = useRecordsModals();
 
 const statusClass = (status) => ({
-  'bg-green-500 italic text-white px-2 py-1 rounded': status === 'Выполнено',
-  'bg-purple-500 italic text-white px-2 py-1 rounded': status === 'В процессе',
-  'bg-rose-500 italic text-white px-2 py-1 rounded': status === 'Не выполнено'
+  'bg-green-500 italic text-sm text-white px-2 py-1 rounded': status === 'Выполнено',
+  'bg-purple-500 italic text-sm text-white px-2 py-1 rounded': status === 'В процессе',
+  'bg-rose-500 italic text-sm text-white px-2 py-1 rounded': status === 'Не выполнено'
 });
 </script>
 

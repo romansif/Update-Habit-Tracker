@@ -1,16 +1,34 @@
 const BASE_URL = `http://localhost:3000/api`;
 
-export const handler = async (endpoints, options, retry = false) => {
+export class ApiError extends Error {
+    response?: {
+        data: any
+    };
+    constructor(message?: string, responseData?: any) {
+        super(message);
+        this.name = 'ApiError';
+        if(responseData) {
+            this.response = { data: responseData};
+        }
+    }
+}
+
+export const handler = async <T = any>(
+    endpoints: string, options: RequestInit = {}, retry = false
+): Promise<T | null> => {
     options.credentials = 'include'
 
-    const res = await fetch(`${BASE_URL}${endpoints}`, {
+    const fetchOptions: RequestInit = {
+        ...options,
         headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${localStorage.getItem('accessToken')}`
+            "Authorization": `Bearer ${localStorage.getItem('accessToken')}`,
+                ...options.headers
         },
         credentials: 'include',
-        ...options
-    })
+    }
+
+    const res = await fetch(`${BASE_URL}${endpoints}`, fetchOptions)
 
     if(res.status === 401 && !retry){
         localStorage.removeItem('accessToken')
@@ -37,11 +55,9 @@ export const handler = async (endpoints, options, retry = false) => {
 
     if(!res.ok){
         const errorData = await res.json().catch(() => ({}));
+        const errorMessage = errorData.message || `Ошибка: ${res.status}`
 
-        const error = new Error(errorData.message || `Ошибка: ${res.status}`);
-        error.response = { data: errorData };
-
-        throw error;
+        throw new ApiError(errorData, errorMessage);
     }
     if(res.status === 204 || (res.status === 200 && options.method === 'DELETE')){
         return null;
