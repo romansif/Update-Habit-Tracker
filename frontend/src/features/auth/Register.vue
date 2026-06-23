@@ -42,7 +42,7 @@ watch(() => [registerForm.value.name, registerForm.value.email, registerForm.val
   <div class="flex justify-center items-center min-h-screen">
     <div class="flex flex-col gap-8">
       <h1 class="text-3xl">Регистрация</h1>
-      <div class="flex flex-col gap-6 w-[600px]">
+      <form action="" @keydown.prevent.enter="registerUser" class="flex flex-col gap-6 w-[600px]">
         <div class="flex flex-col gap-3">
           <input v-model="registerForm.name" type="text" @input="toLower" placeholder="Имя" class="bg-gray-300
                  outline-none rounded-[4px] p-4">
@@ -62,7 +62,7 @@ watch(() => [registerForm.value.name, registerForm.value.email, registerForm.val
           </div>
           <span v-if="userErrors.passwordError" class="text-sm text-red-500">{{ userErrors.passwordMessage }}</span>
         </div>
-      </div>
+      </form>
       <div class="flex flex-col gap-5">
         <div class="flex justify-center">
           <BaseButton button-type="Зарегистрироваться" variant="register" @click=registerUser />

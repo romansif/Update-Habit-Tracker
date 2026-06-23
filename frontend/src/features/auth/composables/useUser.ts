@@ -6,11 +6,13 @@ import { useHabitsStore } from "../../../shared/composables/store/habitsStore";
 import { useForms } from "../../../shared/composables/forms/useForms";
 import { useClearForms } from "../../../shared/composables/forms/clearForms";
 import { useUserModals } from "../../../shared/composables/modal/userModals";
+import { useGetUsers } from "./getUsers";
 
 export const useUser = () => {
     const router = useRouter();
     const modals = useUserModals();
 
+    const { getUsers } = useGetUsers();
     const { users, user } = useUserStore();
     const { habitsCountForm } = useHabitsStore();
 
@@ -62,7 +64,7 @@ export const useUser = () => {
             await router.push({ path: 'profile' });
         }catch(err) {
             if(err instanceof ApiError) {
-                const errors = err.response?.data?.errors;
+                const errors = err.response as Record<string, string> | undefined;
                 if (errors) {
                     userErrors.value.nameError = !!errors.name;
                     userErrors.value.emailError = !!errors.email;
@@ -101,7 +103,7 @@ export const useUser = () => {
             await router.push({ path: 'profile' });
         }catch(err){
             if(err instanceof ApiError) {
-                const errors = err.response?.data?.errors;
+                const errors = err.response as Record<string, string> | undefined;
                 if (errors) {
                     userErrors.value.emailError = !!errors.email;
                     userErrors.value.passwordError = !!errors.password;
@@ -128,7 +130,7 @@ export const useUser = () => {
             updateForm.value.name = '';
         }catch(err){
             if(err instanceof ApiError) {
-                const errors = err.response?.data?.errors;
+                const errors = err.response as Record<string, string> | undefined;
                 if (errors) {
                     userErrors.value.newNameError = !!errors.name;
 
@@ -201,6 +203,8 @@ export const useUser = () => {
             localStorage.removeItem('habitsCountId');
 
             modals.closeDeleteUser();
+
+            await getUsers()
 
             await router.push({ name: 'login' });
         }catch(err){

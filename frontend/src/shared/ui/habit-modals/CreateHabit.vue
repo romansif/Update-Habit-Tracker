@@ -48,7 +48,7 @@ watch(() => [
       <h2 class="text-xl font-semibold mb-6">
         Добавить новую привычку
       </h2>
-      <div class="flex gap-10">
+      <form @keydown.prevent.enter="createHabit('Не выполнено')" class="flex gap-10">
         <div class="w-1/2 flex flex-col gap-4">
           <div class="flex flex-col gap-2 min-h-[90px]">
             <select v-model="habitForm.category" name="" id="" class="bg-gray-300 outline-none rounded-[4px] px-3 py-4 text-black w-full">
@@ -124,7 +124,7 @@ watch(() => [
             <BaseButton button-type="Сохранить" variant="confirmHabit" @click="createHabit('Не выполнено')"/>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   </div>
 </template>

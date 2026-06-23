@@ -1,53 +1,310 @@
 {
   "users": [
     {
-      "id": "0e2606ba-ff60-4b1d-a539-0ec55e6562a2",
-      "name": "akmal",
+      "id": "cfe598cd-0b84-4b97-bcc5-fc76cd37e4a9",
+      "name": "lamka",
       "email": "akmalmavlonov25@gmail.com",
-      "password": "$2b$10$QqBiYV6Lru.C8zXYCSqTiOqAY61kwEGfww60PB0A17nawP5hi7OEG",
-      "dateCreatedAccount": "18.06.2026",
+      "password": "$2b$10$ysy5Yr5wCJRxEGeEN4V7yuuS63.4mGaQHIHbihbTKnjRueaOaQCiC",
+      "dateCreatedAccount": "22.06.2026",
       "refreshTokens": [
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwZTI2MDZiYS1mZjYwLTRiMWQtYTUzOS0wZWM1NWU2NTYyYTIiLCJpYXQiOjE3ODE3ODYxMjgsImV4cCI6MTc4MjM5MDkyOH0.R3Cqv0u0IBRKyyxY3BeL2A-G41PQ4qFCZGZVyMAL2cY",
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwZTI2MDZiYS1mZjYwLTRiMWQtYTUzOS0wZWM1NWU2NTYyYTIiLCJpYXQiOjE3ODE4NjE0ODIsImV4cCI6MTc4MjQ2NjI4Mn0.s0VxhE2gyZ3rIJZhNeMMi3AEq_fsIvJro7lq3lX9Qeg",
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwZTI2MDZiYS1mZjYwLTRiMWQtYTUzOS0wZWM1NWU2NTYyYTIiLCJpYXQiOjE3ODE4NjMzODgsImV4cCI6MTc4MjQ2ODE4OH0.xpC9duFdJqiXS-O8cCEj6W60zdFuUb53u9SxOLDgmLA",
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwZTI2MDZiYS1mZjYwLTRiMWQtYTUzOS0wZWM1NWU2NTYyYTIiLCJpYXQiOjE3ODE4NjQzOTMsImV4cCI6MTc4MjQ2OTE5M30._4JKemqUWhqpnjbqoRQEjtQ-V9O2cBlfeqyQF2qWl6I",
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwZTI2MDZiYS1mZjYwLTRiMWQtYTUzOS0wZWM1NWU2NTYyYTIiLCJpYXQiOjE3ODE4NzAwNjgsImV4cCI6MTc4MjQ3NDg2OH0.YhH7M_8ecFqBCgV7t1TkfRmNT65T45rTIQe17OLeu1Q",
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwZTI2MDZiYS1mZjYwLTRiMWQtYTUzOS0wZWM1NWU2NTYyYTIiLCJpYXQiOjE3ODE4NzQxMTQsImV4cCI6MTc4MjQ3ODkxNH0.G4jPzqrR8V7VZbaiWVNKS_GHz9Dte-5wTKZpbLa0EHI",
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwZTI2MDZiYS1mZjYwLTRiMWQtYTUzOS0wZWM1NWU2NTYyYTIiLCJpYXQiOjE3ODE4NzQxMjEsImV4cCI6MTc4MjQ3ODkyMX0.9GPuQ-v0YrZEr8LvOIVjnzCPh74OMGcf2mnSExSKEjM"
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjZmU1OThjZC0wYjg0LTRiOTctYmNjNS1mYzc2Y2QzN2U0YTkiLCJpYXQiOjE3ODIxMjE4MDQsImV4cCI6MTc4MjcyNjYwNH0.giAIHUlNHG4xVkXlJFYu1YRUQAufWb6dVki4zYur5Qc",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjZmU1OThjZC0wYjg0LTRiOTctYmNjNS1mYzc2Y2QzN2U0YTkiLCJpYXQiOjE3ODIxMjIwMjMsImV4cCI6MTc4MjcyNjgyM30.gX_oUkK2O5Qvp1jRBBrS73OXzQO6TsRc9bv8EkF9iZU",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjZmU1OThjZC0wYjg0LTRiOTctYmNjNS1mYzc2Y2QzN2U0YTkiLCJpYXQiOjE3ODIxMjIxMTgsImV4cCI6MTc4MjcyNjkxOH0.ZN_UM1yEkjTmirToDdqNkJvv5okEfoGA2lQ4uzAoHoU",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjZmU1OThjZC0wYjg0LTRiOTctYmNjNS1mYzc2Y2QzN2U0YTkiLCJpYXQiOjE3ODIxMjIzMzgsImV4cCI6MTc4MjcyNzEzOH0.H24HmvJeDzJPzX95U_Mx9HC94JhE4vCXHfgy_H1WVjc",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjZmU1OThjZC0wYjg0LTRiOTctYmNjNS1mYzc2Y2QzN2U0YTkiLCJpYXQiOjE3ODIxMjI0NzEsImV4cCI6MTc4MjcyNzI3MX0.7pM2AtSrnviuosOQ3wQbj6LeSoFRqspJucVaq44TFRo",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjZmU1OThjZC0wYjg0LTRiOTctYmNjNS1mYzc2Y2QzN2U0YTkiLCJpYXQiOjE3ODIxMjI0OTMsImV4cCI6MTc4MjcyNzI5M30.uUrFkP-jrq28685_NyRuLtrc7Kt18hdidDm4zAFayvg",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjZmU1OThjZC0wYjg0LTRiOTctYmNjNS1mYzc2Y2QzN2U0YTkiLCJpYXQiOjE3ODIxMjI5NDAsImV4cCI6MTc4MjcyNzc0MH0.z9EXMnQqpfbO3y3XLXI53pLvDgtvSlbABphAw3qDQGk"
       ],
-      "habitsCountId": "d52cf53e-dbda-4532-aae1-18218bc1b7f5"
+      "habitsCountId": "e0f168ad-4051-4d62-a0b0-ad8ec8704251"
+    },
+    {
+      "id": "90cad7fe-1451-4924-8e53-dfa8d62bfed1",
+      "name": "akmal",
+      "email": "akmalmavlono25@gmail.com",
+      "password": "$2b$10$jhY07nSlC/LZTuHfnwAHEefatl2VRuIudXlfQLIQJpoq7KoFpZAbW",
+      "dateCreatedAccount": "22.06.2026",
+      "refreshTokens": [
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI5MGNhZDdmZS0xNDUxLTQ5MjQtOGU1My1kZmE4ZDYyYmZlZDEiLCJpYXQiOjE3ODIxMjI5NTUsImV4cCI6MTc4MjcyNzc1NX0.r2fyH1AwB48GPUid648DihUX_ahUErCG03394YoU9pU"
+      ],
+      "habitsCountId": "302f14ff-0229-459a-9cc3-ad5ca48463a2"
     }
   ],
   "habits": [
     {
-      "id": "40c3e29d-5121-4363-9a2e-d6accfaa7579",
-      "userId": "0e2606ba-ff60-4b1d-a539-0ec55e6562a2",
-      "category": "😴Сон",
+      "id": "272499f3-0bc7-481d-8ed1-aa3b95933562",
+      "userId": "cfe598cd-0b84-4b97-bcc5-fc76cd37e4a9",
+      "category": "💧Вода",
       "habit": "111",
       "frequency": "1 раз в неделю",
-      "time": "1 мин в день",
-      "totalSeries": 1,
-      "currentSeries": 1,
-      "status": "Выполнено",
+      "time": "от 5 до 10 мин в день",
+      "totalSeries": 0,
+      "currentSeries": 0,
+      "status": "Не выполнено",
       "term": "3 месяца",
-      "date": "2026-06-19T10:05:28.600Z",
-      "dateCreatedHabit": "19.06.2026",
+      "date": "2026-06-22T09:50:16.268Z",
+      "dateCreatedHabit": "22.06.2026",
       "monthCreatedRecord": 6.2026,
-      "timeCreatedHabit": "15:05",
-      "endDateHabit": "19.09.2026",
-      "progress": 1.11,
-      "lastDate": "19.06.2026",
-      "lastTime": "16:03"
+      "timeCreatedHabit": "14:50",
+      "endDateHabit": "22.09.2026",
+      "progress": 0
     }
   ],
   "habits-count": [
     {
-      "id": "d52cf53e-dbda-4532-aae1-18218bc1b7f5",
+      "id": "5ea5cc97-b13f-4eaa-a06b-40eb61421c1c",
+      "allHabits": 0,
+      "dayCompletedHabits": 0,
+      "allCompletedHabits": 0
+    },
+    {
+      "id": "8519af7f-6f30-4934-b0c4-660a43c52467",
+      "allHabits": 0,
+      "dayCompletedHabits": 0,
+      "allCompletedHabits": 0
+    },
+    {
+      "id": "2d27e089-8c95-47bc-b06f-7e3b85ae40de",
+      "allHabits": 0,
+      "dayCompletedHabits": 0,
+      "allCompletedHabits": 0
+    },
+    {
+      "id": "b79bb025-8777-41f0-bf34-346bb4c2a01a",
+      "allHabits": 0,
+      "dayCompletedHabits": 0,
+      "allCompletedHabits": 0
+    },
+    {
+      "id": "63812a81-0cfe-4349-a861-bf888663533a",
+      "allHabits": 0,
+      "dayCompletedHabits": 0,
+      "allCompletedHabits": 0
+    },
+    {
+      "id": "f939b636-47f8-45ec-8526-cd64bb8ad3e3",
+      "allHabits": 0,
+      "dayCompletedHabits": 0,
+      "allCompletedHabits": 0
+    },
+    {
+      "id": "bf602e44-d502-4668-84d4-a15a9d661eca",
+      "allHabits": 0,
+      "dayCompletedHabits": 0,
+      "allCompletedHabits": 0
+    },
+    {
+      "id": "07d0a172-d598-47ba-a9cc-0d778c41ad31",
+      "allHabits": 0,
+      "dayCompletedHabits": 0,
+      "allCompletedHabits": 0
+    },
+    {
+      "id": "d196adf6-8afd-4a59-b9e8-2a96475bd983",
+      "allHabits": 0,
+      "dayCompletedHabits": 0,
+      "allCompletedHabits": 0
+    },
+    {
+      "id": "0259ad3a-9cb9-4261-ad20-5e13bc30cdfc",
+      "allHabits": 0,
+      "dayCompletedHabits": 0,
+      "allCompletedHabits": 0
+    },
+    {
+      "id": "89640e4c-998f-4aa3-b050-e7b4d80d7e56",
+      "allHabits": 0,
+      "dayCompletedHabits": 0,
+      "allCompletedHabits": 0
+    },
+    {
+      "id": "a03b0b92-bb01-4b08-a9d3-649eeb34ba38",
+      "allHabits": 0,
+      "dayCompletedHabits": 0,
+      "allCompletedHabits": 0
+    },
+    {
+      "id": "b32a4a12-fbb0-487a-a3da-8a633781b901",
+      "allHabits": 0,
+      "dayCompletedHabits": 0,
+      "allCompletedHabits": 0
+    },
+    {
+      "id": "656f3a29-7134-4c63-bddd-ababc053439d",
+      "allHabits": 0,
+      "dayCompletedHabits": 0,
+      "allCompletedHabits": 0
+    },
+    {
+      "id": "6957964d-22a5-4535-acb0-7dba9d095287",
+      "allHabits": 0,
+      "dayCompletedHabits": 0,
+      "allCompletedHabits": 0
+    },
+    {
+      "id": "0f8d52c5-3ee9-46d4-ad4e-d57e15166f70",
+      "allHabits": 0,
+      "dayCompletedHabits": 0,
+      "allCompletedHabits": 0
+    },
+    {
+      "id": "facf1560-277c-47c4-a6e4-2ec8e8d7bc96",
+      "allHabits": 0,
+      "dayCompletedHabits": 0,
+      "allCompletedHabits": 0
+    },
+    {
+      "id": "fe5b6829-5fbf-4598-971c-27ef92a5d21c",
+      "allHabits": 0,
+      "dayCompletedHabits": 0,
+      "allCompletedHabits": 0
+    },
+    {
+      "id": "30a0aac4-fcaa-4681-956a-b2a83b2d40cf",
+      "allHabits": 0,
+      "dayCompletedHabits": 0,
+      "allCompletedHabits": 0
+    },
+    {
+      "id": "10103519-0197-48db-95a3-4a5a58e0351b",
+      "allHabits": 0,
+      "dayCompletedHabits": 0,
+      "allCompletedHabits": 0
+    },
+    {
+      "id": "cec7baf4-bbd5-484d-907b-a0c3b49c2eab",
+      "allHabits": 0,
+      "dayCompletedHabits": 0,
+      "allCompletedHabits": 0
+    },
+    {
+      "id": "13e02d85-1be5-45af-889d-567e301f4598",
+      "allHabits": 0,
+      "dayCompletedHabits": 0,
+      "allCompletedHabits": 0
+    },
+    {
+      "id": "84008f9b-262d-4e8c-b45a-25eec694e75e",
+      "allHabits": 0,
+      "dayCompletedHabits": 0,
+      "allCompletedHabits": 0
+    },
+    {
+      "id": "927c255f-2c4a-4cf2-992b-e1ef715a4937",
+      "allHabits": 0,
+      "dayCompletedHabits": 0,
+      "allCompletedHabits": 0
+    },
+    {
+      "id": "5a36a4e4-6783-4838-8db5-123c4b029c9e",
+      "allHabits": 0,
+      "dayCompletedHabits": 0,
+      "allCompletedHabits": 0
+    },
+    {
+      "id": "d48ffd32-8b97-492c-af8f-d2f2a589c193",
+      "allHabits": 0,
+      "dayCompletedHabits": 0,
+      "allCompletedHabits": 0
+    },
+    {
+      "id": "1329f65f-80fa-4a5b-982e-af79cc112cdf",
+      "allHabits": 0,
+      "dayCompletedHabits": 0,
+      "allCompletedHabits": 0
+    },
+    {
+      "id": "8920516f-4292-4865-bfc5-ae298cbf2f9f",
+      "allHabits": 0,
+      "dayCompletedHabits": 0,
+      "allCompletedHabits": 0
+    },
+    {
+      "id": "da2ca269-effc-4d5f-a192-7cb469ddaab4",
+      "allHabits": 0,
+      "dayCompletedHabits": 0,
+      "allCompletedHabits": 0
+    },
+    {
+      "id": "046231fe-b86e-4283-b3eb-39d625976c26",
+      "allHabits": 0,
+      "dayCompletedHabits": 0,
+      "allCompletedHabits": 0
+    },
+    {
+      "id": "ed64f351-5cce-4f2d-b7b0-43c69e5b66a6",
+      "allHabits": 0,
+      "dayCompletedHabits": 0,
+      "allCompletedHabits": 0
+    },
+    {
+      "id": "c7814b09-6666-429e-b1f3-e0e35d9f2091",
+      "allHabits": 0,
+      "dayCompletedHabits": 0,
+      "allCompletedHabits": 0
+    },
+    {
+      "id": "b9fb77ca-0b45-4072-ae32-367c7078916a",
+      "allHabits": 0,
+      "dayCompletedHabits": 0,
+      "allCompletedHabits": 0
+    },
+    {
+      "id": "b9f8ffcd-5f96-4133-b516-dd719bb75f42",
+      "allHabits": 0,
+      "dayCompletedHabits": 0,
+      "allCompletedHabits": 0
+    },
+    {
+      "id": "e0f168ad-4051-4d62-a0b0-ad8ec8704251",
       "allHabits": 1,
-      "dayCompletedHabits": 1,
-      "allCompletedHabits": 1,
-      "lastDate": "19.06.2026"
+      "dayCompletedHabits": 0,
+      "allCompletedHabits": 0,
+      "lastDate": "22.06.2026"
+    },
+    {
+      "id": "511be803-a3e1-4d24-bf2d-f0ef33d16ef4",
+      "allHabits": 0,
+      "dayCompletedHabits": 0,
+      "allCompletedHabits": 0
+    },
+    {
+      "id": "dd361125-b7e2-4c36-ba54-a31837a726dd",
+      "allHabits": 0,
+      "dayCompletedHabits": 0,
+      "allCompletedHabits": 0
+    },
+    {
+      "id": "5388a3fd-abf5-4422-9be1-03b50269e488",
+      "allHabits": 0,
+      "dayCompletedHabits": 0,
+      "allCompletedHabits": 0
+    },
+    {
+      "id": "b9f06043-d161-4de5-87b9-8271697624c8",
+      "allHabits": 0,
+      "dayCompletedHabits": 0,
+      "allCompletedHabits": 0
+    },
+    {
+      "id": "302f14ff-0229-459a-9cc3-ad5ca48463a2",
+      "allHabits": 0,
+      "dayCompletedHabits": 0,
+      "allCompletedHabits": 0,
+      "lastDate": "22.06.2026"
     }
   ],
-  "records": []
+  "records": [
+    {
+      "id": "c9cc7ace-25e0-4c08-8047-366159ca2286",
+      "habitsCountId": "e0f168ad-4051-4d62-a0b0-ad8ec8704251",
+      "recordId": "272499f3-0bc7-481d-8ed1-aa3b95933562",
+      "date": "2026-06-22T09:50:16.302Z",
+      "dateCreatedRecord": "22.06.2026",
+      "monthCreatedRecord": 6.2026,
+      "timeCreatedRecord": "14:50",
+      "habit": "111",
+      "currentSeries": 0,
+      "firstStatus": "Не выполнено"
+    }
+  ]
 }

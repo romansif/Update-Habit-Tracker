@@ -85,7 +85,7 @@ export const useHabits = () => {
             modals.closeCreateHabit();
         }catch(err){
             if(err instanceof ApiError){
-                const errors = err.response?.data?.errors;
+                const errors = err.response as Record<string, string> | undefined;
                 if(errors){
                     habitErrors.value.categoryError = !!errors.category
                     habitErrors.value.habitError = !!errors.habit

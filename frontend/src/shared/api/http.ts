@@ -4,12 +4,10 @@ export class ApiError extends Error {
     response?: {
         data: any
     };
-    constructor(message?: string, responseData?: any) {
+    constructor(error: any, message: string) {
         super(message);
         this.name = 'ApiError';
-        if(responseData) {
-            this.response = { data: responseData};
-        }
+        this.response = error?.errors || error?.response;
     }
 }
 

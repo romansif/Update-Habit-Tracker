@@ -20,15 +20,15 @@ export const useGetUsers = () => {
 
     const getUsers = async () => {
         try{
-            users.value = await handler(`/users`, {
+            const res = await handler(`/users`, {
                 method: 'GET'
             })
+            users.value = res
         }catch(err){
             console.log('Ошибка при получении всех пользователей');
             throw err;
         }
     }
-
     return{
         getUsers,
         getUser,

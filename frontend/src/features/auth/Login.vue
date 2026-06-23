@@ -36,22 +36,22 @@ watch(() => [loginForm.value.email, loginForm.value.password],([email, password]
   <div class="flex justify-center items-center min-h-screen">
     <div class="flex flex-col gap-8">
       <h1 class="text-3xl">Вход</h1>
-      <div class="flex flex-col gap-6 w-[600px]">
+      <form action="" @keydown.prevent.enter="loginUser" class="flex flex-col gap-6 w-[600px]">
         <div class="flex flex-col gap-3">
           <input v-model="loginForm.email" type="text" placeholder="E-mail" class="bg-gray-300 outline-none
-                            rounded-[4px] p-4">
-          <span v-if="userErrors.emailError" class="text-sm text-red-500">{{ userErrors.emailMessage }}</span>
+                              rounded-[4px] p-4">
+           <span v-if="userErrors.emailError" class="text-sm text-red-500">{{ userErrors.emailMessage }}</span>
         </div>
         <div class="flex flex-col gap-3">
           <div class="relative">
             <input placeholder="Пароль" v-model="loginForm.password" :type="showPassword ? 'text' : 'password'"
-                   class="bg-gray-300 outline-none rounded-[4px] p-4 w-full">
+                     class="bg-gray-300 outline-none rounded-[4px] p-4 w-full">
             <img @click="togglePassword" :src="showPassword ? opened : closed" alt=""
-                  class="w-[30px] h-[30px] absolute right-4 top-1/2 -translate-y-1/2 w-6 h-6 cursor-pointer">
+                    class="w-[30px] h-[30px] absolute right-4 top-1/2 -translate-y-1/2 w-6 h-6 cursor-pointer">
           </div>
           <span v-if="userErrors.passwordError" class="text-sm text-red-500">{{ userErrors.passwordMessage }}</span>
         </div>
-      </div>
+      </form>
       <div class="flex flex-col gap-5">
         <div class="flex justify-center">
           <BaseButton button-type="Войти" variant="login" @click=loginUser />

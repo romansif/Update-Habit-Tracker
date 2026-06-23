@@ -43,11 +43,11 @@ watch(() => updateForm.value.name, (newValue) => {
           <div class="flex">
             <h1 class="text-xl">Текущее имя пользователя: {{ user?.name }}</h1>
           </div>
-          <div class="flex flex-col gap-3">
+          <from actions="" @keydown.prevent.enter="updateUser" class="flex flex-col gap-3">
             <input type="text" v-model="updateForm.name" @input="toLower" placeholder="Имя пользователя"
                    class="bg-white shadow-xl w-[850px] placeholder:text-sm outline-none rounded-[4px] p-5 mt-6">
             <span v-if="userErrors.newNameError" class="text-sm text-red-500">{{ userErrors?.newNameMessage }}</span>
-          </div>
+          </from>
         </div>
         <div class="flex justify-end mt-6">
             <BaseButton button-type="Применить" variant="confirmEditUser" @click="updateUser" />
